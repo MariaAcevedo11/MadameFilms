@@ -1,0 +1,43 @@
+import { actressesSeeder } from './actresseseeder';
+
+export const moviesSeeder = [
+  {
+    id: 1,
+    title: 'Gaby tonta',
+    description: 'An action-packed adventure following Gaby through unexpected challenges.',
+    cast: 'Actress A, Actor B, Actor C',
+    director: 'Director Name',
+    releaseDate: new Date('2023-05-15'),
+    genre: 'Action',
+    durationMin: 120,
+    country: 'Spain',
+    language: 'Spanish',
+    actress: actressesSeeder[0],
+  },
+  {
+    id: 2,
+    title: 'Gaby god',
+    description: 'A thrilling tech thriller about a programmer uncovering digital secrets.',
+    cast: 'Tech Actor, Developer Pro, Hacker Star',
+    director: 'Tech Director',
+    releaseDate: new Date('2024-01-10'),
+    genre: 'Programming',
+    durationMin: 135,
+    country: 'Spain',
+    language: 'Spanish',
+    actress: actressesSeeder[1],
+  },
+  {
+    id: 3,
+    title: 'Gaby gueva',
+    description: "A historical drama tracing Gaby's journey through pivotal moments in time.",
+    cast: 'Historical Actor, Period Actress, Supporting Role',
+    director: 'History Director',
+    releaseDate: new Date('2023-09-22'),
+    genre: 'History',
+    durationMin: 150,
+    country: 'Spain',
+    language: 'Spanish',
+    actress: actressesSeeder[2],
+  },
+];
