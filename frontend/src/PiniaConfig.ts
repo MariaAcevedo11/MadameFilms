@@ -1,3 +1,4 @@
+import { actressesSeeder } from './stores/actresseseeder.js';
 import { createPinia } from 'pinia';
 import { watch } from 'vue';
 import { moviesSeeder } from '@/stores/movieseeder.js';
@@ -14,6 +15,9 @@ export default class PiniaConfig {
       pinia.state.value = {
         movie: {
           movies: moviesSeeder,
+        },
+        actress: {
+          actresses: actressesSeeder,
         },
       };
 

@@ -1,4 +1,4 @@
-import type { ActressInterface } from './ActressInterfaces';
+import type { ActressInterface } from './ActressInterface';
 
 export interface MovieInterface {
   id: number;
