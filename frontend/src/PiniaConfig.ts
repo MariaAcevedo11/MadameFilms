@@ -11,7 +11,8 @@ export default class PiniaConfig {
     if (savedState) {
       pinia.state.value = JSON.parse(savedState);
     } else {
-      // initialize the state with the seeders
+      // initialize the state with the seeders  
+      // test
       pinia.state.value = {
         movie: {
           movies: moviesSeeder,
