@@ -1,8 +1,8 @@
-import ActressesView from '@/views/ActressesView.vue';
+import ActressesView from '@/views/user/ActressesView.vue';
 import { createRouter, createWebHistory } from 'vue-router';
-import HomeView from '@/views/HomeView.vue';
-import MoviesView from '@/views/MoviesView.vue';
-import ReviewsView from '@/views/ReviewsView.vue';
+import HomeView from '@/views/user/HomeView.vue';
+import MoviesView from '@/views/user/MoviesView.vue';
+import ReviewsView from '@/views/user/ReviewsView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
