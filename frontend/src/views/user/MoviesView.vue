@@ -4,6 +4,7 @@ import { MovieService } from '@/services/MovieService';
 const movies = MovieService.getMovies();
 
 //to access variables must use movie.attributNeeded ex: movie.title, movie.cast, remember that u need to iterate over the movies 
+//Please note that there is no moviesShow.vue bc we are not going to implement it 
 </script>
 
 <template>
