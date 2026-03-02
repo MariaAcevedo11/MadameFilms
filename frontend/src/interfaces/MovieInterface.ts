@@ -12,4 +12,5 @@ export interface MovieInterface {
   country: string;
   language: string;
   actress?: ActressInterface;
+  image: string;
 }

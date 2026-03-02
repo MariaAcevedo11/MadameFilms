@@ -16,6 +16,7 @@ const language = ref('');
 const successMessage = ref('');
 const actresses = ActressService.getActress();
 const selectedActressId = ref<number | ''>('')
+const image = ref(' ');
 
 function submitForm() {
 
@@ -36,6 +37,7 @@ function submitForm() {
         country: country.value,
         language: language.value,
         actress: selectedActress,
+        image: image.value,
     };
 
     MovieService.createMovie(newMovie);
@@ -51,6 +53,7 @@ function submitForm() {
     country.value = '';
     language.value = '';
     selectedActressId.value = '';
+    image.value = ' ';
 }
 </script>
 
@@ -143,6 +146,17 @@ function submitForm() {
                 </option>
 
             </select>
+
+            <!-- Image URL -->
+            <div>
+                <label class="block text-gray-700 font-semibold mb-2">Image URL</label>
+                <input v-model="image" type="text"
+                    class="w-full border border-gray-300 rounded py-2 px-3 focus:outline-none focus:ring focus:border-blue-300"
+                    placeholder="https://..." />
+                <!-- preview -->
+                <img v-if="image.trim()" :src="image" alt="Movie preview"
+                    class="mt-3 w-32 h-44 object-cover rounded shadow" />
+            </div>
 
 
             <div class="pt-4">

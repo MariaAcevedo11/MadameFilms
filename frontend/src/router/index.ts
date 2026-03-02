@@ -4,9 +4,8 @@ import HomeView from '@/views/user/HomeView.vue';
 import MoviesView from '@/views/user/MoviesView.vue';
 import MovieManagView from '@/views/admin/MovieManagView.vue';
 import MovieAddMovie from '@/views/admin/MovieAddMovie.vue';
-import ReviewAddReview from '@/views/user/ReviewAddReview.vue';
+import ReviewAddReview from '@/components/ReviewAddReview.vue';
 import ReviewsView from '@/views/user/ReviewsView.vue';
-
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
