@@ -3,25 +3,33 @@ import { ref } from 'vue';
 import { ReviewService } from '@/services/ReviewService';
 import type { CreateReviewDTO } from '@/dtos/CreateReviewDTO.js';
 import { userSeeder } from '@/stores/seeders/userseeder';
+import { MovieService } from '@/services/MovieService';
 
 const rating = ref(5);
 const comment = ref('');
 const successMessage = ref('');
+const movies = MovieService.getMovies();
+const selectedMovieId = ref<number | ''>('')
 
 function submitForm() {
-    if (!comment.value.trim()) return;
 
-    const newReview: CreateReviewDTO = {
-        rating: rating.value,
-        comment: comment.value.trim(),
-        user: userSeeder[1]!, // 👈 usamos usuario existente
-    };
+const selectedMovie = MovieService.getMovieById(Number(selectedMovieId.value));
+    if (!selectedMovie) 
+    return;
+
+const newReview: CreateReviewDTO = {
+    rating: rating.value,
+    comment: comment.value.trim(),
+    user: userSeeder[1]!,
+    movie: selectedMovie, 
+};
 
     ReviewService.createReview(newReview);
 
     successMessage.value = 'Review created successfully!';
     rating.value = 5;
     comment.value = '';
+    selectedMovieId.value = '';
 }
 </script>
 
@@ -32,6 +40,24 @@ function submitForm() {
         </h2>
 
         <form class="bg-white rounded-lg shadow-md p-8 space-y-6" @submit.prevent="submitForm">
+
+            <!-- Select movie-->
+            <div>
+                <label class="block text-gray-700 font-semibold mb-2" for="rating">
+                    Movie
+                </label>
+                <select v-model="selectedMovieId"
+                class="w-full border border-gray-300 rounded py-2 px-3 focus:outline-none focus:ring focus:border-purple-300">
+                <option value="">Select a movie</option>
+
+                <option v-for="movie in movies" :key="movie.id" :value="movie.id">
+                    {{ movie.title }}, {{ movie.director}}
+                </option>
+
+            </select>
+
+            </div>    
+
             <!-- Rating -->
             <div>
                 <label class="block text-gray-700 font-semibold mb-2" for="rating">

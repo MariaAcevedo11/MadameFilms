@@ -1,3 +1,4 @@
+import type { MovieInterface } from './MovieInterface';
 import type { UserInterface } from './UserInterface';
 
 export interface ReviewInterface {
@@ -6,4 +7,5 @@ export interface ReviewInterface {
   comment: string;
   date: Date;
   user: UserInterface;
+  movie: MovieInterface;
 }
