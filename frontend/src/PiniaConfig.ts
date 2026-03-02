@@ -1,7 +1,8 @@
-import { actressesSeeder } from './stores/actresseseeder.js';
+import { actressesSeeder } from '@/stores/seeders/actresseseeder';
 import { createPinia } from 'pinia';
+import { moviesSeeder } from '@/stores/seeders/movieseeder';
+import { reviewSeeder } from '@/stores/seeders/reviewseeder.js';
 import { watch } from 'vue';
-import { moviesSeeder } from '@/stores/movieseeder.js';
 
 export default class PiniaConfig {
   public static init() {
@@ -19,6 +20,10 @@ export default class PiniaConfig {
         actress: {
           actresses: actressesSeeder,
         },
+        review: {
+          reviews: reviewSeeder,
+        },
+
       };
 
       // save the initial state to localStorage

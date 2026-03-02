@@ -1,4 +1,4 @@
-import type { UserInterface } from './UserInterfaces';
+import type { UserInterface } from './UserInterface';
 
 export interface ReviewInterface {
   id: number;
