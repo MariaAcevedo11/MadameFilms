@@ -6,4 +6,5 @@ export interface UserInterface {
   email: string;
   password: string;
   reviews?: ReviewInterface[];
+  image: string;
 }

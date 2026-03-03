@@ -2,7 +2,6 @@
 import { ReviewService } from '@/services/ReviewService.js';
 
 const reviews = ReviewService.getReviews();
-
 </script>
 
 <template>
@@ -10,37 +9,42 @@ const reviews = ReviewService.getReviews();
     <div class="max-w-7xl mx-auto">
       <div class="flex justify-end mb-6">
         <RouterLink to="/reviews/create"
-          class="inline-block bg-blue-600 text-white font-semibold px-5 py-2 rounded hover:bg-blue-700 transition">+ Add
-          Review</RouterLink>
+          class="inline-block bg-blue-600 text-white font-semibold px-5 py-2 rounded hover:bg-blue-700 transition">
+          + Add Review
+        </RouterLink>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         <div v-for="review in reviews" :key="review.id">
-          <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition duration-300 p-6 border border-gray-200">
-            <div class="flex justify-between items-center mb-2">
-              <h3 class="text-xl font-semibold text-gray-800">
-                {{ review.comment }}
-
-                {{ review.date }}
-              </h3>
+          <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition duration-300 border border-gray-200 overflow-hidden">
+            
+            <!-- Movie banner -->
+            <div class="relative h-36 bg-gray-100">
+              <img :src="review.movie.image" :alt="review.movie.title" class="w-full h-full object-cover" />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+              <span class="absolute bottom-2 left-3 text-white text-sm font-semibold drop-shadow">
+                {{ review.movie.title }}
+              </span>
             </div>
 
-            <div class="flex justify-center mb-4">
-              <img src="https://picsum.photos/seed/picsum/536/354" alt="review Cover"
-                class="object-cover rounded shadow-sm w-full h-auto" />
+            <!-- Comment -->
+            <div class="px-5 pt-4 pb-2">
+              <p class="text-gray-800 text-sm leading-relaxed">"{{ review.comment }}"</p>
             </div>
 
-            <p class="text-gray-500 text-sm mb-3">
-              <i class="fas fa-tag mr-2"></i>
-              {{ review.user }}
-            </p>
-
-            <div class="bg-gray-50 rounded-lg p-3 mb-4">
-              <div class="flex justify-between text-sm">
-                <span class="text-gray-600">Price:</span>
-                <span class="font-semibold">${{ review.rating }}</span>
+            <!-- User + Rating -->
+            <div class="flex items-center justify-between px-5 py-4 border-t border-gray-100 mt-2">
+              <div class="flex items-center gap-3">
+                <img :src="review.user.image" :alt="review.user.username"
+                  class="w-10 h-10 object-cover rounded-full ring-2 ring-purple-400" />
+                <span class="text-sm font-semibold text-gray-700">{{ review.user.username }}</span>
+              </div>
+              <div class="flex items-center gap-1 bg-yellow-50 border border-yellow-200 rounded-full px-3 py-1">
+                <span class="text-yellow-500 text-sm">⭐</span>
+                <span class="text-sm font-bold text-yellow-600">{{ review.rating }}/5</span>
               </div>
             </div>
+
           </div>
         </div>
       </div>
