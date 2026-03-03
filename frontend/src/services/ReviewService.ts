@@ -12,14 +12,11 @@ export class ReviewService {
   }
 
   static createReview(review: CreateReviewDTO): void {
-    const store = useReviewStore();
-
-    const nextId = store.reviews.length > 0 ? Math.max(...store.reviews.map((r) => r.id)) + 1 : 1;
-
-    store.reviews.push({
-      id: nextId,
+    const id = useReviewStore().reviews.length + 1;
+    useReviewStore().reviews.push({
+      id,
       ...review,
-      date: new Date(), 
+      date: new Date(),
     });
   }
 }

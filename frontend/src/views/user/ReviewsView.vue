@@ -16,8 +16,9 @@ const reviews = ReviewService.getReviews();
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         <div v-for="review in reviews" :key="review.id">
-          <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition duration-300 border border-gray-200 overflow-hidden">
-            
+          <div
+            class="bg-white rounded-lg shadow-md hover:shadow-lg transition duration-300 border border-gray-200 overflow-hidden">
+
             <!-- Movie banner -->
             <div class="relative h-36 bg-gray-100">
               <img :src="review.movie.image" :alt="review.movie.title" class="w-full h-full object-cover" />
