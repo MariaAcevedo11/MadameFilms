@@ -6,7 +6,7 @@ import { ref } from 'vue'
 // Internal imports
 import { ReviewService } from '@/services/ReviewService'
 import { MovieService } from '@/services/MovieService'
-import { userSeeder } from '@/stores/seeders/userseeder'
+import { userSeeder } from '@/seeders/userseeder'
 import type { CreateReviewDTO } from '@/dtos/CreateReviewDTO.js'
 
 // Variable
