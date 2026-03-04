@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ReviewService } from '@/services/ReviewService.js';
+import StyledButton from '@/components/StyledButton.vue';
 
 const reviews = ReviewService.getReviews();
 </script>
@@ -8,16 +9,16 @@ const reviews = ReviewService.getReviews();
   <section>
     <div class="max-w-7xl mx-auto">
       <div class="flex justify-end mb-6">
-        <RouterLink to="/reviews/create"
-          class="inline-block bg-blue-600 text-white font-semibold px-5 py-2 rounded hover:bg-blue-700 transition">
-          + Add Review
-        </RouterLink>
+        <StyledButton to="/reviews/create" :showIcon="true">
+          Add Review
+        </StyledButton>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         <div v-for="review in reviews" :key="review.id">
-          <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition duration-300 border border-gray-200 overflow-hidden">
-            
+          <div
+            class="bg-white rounded-lg shadow-md hover:shadow-lg transition duration-300 border border-gray-200 overflow-hidden">
+
             <!-- Movie banner -->
             <div class="relative h-36 bg-gray-100">
               <img :src="review.movie.image" :alt="review.movie.title" class="w-full h-full object-cover" />
