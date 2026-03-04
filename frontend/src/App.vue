@@ -1,5 +1,22 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router';
+
+import { ref, onMounted } from 'vue'
+import { UserService } from '@/services/UserService'
+import type { UserInterface } from '@/interfaces/UserInterface'
+
+const loggedUser = ref<UserInterface | null>(null)
+
+onMounted(() => {
+  loggedUser.value = UserService.getLoggedUser()
+})
+
+function logout() {
+  UserService.logout()
+  loggedUser.value = null
+}
+
+
 </script>
 
 <template>
@@ -78,7 +95,7 @@ import { RouterLink, RouterView } from 'vue-router';
             <div class="font-semibold">Reviews</div>
           </RouterLink>
           <!--Movie Management, this can only be shown if user is admin, later...-->
-          <RouterLink to="/admin/movies"
+          <RouterLink v-if="loggedUser?.type === 'admin'" to="/admin/movies"
             class="peer flex w-full cursor-pointer items-center gap-2.5 px-3 py-2 text-left text-purple-800 transition-all active:scale-95">
             <div class="rounded-lg border-2 border-purple-300 bg-purple-100 p-1">
               <svg class="size-6" stroke="currentColor" stroke-width="1.5" viewBox="0 0 576 512" fill="purple"
@@ -95,6 +112,35 @@ import { RouterLink, RouterView } from 'vue-router';
           </div>
         </li>
       </ul>
+
+      <!-- Usuario logeado -->
+      <li v-if="loggedUser" class="mt-auto bg-white rounded-lg p-3 w-60">
+
+        <div class="flex flex-col text-sm">
+          <span class="font-bold text-purple-800">
+            {{ loggedUser.username }}
+          </span>
+
+          <span class="text-gray-500">
+            {{ loggedUser.email }}
+          </span>
+
+          <span class="font-semibold" :class="loggedUser.type === 'admin' ? 'text-red-500' : 'text-blue-500'">
+            {{ loggedUser.type }}
+          </span>
+        </div>
+
+        <button @click="logout" class="mt-2 text-xs text-red-500 hover:underline">
+          Logout
+        </button>
+      </li>
+
+      <!-- Si no está logeado -->
+      <li v-else class="mt-auto">
+        <RouterLink to="/login" class="text-white text-sm">
+          Login
+        </RouterLink>
+      </li>
 
       <!-- main content area -->
       <div class="flex-1 flex flex-col overflow-hidden ml-20">

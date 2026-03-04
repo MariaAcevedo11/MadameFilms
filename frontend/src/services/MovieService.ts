@@ -12,7 +12,13 @@ export class MovieService {
   }
 
   static createMovie(movie: CreateMovieDTO): void {
-    const id = useMovieStore().movies.length + 1;
-    useMovieStore().movies.push({ id, ...movie });
+    const movies = useMovieStore().movies;
+    const id = movies.length > 0 ? Math.max(...movies.map(m => m.id)) + 1 : 1;
+    movies.push({ id, ...movie });
+  }
+
+  static deleteMovie(id: number): void {
+    const store = useMovieStore();
+    store.movies = store.movies.filter((movie) => movie.id !== id);
   }
 }

@@ -1,8 +1,41 @@
 <script setup lang="ts">
 import { ReviewService } from '@/services/ReviewService.js';
 import StyledButton from '@/components/StyledButton.vue';
+import type { ReviewInterface } from '@/interfaces/ReviewInterface';
+import { UserService } from '@/services/UserService';
+import { useReviewStore } from '@/stores/reviewstore';
 
 const reviews = ReviewService.getReviews();
+const loggedUser = UserService.getLoggedUser()
+
+function canDelete(review: ReviewInterface) {
+  if (!loggedUser) return false
+
+  return (
+    review.user.id === loggedUser.id ||
+    loggedUser.type === 'admin'
+  )
+}
+const reviewStore = useReviewStore()
+
+function deleteReview(id: number) {
+  const loggedUser = UserService.getLoggedUser()
+  if (!loggedUser) return
+
+  const review = reviewStore.reviews.find(r => r.id === id)
+  if (!review) return
+
+  if (
+    review.user.id !== loggedUser.id &&
+    loggedUser.type !== 'admin'
+  ) {
+    alert("You cannot delete this review")
+    return
+  }
+
+  reviewStore.reviews = reviewStore.reviews.filter(r => r.id !== id)
+}
+
 </script>
 
 <template>
@@ -44,8 +77,10 @@ const reviews = ReviewService.getReviews();
                 <span class="text-yellow-500 text-sm">⭐</span>
                 <span class="text-sm font-bold text-yellow-600">{{ review.rating }}/5</span>
               </div>
+              <button v-if="canDelete(review)" @click="deleteReview(review.id)" class="text-red-500 text-sm">
+                Delete
+              </button>
             </div>
-
           </div>
         </div>
       </div>
