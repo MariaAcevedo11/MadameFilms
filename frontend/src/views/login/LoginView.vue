@@ -1,7 +1,6 @@
 <script setup lang="ts">
 // External imports
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
 
 // Internal imports
 import { AuthService } from '@/services/AuthService';
@@ -14,18 +13,16 @@ const form = ref({
   password: '',
 });
 
-// Router
-const router = useRouter();
-
 // Functions
 function handleLogin() {
-  const user = AuthService.login(form.value.email, form.value.password);
-  if (!user) {
-    errorMessage.value = 'Invalid email or password';
-    return;
-  }
+  errorMessage.value = ''
 
-  router.push('/');
+  try {
+    UserService.login(form.value.email, form.value.password)
+  } catch (err) {
+    errorMessage.value =
+      err instanceof Error ? err.message : 'Login failed'
+  }
 }
 </script>
 

@@ -1,13 +1,21 @@
-import ActressesView from '@/views/user/ActressesView.vue';
-import { requiresAdmin } from './guards';
+// External imports
 import { createRouter, createWebHistory } from 'vue-router';
-import CreateReview from '@/views/user/CreateReview.vue';
-import CreateMovie from '@/views/admin/CreateMovie.vue';
+
+// Internal imports
+// User views
 import HomeView from '@/views/user/HomeView.vue';
 import MoviesView from '@/views/user/MoviesView.vue';
-import MovieManagView from '@/views/admin/MovieManagView.vue';
 import ReviewsView from '@/views/user/ReviewsView.vue';
+import CreateReview from '@/views/user/CreateReview.vue';
+import ActressesView from '@/views/user/ActressesView.vue';
+
+// Admin views
+import CreateMovie from '@/views/admin/CreateMovie.vue';
+import MovieAdminView from '@/views/admin/MovieAdminView.vue';
+
+// Auth views
 import LoginView from '@/views/login/LoginView.vue';
+import { adminGuard } from './guards';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -24,26 +32,27 @@ const router = createRouter({
     {
       path: '/admin/movies',
       name: 'adminMovies',
-      component: MovieManagView,
-      meta: { title: 'MovieManag' },
-      beforeEnter: requiresAdmin,
+      component: MovieAdminView,
+      meta: { title: 'adminMovies', requiresAdmin: true },
     },
     {
       path: '/admin/movies/create',
       name: 'adminMovies.create',
       component: CreateMovie,
-      meta: { title: 'AdminMoviesCreate' },
-      beforeEnter: requiresAdmin,
+      meta: { title: 'AdminMoviesCreate', requiresAdmin: true },
     },
+
     { path: '/reviews', name: 'reviews', component: ReviewsView, meta: { title: 'Reviews' } },
     {
       path: '/reviews/create',
       name: 'reviews.create',
       component: CreateReview,
-      meta: { title: 'ReviewsCreate' },
+      meta: { title: 'ReviewsCreate', requiresAuth: true },
     },
     { path: '/login', name: 'login', component: LoginView, meta: { title: 'Login' } },
   ],
 });
+
+router.beforeEach(adminGuard)
 
 export default router;

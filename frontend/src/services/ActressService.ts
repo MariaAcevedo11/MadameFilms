@@ -2,12 +2,6 @@
 import type { ActressInterface } from '@/interfaces/ActressInterface';
 import { useActressStore } from '@/stores/actressestore';
 
-// Variables
-// (none)
-
-// Reactive variables
-// (none)
-
 // Functions
 export class ActressService {
   static getActress(): ActressInterface[] {

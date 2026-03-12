@@ -5,12 +5,6 @@ import type { MovieInterface } from '@/interfaces/MovieInterface';
 import { useMovieStore } from '@/stores/moviestore';
 import { AuthService } from './AuthService';
 
-// Variables
-// (none)
-
-// Reactive variables
-// (none)
-
 // Functions
 export class MovieService {
   static getMovies(): MovieInterface[] {
@@ -21,19 +15,37 @@ export class MovieService {
     return useMovieStore().movies.find((movie) => movie.id === id);
   }
 
-  static createMovie(movie: CreateMovieDTO): void {
-    const movies = useMovieStore().movies;
-    const id = movies.length > 0 ? Math.max(...movies.map((m) => m.id)) + 1 : 1;
-    movies.push({ id, ...movie });
-  }
+  static createMovie(dto: CreateMovieDTO): MovieInterface {
+  const movieStore = useMovieStore();
+
+  const id = movieStore.movies.length + 1;
+
+  const newMovie: MovieInterface = {
+    id,
+    title: dto.title,
+    description: dto.description,
+    releaseDate: dto.releaseDate,
+    image: dto.image,
+    cast: dto.cast,
+    director: dto.director,
+    genre: dto.genre,
+    durationMin: dto.durationMin,
+    country: dto.country,
+    language: dto.language, 
+  };
+
+  movieStore.movies.push(newMovie);
+
+  return newMovie;
+}
 
   static deleteMovie(id: number): void {
     const store = useMovieStore();
     store.movies = store.movies.filter((movie) => movie.id !== id);
   }
 
-  static updateMovie(id: number, data: UpdateMovieDTO): void {
-    if (!AuthService.isAdmin()) {
+  static updateMovie(id: number, dto: UpdateMovieDTO): void {
+    if (!UserService.isAdmin()) {
       throw new Error('Only admin users can update movies.');
     }
 
@@ -44,20 +56,20 @@ export class MovieService {
     }
 
     const existing = store.movies[index]!;
-    const updated: MovieInterface = {
+    const updatedMovie: MovieInterface = {
       id: existing.id,
-      title: data.title ?? existing.title,
-      description: data.description ?? existing.description,
-      cast: data.cast ?? existing.cast,
-      director: data.director ?? existing.director,
-      releaseDate: data.releaseDate ?? existing.releaseDate,
-      genre: data.genre ?? existing.genre,
-      durationMin: data.durationMin ?? existing.durationMin,
-      country: data.country ?? existing.country,
-      language: data.language ?? existing.language,
-      image: data.image ?? existing.image,
-      actress: data.actress ?? existing.actress,
+      title: dto.title ?? existing.title,
+      description: dto.description ?? existing.description,
+      cast: dto.cast ?? existing.cast,
+      director: dto.director ?? existing.director,
+      releaseDate: dto.releaseDate ?? existing.releaseDate,
+      genre: dto.genre ?? existing.genre,
+      durationMin: dto.durationMin ?? existing.durationMin,
+      country: dto.country ?? existing.country,
+      language: dto.language ?? existing.language,
+      image: dto.image ?? existing.image,
+      actress: dto.actress ?? existing.actress,
     };
-    store.movies[index] = updated;
+    store.movies[index] = updatedMovie;
   }
 }

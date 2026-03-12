@@ -1,27 +1,21 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router';
 
-import { ref, onMounted } from 'vue';
-import { AuthService } from '@/services/AuthService';
-import type { UserInterface } from '@/interfaces/UserInterface';
+// External imports
+import { RouterLink, RouterView } from 'vue-router'
+import { computed } from 'vue'
 
-const loggedUser = ref<UserInterface | null>(null);
+// Internal imports
+import { UserService } from '@/services/UserService'
 
-onMounted(() => {
-  loggedUser.value = AuthService.getLoggedUser();
-});
+// Computed
+const loggedUser = computed(() => UserService.getCurrentUser())
+const isAdmin = computed(() => UserService.isAdmin())
 
-function logout() {
-  AuthService.logout();
-  loggedUser.value = null;
-}
 </script>
-
 <template>
   <div class="bg-linear-to-t from-darkerPurple to-darkPurple min-h-screen">
     <div class="flex h-screen overflow-hidden">
       <!-- sidebar -->
-      <!-- From Uiverse.io by icochran10 -->
       <ul class="w-1 flex flex-col gap-1 border-l border-gray-200 pl-1 mt-70">
         <!-- These elements will be converted to reusable components later :P-->
         <!--Home button-->
@@ -134,21 +128,12 @@ function logout() {
             </div>
             <div class="font-semibold">Reviews</div>
           </RouterLink>
-          <!--Movie Management, this can only be shown if user is admin, later...-->
-          <RouterLink
-            v-if="loggedUser?.type === 'admin'"
-            to="/admin/movies"
-            class="peer flex w-full cursor-pointer items-center gap-2.5 px-3 py-2 text-left text-purple-800 transition-all active:scale-95"
-          >
+          <RouterLink v-if="isAdmin" to="/admin/movies"
+            class="peer flex w-full cursor-pointer items-center gap-2.5 px-3 py-2 text-left text-purple-800 transition-all active:scale-95">
             <div class="rounded-lg border-2 border-purple-300 bg-purple-100 p-1">
-              <svg
-                class="size-6"
-                stroke="currentColor"
-                stroke-width="1.5"
-                viewBox="0 0 576 512"
-                fill="purple"
-                xmlns="http://www.w3.org/2000/svg"
-              >
+              <svg class="size-6" stroke="currentColor" stroke-width="1.5" viewBox="0 0 576 512" fill="purple"
+                xmlns="http://www.w3.org/2000/svg">
+                
                 <path
                   d="M288.1-32c9 0 17.3 5.1 21.4 13.1L383 125.3 542.9 150.7c8.9 1.4 16.3 7.7 19.1 16.3s.5 18-5.8 24.4L441.7 305.9 467 465.8c1.4 8.9-2.3 17.9-9.6 23.2s-17 6.1-25 2L288.1 417.6 143.8 491c-8 4.1-17.7 3.3-25-2s-11-14.2-9.6-23.2L134.4 305.9 20 191.4c-6.4-6.4-8.6-15.8-5.8-24.4s10.1-14.9 19.1-16.3l159.9-25.4 73.6-144.2c4.1-8 12.4-13.1 21.4-13.1zm0 76.8L230.3 158c-3.5 6.8-10 11.6-17.6 12.8l-125.5 20 89.8 89.9c5.4 5.4 7.9 13.1 6.7 20.7l-19.8 125.5 113.3-57.6c6.8-3.5 14.9-3.5 21.8 0l113.3 57.6-19.8-125.5c-1.2-7.6 1.3-15.3 6.7-20.7l89.8-89.9-125.5-20c-7.6-1.2-14.1-6-17.6-12.8L288.1 44.8z"
                   stroke-linejoin="round"
@@ -176,18 +161,17 @@ function logout() {
             {{ loggedUser.email }}
           </span>
 
-          <span
-            class="font-semibold"
-            :class="loggedUser.type === 'admin' ? 'text-red-500' : 'text-blue-500'"
-          >
-            {{ loggedUser.type }}
+          <span class="font-semibold" :class="loggedUser.role === 'admin' ? 'text-red-500' : 'text-blue-500'">
+            {{ loggedUser.role }}
           </span>
         </div>
 
-        <button @click="logout" class="mt-2 text-xs text-red-500 hover:underline">Logout</button>
+        <button @click="UserService.logout()" class="mt-2 text-xs text-red-500 hover:underline">
+          Logout
+        </button>
       </li>
 
-      <!-- Si no está logeado -->
+      <!-- If not logged in -->
       <li v-else class="mt-auto">
         <RouterLink to="/login" class="text-white text-sm"> Login </RouterLink>
       </li>
