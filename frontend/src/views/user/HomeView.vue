@@ -1,7 +1,7 @@
 // Author: Gaby
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
-import { Chart, registerables } from 'chart.js';
+import { Chart, registerables, type ChartConfiguration } from 'chart.js';
 import { useMovieStore } from '@/stores/moviestore';
 import { useActressStore } from '@/stores/actressestore';
 import { useReviewStore } from '@/stores/reviewstore';
