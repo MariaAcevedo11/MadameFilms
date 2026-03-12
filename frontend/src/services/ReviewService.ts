@@ -3,7 +3,7 @@ import type { CreateReviewDTO } from '@/dtos/CreateReviewDTO';
 import type { UpdateReviewDTO } from '@/dtos/UpdateReviewDTO';
 import type { ReviewInterface } from '@/interfaces/ReviewInterface';
 import { useReviewStore } from '@/stores/reviewstore.js';
-import { UserService } from './UserService';
+import { AuthService } from './AuthService';
 
 // Functions
 export class ReviewService {

@@ -1,3 +1,4 @@
+// Author: Gaby
 import type { UserInterface } from '@/interfaces/UserInterface.js';
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';

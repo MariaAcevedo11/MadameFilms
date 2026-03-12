@@ -5,6 +5,7 @@ export const actressesSeeder = [
     biography: 'askdnasd',
     movies: 'todaaas',
     nationality: 'Spanish',
+    image: 'https://i.pravatar.cc/150?img=1',
   },
   {
     id: 2,
@@ -12,6 +13,7 @@ export const actressesSeeder = [
     biography: 'askdnasdasdasd',
     movies: 'todaaas',
     nationality: 'Spanish',
+    image: 'https://i.pravatar.cc/150?img=2',
   },
   {
     id: 3,
@@ -19,5 +21,6 @@ export const actressesSeeder = [
     biography: 'askdnasasdasdasdasdd',
     movies: 'todaaas',
     nationality: 'Spanish',
+    image: 'https://i.pravatar.cc/150?img=3',
   },
 ];

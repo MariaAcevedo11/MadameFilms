@@ -3,7 +3,7 @@ import type { CreateMovieDTO } from '@/dtos/CreateMovieDTO';
 import type { UpdateMovieDTO } from '@/dtos/UpdateMovieDTO';
 import type { MovieInterface } from '@/interfaces/MovieInterface';
 import { useMovieStore } from '@/stores/moviestore';
-import { UserService } from './UserService';
+import { AuthService } from './AuthService';
 
 // Functions
 export class MovieService {
