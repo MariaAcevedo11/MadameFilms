@@ -95,7 +95,7 @@ function logout() {
             <div class="font-semibold">Reviews</div>
           </RouterLink>
           <!--Movie Management, this can only be shown if user is admin, later...-->
-          <RouterLink v-if="loggedUser?.type === 'admin'" to="/admin/movies"
+          <RouterLink v-if="loggedUser?.role === 'admin'" to="/admin/movies"
             class="peer flex w-full cursor-pointer items-center gap-2.5 px-3 py-2 text-left text-purple-800 transition-all active:scale-95">
             <div class="rounded-lg border-2 border-purple-300 bg-purple-100 p-1">
               <svg class="size-6" stroke="currentColor" stroke-width="1.5" viewBox="0 0 576 512" fill="purple"
@@ -125,8 +125,8 @@ function logout() {
             {{ loggedUser.email }}
           </span>
 
-          <span class="font-semibold" :class="loggedUser.type === 'admin' ? 'text-red-500' : 'text-blue-500'">
-            {{ loggedUser.type }}
+          <span class="font-semibold" :class="loggedUser.role === 'admin' ? 'text-red-500' : 'text-blue-500'">
+            {{ loggedUser.role }}
           </span>
         </div>
 
