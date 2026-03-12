@@ -60,10 +60,10 @@ function saveEdit() {
 
             <!-- Movie banner -->
             <div class="relative h-36 bg-gray-100">
-              <img :src="review.movie.image" :alt="review.movie.title" class="w-full h-full object-cover" />
+              <img :src="review.movie?.image" :alt="review.movie?.title" class="w-full h-full object-cover" />
               <div class="absolute inset-0 bg-linear-to-t from-black/60 to-transparent"></div>
               <span class="absolute bottom-2 left-3 text-white text-sm font-semibold drop-shadow">
-                {{ review.movie.title }}
+                {{ review.movie?.title }}
               </span>
             </div>
 
