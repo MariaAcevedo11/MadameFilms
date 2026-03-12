@@ -4,34 +4,31 @@ import { useUserStore } from '@/stores/userstore';
 
 // Functions
 export class UserService {
-  static login(email: string, password: string): UserInterface | null {
+  static login(email: string, password: string): void {
     const store = useUserStore();
     const normalizedEmail = email.trim().toLowerCase();
     const normalizedPassword = password.trim();
 
     const user = store.users.find(
-      (u) =>
-        u.email.toLowerCase() === normalizedEmail &&
-        u.password === normalizedPassword
+      (u) => u.email.toLowerCase() === normalizedEmail && u.password === normalizedPassword,
     );
 
-    if (!user) return null;
-
-    localStorage.setItem('loggedUser', JSON.stringify(user));
-    return user;
-  }
-
-  static getLoggedUser(): UserInterface | null {
-    const user = localStorage.getItem('loggedUser');
-    return user ? JSON.parse(user) : null;
+    store.currentUser = user ?? null;
   }
 
   static logout(): void {
-    localStorage.removeItem('loggedUser');
+    useUserStore().currentUser = null;
+  }
+
+  static getCurrentUser(): UserInterface | null {
+    return useUserStore().currentUser;
+  }
+
+  static isAuthenticated(): boolean {
+    return useUserStore().isAuthenticated;
   }
 
   static isAdmin(): boolean {
-    const user = this.getLoggedUser();
-    return user?.type === 'admin';
+    return useUserStore().isAdmin;
   }
 }
