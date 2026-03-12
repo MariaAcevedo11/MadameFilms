@@ -5,12 +5,6 @@ import type { ReviewInterface } from '@/interfaces/ReviewInterface';
 import { useReviewStore } from '@/stores/reviewstore.js';
 import { UserService } from './UserService';
 
-// Variables
-// (none)
-
-// Reactive variables
-// (none)
-
 // Functions
 export class ReviewService {
   static getReviews(): ReviewInterface[] {

@@ -11,6 +11,7 @@ export interface MovieInterface {
   durationMin: number;
   country: string;
   language: string;
-  actress?: ActressInterface;
   image: string;
+  
+  actress?: ActressInterface;
 }

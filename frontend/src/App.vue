@@ -1,24 +1,16 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router';
 
-import { ref, onMounted } from 'vue'
+// External imports
+import { RouterLink, RouterView } from 'vue-router'
+import { computed } from 'vue'
+
+// Internal imports
 import { UserService } from '@/services/UserService'
-import type { UserInterface } from '@/interfaces/UserInterface'
 
-const loggedUser = ref<UserInterface | null>(null)
-
-onMounted(() => {
-  loggedUser.value = UserService.getLoggedUser()
-})
-
-function logout() {
-  UserService.logout()
-  loggedUser.value = null
-}
-
+// Computed
+const loggedUser = computed(() => UserService.getCurrentUser())
 
 </script>
-
 <template>
   <div class="bg-linear-to-t from-darkerPurple to-darkPurple min-h-screen">
     <div class="flex h-screen overflow-hidden">
@@ -29,7 +21,7 @@ function logout() {
         <!-- These elements will be converted to reusable components later :P-->
         <!--Home button-->
         <li
-          class="group w-14 overflow-hidden rounded-lg border-l border-transparent bg-white transition-all duration-500 hover:w-30 hover:border-gray-200 hover:shadow-lg has-[:focus]:w-30 has-[:focus]:shadow-lg">
+          class="group w-14 overflow-hidden rounded-lg border-l border-transparent bg-white transition-all duration-500 hover:w-30 hover:border-gray-200 hover:shadow-lg has-focus:w-30 has-focus:shadow-lg">
           <RouterLink to="/"
             class="peer flex w-full cursor-pointer items-center gap-2.5 px-3 py-2 text-left text-purple-800 transition-all active:scale-95">
             <div class="rounded-lg border-2 border-purple-300 bg-purple-100 p-1">
@@ -46,7 +38,7 @@ function logout() {
         </li>
         <!--Movies button-->
         <li
-          class="group w-14 overflow-hidden rounded-lg border-l border-transparent bg-white transition-all duration-500 hover:w-35 hover:border-gray-200 hover:shadow-lg has-[:focus]:w-30 has-[:focus]:shadow-lg">
+          class="group w-14 overflow-hidden rounded-lg border-l border-transparent bg-white transition-all duration-500 hover:w-35 hover:border-gray-200 hover:shadow-lg has-focus:w-30 has-focus:shadow-lg">
           <RouterLink to="/movies"
             class="peer flex w-full cursor-pointer items-center gap-2.5 px-3 py-2 text-left text-purple-800 transition-all active:scale-95">
             <div class="rounded-lg border-2 border-purple-300 bg-purple-100 p-1">
@@ -63,7 +55,7 @@ function logout() {
         </li>
         <!--Actress button-->
         <li
-          class="group w-14 overflow-hidden rounded-lg border-l border-transparent bg-white transition-all duration-500 hover:w-35 hover:border-gray-200 hover:shadow-lg has-[:focus]:w-30 has-[:focus]:shadow-lg">
+          class="group w-14 overflow-hidden rounded-lg border-l border-transparent bg-white transition-all duration-500 hover:w-35 hover:border-gray-200 hover:shadow-lg has-focus:w-30 has-focus:shadow-lg">
           <RouterLink to="/actresses"
             class="peer flex w-full cursor-pointer items-center gap-2.5 px-3 py-2 text-left text-purple-800 transition-all active:scale-95">
             <div class="rounded-lg border-2 border-purple-300 bg-purple-100 p-1">
@@ -81,7 +73,7 @@ function logout() {
         </li>
         <!--Reviews button-->
         <li
-          class="group w-14 overflow-hidden rounded-lg border-l border-transparent bg-white transition-all duration-500 hover:w-35 hover:border-gray-200 hover:shadow-lg has-[:focus]:w-30 has-[:focus]:shadow-lg">
+          class="group w-14 overflow-hidden rounded-lg border-l border-transparent bg-white transition-all duration-500 hover:w-35 hover:border-gray-200 hover:shadow-lg has-focus:w-30 has-focus:shadow-lg">
           <RouterLink to="/reviews"
             class="peer flex w-full cursor-pointer items-center gap-2.5 px-3 py-2 text-left text-purple-800 transition-all active:scale-95">
             <div class="rounded-lg border-2 border-purple-300 bg-purple-100 p-1">
@@ -130,7 +122,7 @@ function logout() {
           </span>
         </div>
 
-        <button @click="logout" class="mt-2 text-xs text-red-500 hover:underline">
+        <button @click="UserService.logout()" class="mt-2 text-xs text-red-500 hover:underline">
           Logout
         </button>
       </li>

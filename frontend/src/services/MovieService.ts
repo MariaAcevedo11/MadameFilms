@@ -5,12 +5,6 @@ import type { MovieInterface } from '@/interfaces/MovieInterface';
 import { useMovieStore } from '@/stores/moviestore';
 import { UserService } from './UserService';
 
-// Variables
-// (none)
-
-// Reactive variables
-// (none)
-
 // Functions
 export class MovieService {
   static getMovies(): MovieInterface[] {

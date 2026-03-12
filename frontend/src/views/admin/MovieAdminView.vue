@@ -1,16 +1,27 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
-import { MovieService } from '@/services/MovieService';
-import { ActressService } from '@/services/ActressService';
-import { useMovieStore } from '@/stores/moviestore';
-import type { MovieInterface } from '@/interfaces/MovieInterface';
-import StyledButtonComponent from '@/components/StyledButtonComponent.vue';
 
-const movieStore = useMovieStore();
-const movies = computed(() => movieStore.movies);
-const actresses = ActressService.getActress();
+// External imports
+import { ref, computed } from 'vue'
 
-const editingMovieId = ref<number | null>(null);
+// Internal imports
+import { MovieService } from '@/services/MovieService'
+import { ActressService } from '@/services/ActressService'
+
+// Stores
+import { useMovieStore } from '@/stores/moviestore'
+
+// Interfaces / Types
+import type { MovieInterface } from '@/interfaces/MovieInterface'
+
+// Components
+import StyledButtonComponent from '@/components/StyledButtonComponent.vue'
+
+// Reactive variables
+const movieStore = useMovieStore()
+const movies = computed(() => movieStore.movies)
+const actresses = ActressService.getActress()
+
+const editingMovieId = ref<number | null>(null)
 const editForm = ref({
   title: '',
   description: '',
@@ -23,10 +34,11 @@ const editForm = ref({
   language: '',
   image: '',
   selectedActressId: '' as number | '',
-});
+})
 
+// Functions
 function startEdit(movie: MovieInterface) {
-  editingMovieId.value = movie.id;
+  editingMovieId.value = movie.id
   editForm.value = {
     title: movie.title,
     description: movie.description,
@@ -39,20 +51,22 @@ function startEdit(movie: MovieInterface) {
     language: movie.language,
     image: movie.image,
     selectedActressId: movie.actress?.id ?? '',
-  };
+  }
 }
 
 function cancelEdit() {
-  editingMovieId.value = null;
+  editingMovieId.value = null
 }
 
 function saveEdit() {
-  if (editingMovieId.value === null) return;
+  if (editingMovieId.value === null) return
+
   try {
     const actress =
       editForm.value.selectedActressId !== ''
         ? ActressService.getActressById(Number(editForm.value.selectedActressId))
-        : undefined;
+        : undefined
+
     MovieService.updateMovie(editingMovieId.value, {
       title: editForm.value.title.trim(),
       description: editForm.value.description.trim(),
@@ -65,16 +79,12 @@ function saveEdit() {
       language: editForm.value.language.trim(),
       image: editForm.value.image.trim(),
       actress,
-    });
-    editingMovieId.value = null;
-  } catch (err) {
-    alert(err instanceof Error ? err.message : 'Failed to update movie');
-  }
-}
+    })
 
-function deleteMovie(movieId: number) {
-  MovieService.deleteMovie(movieId);
-  if (editingMovieId.value === movieId) editingMovieId.value = null;
+    editingMovieId.value = null
+  } catch (err) {
+    alert(err instanceof Error ? err.message : 'Failed to update movie')
+  }
 }
 </script>
 
@@ -113,7 +123,7 @@ function deleteMovie(movieId: number) {
                 class="bg-purple-500 hover:bg-purple-600 text-white px-3 py-1 rounded-lg text-sm transition">
                 Edit
               </button>
-              <button @click="deleteMovie(movie.id)" type="button"
+              <button @click="MovieService.deleteMovie(movie.id)" type="button"
                 class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg text-sm transition">
                 Delete
               </button>

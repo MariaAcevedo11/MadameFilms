@@ -1,11 +1,19 @@
-import ActressesView from '@/views/user/ActressesView.vue';
+// External imports
 import { createRouter, createWebHistory } from 'vue-router';
-import CreateReview from '@/views/user/CreateReview.vue';
-import CreateMovie from '@/views/admin/CreateMovie.vue';
+
+// Internal imports
+// User views
 import HomeView from '@/views/user/HomeView.vue';
 import MoviesView from '@/views/user/MoviesView.vue';
-import MovieManagView from '@/views/admin/MovieManagView.vue';
 import ReviewsView from '@/views/user/ReviewsView.vue';
+import CreateReview from '@/views/user/CreateReview.vue';
+import ActressesView from '@/views/user/ActressesView.vue';
+
+// Admin views
+import CreateMovie from '@/views/admin/CreateMovie.vue';
+import MovieManagView from '@/views/admin/MovieManagView.vue';
+
+// Auth views
 import LoginView from '@/views/login/LoginView.vue';
 
 const router = createRouter({

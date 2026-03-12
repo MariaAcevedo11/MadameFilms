@@ -2,7 +2,6 @@
 
 // External imports
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
 
 // Internal imports
 import { UserService } from '@/services/UserService'
@@ -15,25 +14,21 @@ const form = ref({
   password: ''
 })
 
-// Router
-const router = useRouter()
-
 // Functions
 function handleLogin() {
-  const user = UserService.login(form.value.email, form.value.password)
+  errorMessage.value = ''
 
-  if (!user) {
-    errorMessage.value = 'Invalid email or password'
-    return
+  try {
+    UserService.login(form.value.email, form.value.password)
+  } catch (err) {
+    errorMessage.value =
+      err instanceof Error ? err.message : 'Login failed'
   }
-
-  router.push('/')
 }
-
 </script>
 
 <template>
-  <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-200 to-purple-400">
+  <div class="min-h-screen flex items-center justify-center bg-linear-to-br from-purple-200 to-purple-400">
     <div class="bg-white p-10 rounded-3xl shadow-2xl w-full max-w-md">
 
       <h2 class="text-3xl font-bold text-purple-800 mb-8 text-center">

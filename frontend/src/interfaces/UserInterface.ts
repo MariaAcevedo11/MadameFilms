@@ -6,6 +6,7 @@ export interface UserInterface {
   role: string;
   email: string;
   password: string;
-  reviews?: ReviewInterface[];
   image: string;
+  
+  reviews?: ReviewInterface[];
 }
