@@ -1,64 +1,50 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
-import { ReviewService } from '@/services/ReviewService.js';
-import  StyledButtonComponent  from '@/components/StyledButtonComponent.vue'
-import type { ReviewInterface } from '@/interfaces/ReviewInterface';
-import { UserService } from '@/services/UserService';
-import { useReviewStore } from '@/stores/reviewstore';
 
-const reviewStore = useReviewStore();
-const reviews = computed(() => reviewStore.reviews);
-const loggedUser = UserService.getCurrentUser();
+// External imports
+import { ref, computed } from 'vue'
 
-const editingReviewId = ref<number | null>(null);
-const editForm = ref({ rating: 5, comment: '' });
+// Internal imports
+import { ReviewService } from '@/services/ReviewService.js'
+import StyledButtonComponent from '@/components/StyledButtonComponent.vue'
+import type { ReviewInterface } from '@/interfaces/ReviewInterface'
+import { useReviewStore } from '@/stores/reviewstore'
 
-function canEdit(review: ReviewInterface) {
-  if (!loggedUser) return false;
-  return review.user.id === loggedUser.id;
-}
+// Variables
+// (none)
 
-function canDelete(review: ReviewInterface) {
-  if (!loggedUser) return false;
-  return review.user.id === loggedUser.id || loggedUser.role === 'admin';
-}
+// Reactive variables
+const reviewStore = useReviewStore()
+const editingReviewId = ref<number | null>(null)
+const editForm = ref({ rating: 5, comment: '' })
 
+// Computed
+const reviews = computed(() => reviewStore.reviews)
+
+// Functions
 function startEdit(review: ReviewInterface) {
-  editingReviewId.value = review.id;
-  editForm.value = { rating: review.rating, comment: review.comment };
+  editingReviewId.value = review.id
+  editForm.value = { rating: review.rating, comment: review.comment }
 }
 
 function cancelEdit() {
-  editingReviewId.value = null;
+  editingReviewId.value = null
 }
 
 function saveEdit() {
-  if (editingReviewId.value === null) return;
+  if (editingReviewId.value === null) return
+
   try {
     ReviewService.updateReview(editingReviewId.value, {
       rating: editForm.value.rating,
       comment: editForm.value.comment.trim(),
-    });
-    editingReviewId.value = null;
+    })
+
+    editingReviewId.value = null
   } catch (err) {
-    alert(err instanceof Error ? err.message : 'Failed to update review');
+    alert(err instanceof Error ? err.message : 'Failed to update review')
   }
 }
 
-function deleteReview(id: number) {
-  const user = UserService.getCurrentUser();
-  if (!user) return;
-
-  const review = reviewStore.reviews.find((r) => r.id === id);
-  if (!review) return;
-
-  if (review.user.id !== user.id && user.role !== 'admin') {
-    alert('You cannot delete this review');
-    return;
-  }
-
-  reviewStore.reviews = reviewStore.reviews.filter((r) => r.id !== id);
-}
 </script>
 
 <template>
@@ -125,12 +111,12 @@ function deleteReview(id: number) {
                     <span class="text-yellow-500 text-sm">⭐</span>
                     <span class="text-sm font-bold text-yellow-600">{{ review.rating }}/5</span>
                   </div>
-                  <button v-if="canEdit(review)" @click="startEdit(review)" type="button"
+                  <button v-if="ReviewService.canEdit(review)" @click="startEdit(review)" type="button"
                     class="text-purple-600 text-sm font-medium hover:text-purple-800">
                     Edit
                   </button>
-                  <button v-if="canDelete(review)" @click="deleteReview(review.id)" type="button"
-                    class="text-red-500 text-sm hover:text-red-700">
+                  <button v-if="ReviewService.canDelete(review)" @click="ReviewService.deleteReview(review.id)"
+                    type="button" class="text-red-500 text-sm hover:text-red-700">
                     Delete
                   </button>
                 </div>

@@ -1,7 +1,11 @@
 <script setup lang="ts">
-import { MovieService } from '@/services/MovieService';
 
-const movies = MovieService.getMovies();
+// Internal imports
+import { MovieService } from '@/services/MovieService'
+
+// Variables
+const movies = MovieService.getMovies()
+
 </script>
 
 <template>

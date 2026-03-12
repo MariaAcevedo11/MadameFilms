@@ -77,4 +77,20 @@ export class ReviewService {
 
     store.reviews[index] = updatedReview;
   }
+
+  static canEdit(review: ReviewInterface): boolean {
+    const loggedUser = UserService.getCurrentUser();
+
+    if (!loggedUser) return false;
+
+    return review.user.id === loggedUser.id;
+  }
+
+  static canDelete(review: ReviewInterface): boolean {
+    const loggedUser = UserService.getCurrentUser();
+
+    if (!loggedUser) return false;
+
+    return review.user.id === loggedUser.id || loggedUser.role === 'admin';
+  }
 }
