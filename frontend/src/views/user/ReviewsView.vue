@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 // External imports
 import { ref, computed } from 'vue'
 
@@ -44,7 +43,6 @@ function saveEdit() {
     alert(err instanceof Error ? err.message : 'Failed to update review')
   }
 }
-
 </script>
 
 <template>
