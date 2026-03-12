@@ -11,8 +11,8 @@ export class ReviewService {
     return useReviewStore().reviews;
   }
 
-  static getReviewsById(id: number): ReviewInterface[] {
-    return useReviewStore().reviews.filter((review) => review.id === id);
+  static getReviewById(id: number): ReviewInterface | undefined {
+    return useReviewStore().reviews.find((review) => review.id === id);
   }
 
   static createReview(dto: CreateReviewDTO): ReviewInterface {
@@ -27,7 +27,7 @@ export class ReviewService {
 
     const newReview: ReviewInterface = {
       id,
-      ...dto, 
+      ...dto,
       date: new Date(),
     };
 
@@ -36,8 +36,8 @@ export class ReviewService {
   }
 
   static deleteReview(id: number): void {
-    const store = useReviewStore();
-    store.reviews = store.reviews.filter((review) => review.id !== id);
+    const reviewStore = useReviewStore();
+    reviewStore.reviews = reviewStore.reviews.filter((review) => review.id !== id);
   }
 
   static updateReview(id: number, dto: UpdateReviewDTO): void {
@@ -46,13 +46,13 @@ export class ReviewService {
       throw new Error('User must be logged in to update a review');
     }
 
-    const store = useReviewStore();
-    const index = store.reviews.findIndex((review) => review.id === id);
-    if (index === -1) {
+    const reviewStore = useReviewStore();
+    const existing = ReviewService.getReviewById(id);
+
+    if (!existing) {
       throw new Error('Review not found');
     }
 
-    const existing = store.reviews[index]!;
     if (existing.userId !== loggedUser.id) {
       throw new Error('You are not authorized to update this review');
     }
@@ -66,7 +66,8 @@ export class ReviewService {
       movieId: dto.movieId ?? existing.movieId,
     };
 
-    store.reviews[index] = updatedReview;
+    const index = reviewStore.reviews.findIndex((r) => r.id === id);
+    reviewStore.reviews[index] = updatedReview;
   }
 
   static canEdit(review: ReviewInterface): boolean {
