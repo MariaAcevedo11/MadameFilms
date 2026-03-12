@@ -12,8 +12,7 @@ export const moviesSeeder = [
     durationMin: 120,
     country: 'Spain',
     language: 'Spanish',
-    actress: actressesSeeder,
-    image: 'https://pics.filmaffinity.com/la_la_land-262021831-large.jpg'
+    actress: actressesSeeder[0],
   },
   {
     id: 2,
@@ -26,8 +25,7 @@ export const moviesSeeder = [
     durationMin: 135,
     country: 'Spain',
     language: 'Spanish',
-    actress: actressesSeeder,
-    image: 'https://pics.filmaffinity.com/la_la_land-262021831-large.jpg'
+    actress: actressesSeeder[1],
   },
   {
     id: 3,
@@ -40,6 +38,6 @@ export const moviesSeeder = [
     durationMin: 150,
     country: 'Spain',
     language: 'Spanish',
-    actress: actressesSeeder,
+    actress: actressesSeeder[2],
   },
 ];
