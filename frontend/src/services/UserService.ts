@@ -28,7 +28,9 @@ export class UserService {
     return useUserStore().isLogged;
   }
 
-  static isAdmin(): boolean {
-    return useUserStore().isAdmin;
+  public static isAdmin(): boolean {
+    return useUserStore().currentUser?.role === 'admin';
   }
 }
+
+

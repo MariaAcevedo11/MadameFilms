@@ -9,9 +9,6 @@ import StyledButtonComponent from '@/components/StyledButtonComponent.vue'
 import type { ReviewInterface } from '@/interfaces/ReviewInterface'
 import { useReviewStore } from '@/stores/reviewstore'
 
-// Variables
-// (none)
-
 // Reactive variables
 const reviewStore = useReviewStore()
 const editingReviewId = ref<number | null>(null)

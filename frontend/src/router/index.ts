@@ -11,10 +11,11 @@ import ActressesView from '@/views/user/ActressesView.vue';
 
 // Admin views
 import CreateMovie from '@/views/admin/CreateMovie.vue';
-import MovieManagView from '@/views/admin/MovieManagView.vue';
+import MovieAdminView from '@/views/admin/MovieAdminView.vue';
 
 // Auth views
 import LoginView from '@/views/login/LoginView.vue';
+import { adminGuard } from './guards';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -31,7 +32,7 @@ const router = createRouter({
     {
       path: '/admin/movies',
       name: 'adminMovies',
-      component: MovieManagView,
+      component: MovieAdminView,
       meta: { title: 'adminMovies', requiresAdmin: true },
     },
     {
@@ -51,5 +52,7 @@ const router = createRouter({
     { path: '/login', name: 'login', component: LoginView, meta: { title: 'Login' } },
   ],
 });
+
+router.beforeEach(adminGuard)
 
 export default router;
