@@ -1,13 +1,10 @@
 <script setup lang="ts">
 // External imports
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 
 // Internal imports
 import { MovieService } from '@/services/MovieService'
 import { ActressService } from '@/services/ActressService'
-
-// Stores
-import { useMovieStore } from '@/stores/moviestore'
 
 // Interfaces / Types
 import type { MovieInterface } from '@/interfaces/MovieInterface'
@@ -16,8 +13,8 @@ import type { MovieInterface } from '@/interfaces/MovieInterface'
 import StyledButtonComponent from '@/components/StyledButtonComponent.vue'
 
 // Reactive variables
-const movieStore = useMovieStore()
-const movies = computed(() => movieStore.movies)
+
+const movies = MovieService.getMovies()
 const actresses = ActressService.getActress()
 
 const editingMovieId = ref<number | null>(null)

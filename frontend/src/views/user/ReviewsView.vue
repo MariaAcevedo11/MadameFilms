@@ -1,23 +1,20 @@
 <script setup lang="ts">
 // External imports
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 
 // Internal imports
 import { ReviewService } from '@/services/ReviewService.js'
 import StyledButtonComponent from '@/components/StyledButtonComponent.vue'
 import type { ReviewInterface } from '@/interfaces/ReviewInterface'
-import { useReviewStore } from '@/stores/reviewstore'
 import { MovieService } from '@/services/MovieService'
 import { UserService } from '@/services/UserService'
 
 // Reactive variables
-const reviewStore = useReviewStore()
 const editingReviewId = ref<number | null>(null)
 const editForm = ref({ rating: 5, comment: '' })
 
-
-// Computed
-const reviews = computed(() => reviewStore.reviews)
+//Variables
+const reviews = ReviewService.getReviews()
 
 // Functions
 function startEdit(review: ReviewInterface) {
