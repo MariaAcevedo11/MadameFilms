@@ -2,52 +2,59 @@
 import { MovieService } from '@/services/MovieService';
 
 const movies = MovieService.getMovies();
-
-//to access variables must use movie.attributNeeded ex: movie.title, movie.cast, remember that u need to iterate over the movies 
 </script>
 
 <template>
-  <section>
-    <div class="max-w-7xl mx-auto">
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <div v-for="movie in movies" :key="movie.id">
-          <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition duration-300 p-6 border border-gray-200">
-            <div class="flex justify-between items-center mb-2">
-              <h3 class="text-xl font-semibold text-gray-800">
-                {{ movie.title }}
-              </h3>
-              <span v-if="movie.durationMin > 0"
-                class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full ml-2">
-                {{ movie.cast }} available
-              </span>
-              <span v-else class="bg-red-100 text-red-800 text-xs px-2 py-1 rounded-full ml-2">
-                Not available
-              </span>
-            </div>
+  <section class="max-w-7xl mx-auto py-10 px-6">
+    <p class="text-gray-600 mb-8">
+      Movie catalog.
+    </p>
 
-            <div class="flex justify-center mb-4">
-              <img src="https://picsum.photos/seed/picsum/536/354" alt="movie Cover"
-                class="object-cover rounded shadow-sm w-full h-auto" />
-            </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div v-for="movie in movies" :key="movie.id"
+        class="bg-white rounded-2xl shadow-md hover:shadow-xl transition duration-300 border border-purple-100 overflow-hidden">
+        <!-- Image -->
+        <img :src="movie.image" alt="Movie Cover" class="w-full h-56 object-cover" />
 
-            <p class="text-gray-500 text-sm mb-3">
-              <i class="fas fa-tag mr-2"></i>
-              {{ movie.genre }}
+        <!-- Content -->
+        <div class="p-6 space-y-3">
+          <!-- Title + Delete -->
+          <div class="flex justify-between items-start">
+            <h3 class="text-xl font-bold text-purple-900">
+              {{ movie.title }}
+            </h3>
+          </div>
+
+          <!-- Description -->
+          <p class="text-gray-600 text-sm line-clamp-3">
+            {{ movie.description }}
+          </p>
+
+          <!-- Info Grid -->
+          <div class="grid grid-cols-2 gap-2 text-sm mt-4">
+            <p><span class="font-semibold text-purple-700">Genre:</span> {{ movie.genre }}</p>
+            <p><span class="font-semibold text-purple-700">Duration:</span> {{ movie.durationMin }} min</p>
+            <p><span class="font-semibold text-purple-700">Director:</span> {{ movie.director }}</p>
+            <p><span class="font-semibold text-purple-700">Country:</span> {{ movie.country }}</p>
+            <p><span class="font-semibold text-purple-700">Language:</span> {{ movie.language }}</p>
+            <p>
+              <span class="font-semibold text-purple-700">Release:</span>
+              {{ new Date(movie.releaseDate).toLocaleDateString() }}
             </p>
+          </div>
 
-            <div class="bg-gray-50 rounded-lg p-3 mb-4">
-              <div class="flex justify-between text-sm">
-                <span class="text-gray-600">Price:</span>
-                <span class="font-semibold">${{ movie.language }}</span>
-              </div>
-            </div>
+          <!-- Cast -->
+          <div class="pt-3 border-t border-purple-100 text-sm">
+            <span class="font-semibold text-purple-700">Cast:</span>
+            <p class="text-gray-600">{{ movie.cast }}</p>
+          </div>
 
-            <div class="flex justify-center">
-              <RouterLink :to="`/movies/${movie.id}`"
-                class="bg-blue-100 hover:bg-blue-200 text-blue-600 font-semibold py-2 px-3 rounded transition duration-300">
-                More info <i class="fas fa-info-circle"></i>
-              </RouterLink>
-            </div>
+          <!-- Actress (optional) -->
+          <div v-if="movie.actress" class="bg-purple-50 rounded-lg p-3 mt-3 text-sm">
+            ⭐ Featured Actress:
+            <span class="font-semibold text-purple-800">
+              {{ movie.actress.fullName }}
+            </span>
           </div>
         </div>
       </div>
