@@ -17,7 +17,7 @@ export class ReviewService {
     return useReviewStore().reviews;
   }
 
-  static getReviewsByBookId(id: number): ReviewInterface[] {
+  static getReviewsById(id: number): ReviewInterface[] {
     return useReviewStore().reviews.filter((review) => review.id === id);
   }
 
