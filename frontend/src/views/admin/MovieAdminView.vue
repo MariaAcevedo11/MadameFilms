@@ -107,8 +107,8 @@ function saveEdit() {
         class="bg-white rounded-2xl shadow-md hover:shadow-xl transition duration-300 border border-purple-100 overflow-hidden">
         <!-- Image (or preview when editing) -->
         <div class="relative w-full h-56 bg-gray-100">
-          <img :src="editingMovieId === movie.id ? editForm.image || movie.image : movie.image"
-            alt="Movie Cover" class="w-full h-full object-cover" />
+          <img :src="editingMovieId === movie.id ? editForm.image || movie.image : movie.image" alt="Movie Cover"
+            class="w-full h-full object-cover" />
         </div>
 
         <!-- Content: view mode -->
@@ -138,7 +138,8 @@ function saveEdit() {
             <p><span class="font-semibold text-purple-700">Director:</span> {{ movie.director }}</p>
             <p><span class="font-semibold text-purple-700">Country:</span> {{ movie.country }}</p>
             <p><span class="font-semibold text-purple-700">Language:</span> {{ movie.language }}</p>
-            <p><span class="font-semibold text-purple-700">Release:</span> {{ new Date(movie.releaseDate).toLocaleDateString() }}</p>
+            <p><span class="font-semibold text-purple-700">Release:</span> {{ new
+              Date(movie.releaseDate).toLocaleDateString() }}</p>
           </div>
 
           <div class="pt-3 border-t border-purple-100 text-sm">
