@@ -8,5 +8,5 @@ export interface ReviewInterface {
   date: Date;
   
   user: UserInterface;
-  movie: MovieInterface;
+  movie?: MovieInterface;
 }

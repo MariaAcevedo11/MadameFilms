@@ -16,7 +16,6 @@ const isAdmin = computed(() => UserService.isAdmin())
   <div class="bg-linear-to-t from-darkerPurple to-darkPurple min-h-screen">
     <div class="flex h-screen overflow-hidden">
       <!-- sidebar -->
-      <!-- From Uiverse.io by icochran10 -->
       <ul class="w-1 flex flex-col gap-1 border-l border-gray-200 pl-1 mt-70">
 
         <!-- These elements will be converted to reusable components later :P-->
@@ -128,7 +127,7 @@ const isAdmin = computed(() => UserService.isAdmin())
         </button>
       </li>
 
-      <!-- Si no está logeado -->
+      <!-- If not logged in -->
       <li v-else class="mt-auto">
         <RouterLink to="/login" class="text-white text-sm">
           Login

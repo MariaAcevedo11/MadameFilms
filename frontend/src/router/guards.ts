@@ -1,4 +1,4 @@
-import type { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
+import type { RouteLocationNormalized } from 'vue-router';
 import { UserService } from '@/services/UserService';
 
 export function adminGuard(to: RouteLocationNormalized) {
