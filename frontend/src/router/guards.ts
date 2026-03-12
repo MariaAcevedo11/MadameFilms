@@ -1,17 +1,11 @@
-// Internal imports
 import type { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
-import { UserService } from '@/services/UserService';
+import { AuthService } from '@/services/AuthService';
 
-export function adminGuard(
+export function requiresAdmin(
   to: RouteLocationNormalized,
   from: RouteLocationNormalized,
   next: NavigationGuardNext,
 ) {
-  const loggedUser = UserService.getLoggedUser();
-
-  if (!loggedUser || loggedUser.type !== 'admin') {
-    return next('/login');
-  }
-
+  if (!AuthService.isAdmin()) return next('/login');
   next();
 }

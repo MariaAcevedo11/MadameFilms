@@ -3,7 +3,7 @@ import type { CreateReviewDTO } from '@/dtos/CreateReviewDTO';
 import type { UpdateReviewDTO } from '@/dtos/UpdateReviewDTO';
 import type { ReviewInterface } from '@/interfaces/ReviewInterface';
 import { useReviewStore } from '@/stores/reviewstore.js';
-import { UserService } from './UserService';
+import { AuthService } from './AuthService';
 
 // Variables
 // (none)
@@ -23,16 +23,14 @@ export class ReviewService {
 
   static createReview(review: CreateReviewDTO): void {
     const reviewStore = useReviewStore();
-    const loggedUser = UserService.getLoggedUser();
+    const loggedUser = AuthService.getLoggedUser();
 
     if (!loggedUser) {
       throw new Error('User must be logged in');
     }
 
     const id =
-      reviewStore.reviews.length > 0
-        ? Math.max(...reviewStore.reviews.map((r) => r.id)) + 1
-        : 1;
+      reviewStore.reviews.length > 0 ? Math.max(...reviewStore.reviews.map((r) => r.id)) + 1 : 1;
 
     reviewStore.reviews.push({
       id,
@@ -48,7 +46,7 @@ export class ReviewService {
   }
 
   static updateReview(id: number, data: UpdateReviewDTO): void {
-    const loggedUser = UserService.getLoggedUser();
+    const loggedUser = AuthService.getLoggedUser();
     if (!loggedUser) {
       throw new Error('User must be logged in to update a review');
     }
