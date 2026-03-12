@@ -17,7 +17,7 @@ const selectedMovieId = ref<number | ''>('')
 const successMessage = ref('')
 
 const form = ref<CreateReviewDTO>({
-  rating: 5,
+  rating: 1,
   comment: '',
   user: UserService.getCurrentUser()!,
   movie: undefined
@@ -43,7 +43,7 @@ function submitForm() {
 
 function resetForm() {
   form.value = {
-    rating: 5,
+    rating: 1,
     comment: '',
     user: UserService.getCurrentUser()!,
     movie: undefined
