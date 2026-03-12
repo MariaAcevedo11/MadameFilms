@@ -23,6 +23,10 @@ export class UserService {
   static getCurrentUser(): UserInterface | null {
     return useUserStore().currentUser;
   }
+  
+  static getUserById(id: number): UserInterface | undefined {
+    return useUserStore().users.find((user) => user.id === id);
+  }
 
   static isLogged(): boolean {
     return useUserStore().isLogged;
@@ -32,5 +36,3 @@ export class UserService {
     return useUserStore().currentUser?.role === 'admin';
   }
 }
-
-

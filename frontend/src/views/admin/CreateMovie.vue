@@ -1,20 +1,20 @@
 <script setup lang="ts">
-
 // External import
 import { ref } from 'vue'
 
 // Internal imports
-import { ActressService } from '@/services/ActressService'
 import { MovieService } from '@/services/MovieService'
-import type { CreateMovieDTO } from '@/dtos/CreateMovieDTO.js'
+import type { CreateMovieDTO } from '@/dtos/CreateMovieDTO'
+import { ActressService } from '@/services/ActressService'
 
-// Variable
-const actresses = ActressService.getActress()
+// Selectors
+const actresses = ActressService.getActress()                
+const selectedActressId = ref<number | ''>('')           
 
 // Reactive variables
-const selectedActressId = ref<number | ''>('')
 const successMessage = ref('')
 
+// Forms 
 const form = ref<CreateMovieDTO>({
   title: '',
   description: '',
@@ -25,27 +25,25 @@ const form = ref<CreateMovieDTO>({
   durationMin: 0,
   country: '',
   language: '',
-  actress: undefined,
+  actressId: 0, 
   image: ''
 })
 
 // Functions
 function submitForm() {
-  const selectedActress =
-    selectedActressId.value !== ''
-      ? ActressService.getActressById(Number(selectedActressId.value))
-      : undefined
-
-  form.value.actress = selectedActress
+  if (selectedActressId.value !== '') {
+    
+    form.value.actressId = Number(selectedActressId.value)
+  }
 
   MovieService.createMovie(form.value)
 
   successMessage.value = 'Movie added successfully!'
-
   resetForm()
 }
 
 function resetForm() {
+  selectedActressId.value = ''
   form.value = {
     title: '',
     description: '',
@@ -56,13 +54,10 @@ function resetForm() {
     durationMin: 0,
     country: '',
     language: '',
-    actress: undefined,
+    actressId: 0, 
     image: ''
   }
-
-  selectedActressId.value = ''
 }
-
 </script>
 
 <template>

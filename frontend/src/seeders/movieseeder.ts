@@ -1,5 +1,3 @@
-import { actressesSeeder } from './actresseseeder';
-
 export const moviesSeeder = [
   {
     id: 1,
@@ -12,7 +10,7 @@ export const moviesSeeder = [
     durationMin: 120,
     country: 'Spain',
     language: 'Spanish',
-    actress: actressesSeeder,
+    actressId: 1,
     image: 'https://pics.filmaffinity.com/la_la_land-262021831-large.jpg'
   },
   {
@@ -26,7 +24,7 @@ export const moviesSeeder = [
     durationMin: 135,
     country: 'Spain',
     language: 'Spanish',
-    actress: actressesSeeder,
+    actressId: 2,
     image: 'https://pics.filmaffinity.com/la_la_land-262021831-large.jpg'
   },
   {
@@ -40,6 +38,6 @@ export const moviesSeeder = [
     durationMin: 150,
     country: 'Spain',
     language: 'Spanish',
-    actress: actressesSeeder,
+    actressId: 2,
   },
 ];

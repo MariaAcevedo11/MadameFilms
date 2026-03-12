@@ -1,13 +1,13 @@
 // External imports
 import { createRouter, createWebHistory } from 'vue-router';
 
-// Internal imports
+// Internal imports 
 // User views
+import ActressesView from '@/views/user/ActressesView.vue';
+import CreateReview from '@/views/user/CreateReview.vue';
 import HomeView from '@/views/user/HomeView.vue';
 import MoviesView from '@/views/user/MoviesView.vue';
 import ReviewsView from '@/views/user/ReviewsView.vue';
-import CreateReview from '@/views/user/CreateReview.vue';
-import ActressesView from '@/views/user/ActressesView.vue';
 
 // Admin views
 import CreateMovie from '@/views/admin/CreateMovie.vue';
@@ -15,7 +15,9 @@ import MovieAdminView from '@/views/admin/MovieAdminView.vue';
 
 // Auth views
 import LoginView from '@/views/login/LoginView.vue';
-import { adminGuard } from './guards';
+
+// Guards
+import { guards } from './guards';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -53,6 +55,6 @@ const router = createRouter({
   ],
 });
 
-router.beforeEach(adminGuard)
+router.beforeEach(guards)
 
 export default router;

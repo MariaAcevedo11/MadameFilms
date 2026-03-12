@@ -1,11 +1,10 @@
 <script setup lang="ts">
-
 // Internal imports
-import { MovieService } from '@/services/MovieService'
+import { ActressService } from '@/services/ActressService';
+import { MovieService } from '@/services/MovieService';
 
 // Variables
 const movies = MovieService.getMovies()
-
 </script>
 
 <template>
@@ -54,12 +53,13 @@ const movies = MovieService.getMovies()
           </div>
 
           <!-- Actress (optional) -->
-          <div v-if="movie.actress" class="bg-purple-50 rounded-lg p-3 mt-3 text-sm">
+          <div v-if="movie.actressId" class="bg-purple-50 rounded-lg p-3 mt-3 text-sm">
             ⭐ Featured Actress:
             <span class="font-semibold text-purple-800">
-              {{ movie.actress.fullName }}
+              {{ ActressService.getActressById(movie.actressId)?.fullName }}
             </span>
           </div>
+
         </div>
       </div>
     </div>

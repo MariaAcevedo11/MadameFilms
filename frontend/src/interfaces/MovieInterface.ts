@@ -13,5 +13,5 @@ export interface MovieInterface {
   language: string;
   image: string;
   
-  actress?: ActressInterface;
+  actressId: ActressInterface['id']; 
 }

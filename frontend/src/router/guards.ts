@@ -1,7 +1,7 @@
 import type { RouteLocationNormalized } from 'vue-router';
 import { UserService } from '@/services/UserService';
 
-export function adminGuard(to: RouteLocationNormalized) {
+export function guards(to: RouteLocationNormalized) {
   const isLogged = UserService.isLogged()
   const isAdmin = UserService.isAdmin()
 

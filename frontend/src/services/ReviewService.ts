@@ -27,10 +27,7 @@ export class ReviewService {
 
     const newReview: ReviewInterface = {
       id,
-      rating: dto.rating,
-      comment: dto.comment,
-      movie: dto.movie,
-      user: loggedUser,
+      ...dto, 
       date: new Date(),
     };
 
@@ -56,7 +53,7 @@ export class ReviewService {
     }
 
     const existing = store.reviews[index]!;
-    if (existing.user.id !== loggedUser.id) {
+    if (existing.userId !== loggedUser.id) {
       throw new Error('You are not authorized to update this review');
     }
 
@@ -65,8 +62,8 @@ export class ReviewService {
       rating: dto.rating ?? existing.rating,
       comment: dto.comment ?? existing.comment,
       date: new Date(),
-      user: existing.user,
-      movie: dto.movie ?? existing.movie,
+      userId: existing.userId,
+      movieId: dto.movieId ?? existing.movieId,
     };
 
     store.reviews[index] = updatedReview;
@@ -77,7 +74,7 @@ export class ReviewService {
 
     if (!loggedUser) return false;
 
-    return review.user.id === loggedUser.id;
+    return review.userId === loggedUser.id;
   }
 
   static canDelete(review: ReviewInterface): boolean {
@@ -85,6 +82,6 @@ export class ReviewService {
 
     if (!loggedUser) return false;
 
-    return review.user.id === loggedUser.id || loggedUser.role === 'admin';
+    return review.userId === loggedUser.id || loggedUser.role === 'admin';
   }
 }

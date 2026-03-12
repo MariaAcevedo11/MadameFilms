@@ -1,57 +1,51 @@
 <script setup lang="ts">
-
 // External import
 import { ref } from 'vue'
 
-// Internal imports
-import { ReviewService } from '@/services/ReviewService'
-import { MovieService } from '@/services/MovieService'
-import type { CreateReviewDTO } from '@/dtos/CreateReviewDTO'
-import { UserService } from '@/services/UserService'
+// Internal imports (services for selectors and DTOs)
+import { ReviewService } from '@/services/ReviewService'  
+import { MovieService } from '@/services/MovieService'   
+import type { CreateReviewDTO } from '@/dtos/CreateReviewDTO'     
 
-// Variable
-const movies = MovieService.getMovies()
+//Selectors
+const movies = MovieService.getMovies() 
+const selectedMovieId = ref<number | ''>('') 
 
 // Reactive variables
-const selectedMovieId = ref<number | ''>('')
 const successMessage = ref('')
 
+// Forms 
 const form = ref<CreateReviewDTO>({
   rating: 1,
   comment: '',
-  user: UserService.getCurrentUser()!,
-  movie: undefined
+  userId: 0,
+  movieId: 0                                
 })
 
 // Functions
 function submitForm() {
-  const selectedMovie =
-    selectedMovieId.value !== ''
-      ? MovieService.getMovieById(Number(selectedMovieId.value))
-      : undefined
-
-  form.value.movie = selectedMovie!
+  if (selectedMovieId.value !== '') {
+    
+    form.value.movieId = Number(selectedMovieId.value)
+  }
 
   form.value.comment = form.value.comment.trim()
 
   ReviewService.createReview(form.value)
 
   successMessage.value = 'Review created successfully!'
-
   resetForm()
 }
 
 function resetForm() {
+  selectedMovieId.value = ''
   form.value = {
     rating: 1,
     comment: '',
-    user: UserService.getCurrentUser()!,
-    movie: undefined
+    userId: 0, 
+    movieId: 0                              
   }
-
-  selectedMovieId.value = ''
 }
-
 </script>
 
 <template>

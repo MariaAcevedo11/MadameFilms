@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 // External imports
 import { ref, computed } from 'vue'
 
@@ -50,7 +49,7 @@ function startEdit(movie: MovieInterface) {
     country: movie.country,
     language: movie.language,
     image: movie.image,
-    selectedActressId: movie.actress?.id ?? '',
+    selectedActressId: movie.actressId
   }
 }
 
@@ -62,11 +61,6 @@ function saveEdit() {
   if (editingMovieId.value === null) return
 
   try {
-    const actress =
-      editForm.value.selectedActressId !== ''
-        ? ActressService.getActressById(Number(editForm.value.selectedActressId))
-        : undefined
-
     MovieService.updateMovie(editingMovieId.value, {
       title: editForm.value.title.trim(),
       description: editForm.value.description.trim(),
@@ -78,7 +72,10 @@ function saveEdit() {
       country: editForm.value.country.trim(),
       language: editForm.value.language.trim(),
       image: editForm.value.image.trim(),
-      actress,
+      actressId:
+        editForm.value.selectedActressId !== ''
+          ? Number(editForm.value.selectedActressId)
+          : 0,
     })
 
     editingMovieId.value = null
@@ -147,8 +144,11 @@ function saveEdit() {
             <p class="text-gray-600">{{ movie.cast }}</p>
           </div>
 
-          <div v-if="movie.actress" class="bg-purple-50 rounded-lg p-3 mt-3 text-sm">
-            ⭐ Featured Actress: <span class="font-semibold text-purple-800">{{ movie.actress.fullName }}</span>
+          <div v-if="movie.actressId" class="bg-purple-50 rounded-lg p-3 mt-3 text-sm">
+            ⭐ Featured Actress:
+            <span class="font-semibold text-purple-800">
+              {{ ActressService.getActressById(movie.actressId)?.fullName }}
+            </span>
           </div>
         </div>
 
