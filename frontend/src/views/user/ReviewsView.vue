@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { ReviewService } from '@/services/ReviewService.js';
-import StyledButton from '@/components/StyledButton.vue';
+import  StyledButtonComponent  from '@/components/StyledButtonComponent.vue'
 import type { ReviewInterface } from '@/interfaces/ReviewInterface';
 import { UserService } from '@/services/UserService';
 import { useReviewStore } from '@/stores/reviewstore';
 
 const reviewStore = useReviewStore();
 const reviews = computed(() => reviewStore.reviews);
-const loggedUser = UserService.getLoggedUser();
+const loggedUser = UserService.getCurrentUser();
 
 const editingReviewId = ref<number | null>(null);
 const editForm = ref({ rating: 5, comment: '' });
@@ -20,7 +20,7 @@ function canEdit(review: ReviewInterface) {
 
 function canDelete(review: ReviewInterface) {
   if (!loggedUser) return false;
-  return review.user.id === loggedUser.id || loggedUser.type === 'admin';
+  return review.user.id === loggedUser.id || loggedUser.role === 'admin';
 }
 
 function startEdit(review: ReviewInterface) {
@@ -46,13 +46,13 @@ function saveEdit() {
 }
 
 function deleteReview(id: number) {
-  const user = UserService.getLoggedUser();
+  const user = UserService.getCurrentUser();
   if (!user) return;
 
   const review = reviewStore.reviews.find((r) => r.id === id);
   if (!review) return;
 
-  if (review.user.id !== user.id && user.type !== 'admin') {
+  if (review.user.id !== user.id && user.role !== 'admin') {
     alert('You cannot delete this review');
     return;
   }
@@ -65,9 +65,9 @@ function deleteReview(id: number) {
   <section>
     <div class="max-w-7xl mx-auto">
       <div class="flex justify-end mb-6">
-        <StyledButton to="/reviews/create" :showIcon="true">
+        <StyledButtonComponent to="/reviews/create" :showIcon="true">
           Add Review
-        </StyledButton>
+        </StyledButtonComponent>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

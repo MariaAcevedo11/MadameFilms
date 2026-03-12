@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import StyledButton from '@/components/StyledButton.vue';
 import { MovieService } from '@/services/MovieService';
 import { ActressService } from '@/services/ActressService';
 import { useMovieStore } from '@/stores/moviestore';
 import type { MovieInterface } from '@/interfaces/MovieInterface';
+import StyledButtonComponent from '@/components/StyledButtonComponent.vue';
 
 const movieStore = useMovieStore();
 const movies = computed(() => movieStore.movies);
@@ -88,9 +88,9 @@ function deleteMovie(movieId: number) {
       Manage your movie catalog.
     </p>
 
-    <StyledButton to="/admin/movies/create" :showIcon="true" class="mb-10">
+    <StyledButtonComponent to="/admin/movies/create" :showIcon="true" class="mb-10">
       Add Movie
-    </StyledButton>
+    </StyledButtonComponent>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       <div v-for="movie in movies" :key="movie.id"

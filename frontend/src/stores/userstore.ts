@@ -6,13 +6,13 @@ export const useUserStore = defineStore('user', () => {
   const users = ref<UserInterface[]>([]);
   const currentUser = ref<UserInterface | null>(null); 
 
-  const isAuthenticated = computed(() => users.value !== null);
+  const isLogged = computed(() => users.value !== null);
   const isAdmin = computed(() => currentUser.value?.role === 'admin');
 
   return {
     users,
     currentUser, 
-    isAuthenticated,
+    isLogged,
     isAdmin,
   };
 });

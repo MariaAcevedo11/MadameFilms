@@ -24,8 +24,8 @@ export class UserService {
     return useUserStore().currentUser;
   }
 
-  static isAuthenticated(): boolean {
-    return useUserStore().isAuthenticated;
+  static isLogged(): boolean {
+    return useUserStore().isLogged;
   }
 
   static isAdmin(): boolean {
