@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 // External imports
 import { RouterLink, RouterView } from 'vue-router'
 import { computed } from 'vue'
@@ -10,8 +9,8 @@ import { UserService } from '@/services/UserService'
 // Computed
 const loggedUser = computed(() => UserService.getCurrentUser())
 const isAdmin = computed(() => UserService.isAdmin())
-
 </script>
+
 <template>
   <div class="bg-linear-to-t from-darkerPurple to-darkPurple min-h-screen">
     <div class="flex h-screen overflow-hidden">
