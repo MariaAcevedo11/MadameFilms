@@ -3,7 +3,7 @@ import type { CreateMovieDTO } from '@/dtos/CreateMovieDTO';
 import type { UpdateMovieDTO } from '@/dtos/UpdateMovieDTO';
 import type { MovieInterface } from '@/interfaces/MovieInterface';
 import { useMovieStore } from '@/stores/moviestore';
-import { UserService } from './UserService';
+import { AuthService } from './AuthService';
 
 // Variables
 // (none)
@@ -23,8 +23,7 @@ export class MovieService {
 
   static createMovie(movie: CreateMovieDTO): void {
     const movies = useMovieStore().movies;
-    const id =
-      movies.length > 0 ? Math.max(...movies.map((m) => m.id)) + 1 : 1;
+    const id = movies.length > 0 ? Math.max(...movies.map((m) => m.id)) + 1 : 1;
     movies.push({ id, ...movie });
   }
 
@@ -34,7 +33,7 @@ export class MovieService {
   }
 
   static updateMovie(id: number, data: UpdateMovieDTO): void {
-    if (!UserService.isAdmin()) {
+    if (!AuthService.isAdmin()) {
       throw new Error('Only admin users can update movies.');
     }
 
