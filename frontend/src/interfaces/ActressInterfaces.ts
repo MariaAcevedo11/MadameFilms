@@ -4,5 +4,4 @@ export interface ActressInterface {
   nationality: string;
   biography: string;
   movies: string;
-  image: string;
 }

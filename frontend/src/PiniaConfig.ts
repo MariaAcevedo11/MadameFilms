@@ -1,9 +1,6 @@
-import { actressesSeeder } from '@/seeders/actresseseeder';
 import { createPinia } from 'pinia';
-import { moviesSeeder } from '@/seeders/movieseeder';
-import { reviewSeeder } from '@/seeders/reviewseeder.js';
 import { watch } from 'vue';
-import { userSeeder } from './seeders/userseeder';
+import { moviesSeeder } from '@/stores/movieseeder.js';
 
 export default class PiniaConfig {
   public static init() {
@@ -17,15 +14,6 @@ export default class PiniaConfig {
       pinia.state.value = {
         movie: {
           movies: moviesSeeder,
-        },
-        actress: {
-          actresses: actressesSeeder,
-        },
-        review: {
-          reviews: reviewSeeder,
-        },
-        user: {
-          users: userSeeder,
         },
       };
 
