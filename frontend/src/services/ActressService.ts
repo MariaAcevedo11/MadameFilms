@@ -11,6 +11,4 @@ export class ActressService {
   static getActressById(id: number): ActressInterface | undefined {
     return useActressStore().actresses.find((actress) => actress.id === id);
   }
-  
-
 }
