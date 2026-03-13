@@ -8,7 +8,7 @@ import type { CreateMovieDTO } from '@/dtos/CreateMovieDTO'
 import { ActressService } from '@/services/ActressService'
 
 // Selectors
-const actresses = ActressService.getActress()                
+const selectorActresses = ActressService.getActress()                
 const selectedActressId = ref<number | ''>('')           
 
 // Reactive variables
@@ -144,7 +144,7 @@ function resetForm() {
 
         <option value="">Select an actress</option>
 
-        <option v-for="actress in actresses" :key="actress.id" :value="actress.id">
+        <option v-for="actress in selectorActresses" :key="actress.id" :value="actress.id">
           {{ actress.fullName }} ({{ actress.nationality }})
         </option>
 

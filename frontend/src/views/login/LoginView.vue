@@ -8,6 +8,7 @@ import { UserService } from '@/services/UserService'
 // Reactive variables
 const errorMessage = ref('')
 
+//Form
 const form = ref({
   email: '',
   password: ''

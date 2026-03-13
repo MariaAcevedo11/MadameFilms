@@ -12,12 +12,12 @@ import type { MovieInterface } from '@/interfaces/MovieInterface'
 // Components
 import StyledButtonComponent from '@/components/StyledButtonComponent.vue'
 
-// Reactive variables
+//Selectors 
+const selectorMovies = MovieService.getMovies()
+const selectorActresses = ActressService.getActress()
+const selectedEditingMovieId = ref<number | null>(null)
 
-const movies = MovieService.getMovies()
-const actresses = ActressService.getActress()
-
-const editingMovieId = ref<number | null>(null)
+// Form
 const editForm = ref({
   title: '',
   description: '',
@@ -34,7 +34,7 @@ const editForm = ref({
 
 // Functions
 function startEdit(movie: MovieInterface) {
-  editingMovieId.value = movie.id
+  selectedEditingMovieId.value = movie.id
   editForm.value = {
     title: movie.title,
     description: movie.description,
@@ -51,14 +51,14 @@ function startEdit(movie: MovieInterface) {
 }
 
 function cancelEdit() {
-  editingMovieId.value = null
+  selectedEditingMovieId.value = null
 }
 
 function saveEdit() {
-  if (editingMovieId.value === null) return
+  if (selectedEditingMovieId.value === null) return
 
   try {
-    MovieService.updateMovie(editingMovieId.value, {
+    MovieService.updateMovie(selectedEditingMovieId.value, {
       title: editForm.value.title.trim(),
       description: editForm.value.description.trim(),
       cast: editForm.value.cast.trim(),
@@ -75,7 +75,7 @@ function saveEdit() {
           : 0,
     })
 
-    editingMovieId.value = null
+    selectedEditingMovieId.value = null
   } catch (err) {
     alert(err instanceof Error ? err.message : 'Failed to update movie')
   }
@@ -97,16 +97,16 @@ function saveEdit() {
     </StyledButtonComponent>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      <div v-for="movie in movies" :key="movie.id"
+      <div v-for="movie in selectorMovies" :key="movie.id"
         class="bg-white rounded-2xl shadow-md hover:shadow-xl transition duration-300 border border-purple-100 overflow-hidden">
         <!-- Image (or preview when editing) -->
         <div class="relative w-full h-56 bg-gray-100">
-          <img :src="editingMovieId === movie.id ? editForm.image || movie.image : movie.image" alt="Movie Cover"
+          <img :src="selectedEditingMovieId === movie.id ? editForm.image || movie.image : movie.image" alt="Movie Cover"
             class="w-full h-full object-cover" />
         </div>
 
         <!-- Content: view mode -->
-        <div v-if="editingMovieId !== movie.id" class="p-6 space-y-3">
+        <div v-if="selectedEditingMovieId !== movie.id" class="p-6 space-y-3">
           <!-- Title + Actions -->
           <div class="flex justify-between items-start gap-2">
             <h3 class="text-xl font-bold text-purple-900">
@@ -220,7 +220,7 @@ function saveEdit() {
               <select v-model="editForm.selectedActressId"
                 class="w-full border border-gray-300 rounded py-1.5 px-2 focus:outline-none focus:ring focus:border-purple-300">
                 <option value="">None</option>
-                <option v-for="actress in actresses" :key="actress.id" :value="actress.id">
+                <option v-for="actress in selectorActresses" :key="actress.id" :value="actress.id">
                   {{ actress.fullName }}
                 </option>
               </select>

@@ -8,7 +8,7 @@ import { MovieService } from '@/services/MovieService'
 import type { CreateReviewDTO } from '@/dtos/CreateReviewDTO'     
 
 //Selectors
-const movies = MovieService.getMovies() 
+const selectorMovies = MovieService.getMovies() 
 const selectedMovieId = ref<number | ''>('') 
 
 // Reactive variables
@@ -65,7 +65,7 @@ function resetForm() {
           class="w-full border border-gray-300 rounded py-2 px-3 focus:outline-none focus:ring focus:border-purple-300">
           <option value="">Select a movie</option>
 
-          <option v-for="movie in movies" :key="movie.id" :value="movie.id">
+          <option v-for="movie in selectorMovies" :key="movie.id" :value="movie.id">
             {{ movie.title }}, {{ movie.director }}
           </option>
 

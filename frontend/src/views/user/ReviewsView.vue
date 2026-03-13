@@ -9,33 +9,33 @@ import type { ReviewInterface } from '@/interfaces/ReviewInterface'
 import { MovieService } from '@/services/MovieService'
 import { UserService } from '@/services/UserService'
 
-// Reactive variables
-const editingReviewId = ref<number | null>(null)
-const editForm = ref({ rating: 5, comment: '' })
+//Selectors
+const SelectorReviews = ReviewService.getReviews()
+const SelectedEditingReviewId = ref<number | null>(null)
 
-//Variables
-const reviews = ReviewService.getReviews()
+// Form
+const editForm = ref({ rating: 5, comment: '' })
 
 // Functions
 function startEdit(review: ReviewInterface) {
-  editingReviewId.value = review.id
+  SelectedEditingReviewId.value = review.id
   editForm.value = { rating: review.rating, comment: review.comment }
 }
 
 function cancelEdit() {
-  editingReviewId.value = null
+  SelectedEditingReviewId.value = null
 }
 
 function saveEdit() {
-  if (editingReviewId.value === null) return
+  if (SelectedEditingReviewId.value === null) return
 
   try {
-    ReviewService.updateReview(editingReviewId.value, {
+    ReviewService.updateReview(SelectedEditingReviewId.value, {
       rating: editForm.value.rating,
       comment: editForm.value.comment.trim(),
     })
 
-    editingReviewId.value = null
+    SelectedEditingReviewId.value = null
   } catch (err) {
     alert(err instanceof Error ? err.message : 'Failed to update review')
   }
@@ -52,7 +52,7 @@ function saveEdit() {
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <div v-for="review in reviews" :key="review.id">
+        <div v-for="review in SelectorReviews" :key="review.id">
           <div
             class="bg-white rounded-lg shadow-md hover:shadow-lg transition duration-300 border border-gray-200 overflow-hidden">
 
@@ -69,7 +69,7 @@ function saveEdit() {
 
             <!-- Comment or Edit form -->
             <div class="px-5 pt-4 pb-2">
-              <template v-if="editingReviewId === review.id">
+              <template v-if="SelectedEditingReviewId === review.id">
                 <label class="block text-gray-700 text-xs font-semibold mb-1">Rating</label>
                 <select v-model.number="editForm.rating"
                   class="w-full border border-gray-300 rounded py-1.5 px-2 text-sm mb-3 focus:outline-none focus:ring focus:border-purple-300">
@@ -95,7 +95,7 @@ function saveEdit() {
               </div>
             </div>
 
-            <template v-if="editingReviewId === review.id">
+            <template v-if="SelectedEditingReviewId === review.id">
               <div class="flex items-center gap-2">
                 <button @click="saveEdit" type="button"
                   class="text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 rounded px-3 py-1.5 transition">
