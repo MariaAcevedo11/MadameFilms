@@ -18,6 +18,7 @@
     "@tailwindcss/vite": "^4.1.18",
     "chart.js": "^4.5.1",
     "pinia": "^3.0.4",
+    "swiper": "^12.1.2",
     "tailwindcss": "^4.1.18",
     "vue": "^3.5.27",
     "vue-router": "^5.0.1"
