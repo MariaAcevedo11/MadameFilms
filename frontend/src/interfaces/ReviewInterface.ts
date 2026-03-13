@@ -6,7 +6,7 @@ export interface ReviewInterface {
   rating: number;
   comment: string;
   date: Date;
-  
-  userId: UserInterface['id'];
-  movieId: MovieInterface['id']; 
+
+  userId: number;
+  movieId: number;
 }

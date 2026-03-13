@@ -7,7 +7,6 @@ import { ReviewService } from '@/services/ReviewService.js';
 import StyledButtonComponent from '@/components/StyledButtonComponent.vue';
 import type { ReviewInterface } from '@/interfaces/ReviewInterface';
 import { MovieService } from '@/services/MovieService';
-import { AuthService } from '@/services/AuthService';
 import { UserService } from '@/services/UserService';
 
 //Selectors

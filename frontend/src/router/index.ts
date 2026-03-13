@@ -1,7 +1,7 @@
 // External imports
 import { createRouter, createWebHistory } from 'vue-router';
 
-// Internal imports 
+// Internal imports
 // User views
 import ActressesView from '@/views/user/ActressesView.vue';
 import CreateReview from '@/views/user/CreateReview.vue';
@@ -55,6 +55,6 @@ const router = createRouter({
   ],
 });
 
-router.beforeEach(guards)
+router.beforeEach(guards);
 
 export default router;

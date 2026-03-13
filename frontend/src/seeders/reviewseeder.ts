@@ -8,7 +8,7 @@ export const reviewSeeder = [
     comment: 'Amazing service!',
     date: new Date(),
     userId: 0,
-    movieId: 0, 
+    movieId: 0,
   },
   {
     id: 2,

@@ -11,7 +11,7 @@ export const moviesSeeder = [
     country: 'Spain',
     language: 'Spanish',
     actressId: 1,
-    image: 'https://pics.filmaffinity.com/la_la_land-262021831-large.jpg'
+    image: 'https://pics.filmaffinity.com/la_la_land-262021831-large.jpg',
   },
   {
     id: 2,
@@ -25,7 +25,7 @@ export const moviesSeeder = [
     country: 'Spain',
     language: 'Spanish',
     actressId: 2,
-    image: 'https://pics.filmaffinity.com/la_la_land-262021831-large.jpg'
+    image: 'https://pics.filmaffinity.com/la_la_land-262021831-large.jpg',
   },
   {
     id: 3,

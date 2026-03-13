@@ -1,21 +1,21 @@
 <script setup lang="ts">
 // External imports
-import { ref } from 'vue'
+import { ref } from 'vue';
 
 // Internal imports
-import { MovieService } from '@/services/MovieService'
-import { ActressService } from '@/services/ActressService'
+import { MovieService } from '@/services/MovieService';
+import { ActressService } from '@/services/ActressService';
 
 // Interfaces / Types
-import type { MovieInterface } from '@/interfaces/MovieInterface'
+import type { MovieInterface } from '@/interfaces/MovieInterface';
 
 // Components
-import StyledButtonComponent from '@/components/StyledButtonComponent.vue'
+import StyledButtonComponent from '@/components/StyledButtonComponent.vue';
 
-//Selectors 
-const selectorMovies = MovieService.getMovies()
-const selectorActresses = ActressService.getActress()
-const selectedEditingMovieId = ref<number | null>(null)
+//Selectors
+const selectorMovies = MovieService.getMovies();
+const selectorActresses = ActressService.getActress();
+const selectedEditingMovieId = ref<number | null>(null);
 
 // Form
 const editForm = ref({
@@ -30,11 +30,11 @@ const editForm = ref({
   language: '',
   image: '',
   selectedActressId: '' as number | '',
-})
+});
 
 // Functions
 function startEdit(movie: MovieInterface) {
-  selectedEditingMovieId.value = movie.id
+  selectedEditingMovieId.value = movie.id;
   editForm.value = {
     title: movie.title,
     description: movie.description,
@@ -46,16 +46,16 @@ function startEdit(movie: MovieInterface) {
     country: movie.country,
     language: movie.language,
     image: movie.image,
-    selectedActressId: movie.actressId
-  }
+    selectedActressId: movie.actressId,
+  };
 }
 
 function cancelEdit() {
-  selectedEditingMovieId.value = null
+  selectedEditingMovieId.value = null;
 }
 
 function saveEdit() {
-  if (selectedEditingMovieId.value === null) return
+  if (selectedEditingMovieId.value === null) return;
 
   try {
     MovieService.updateMovie(selectedEditingMovieId.value, {
@@ -70,39 +70,39 @@ function saveEdit() {
       language: editForm.value.language.trim(),
       image: editForm.value.image.trim(),
       actressId:
-        editForm.value.selectedActressId !== ''
-          ? Number(editForm.value.selectedActressId)
-          : 0,
-    })
+        editForm.value.selectedActressId !== '' ? Number(editForm.value.selectedActressId) : 0,
+    });
 
-    selectedEditingMovieId.value = null
+    selectedEditingMovieId.value = null;
   } catch (err) {
-    alert(err instanceof Error ? err.message : 'Failed to update movie')
+    alert(err instanceof Error ? err.message : 'Failed to update movie');
   }
 }
 </script>
 
 <template>
   <section class="max-w-7xl mx-auto py-10 px-6">
-    <h2 class="text-3xl font-bold text-purple-800 mb-2">
-      🎬 Movie Management
-    </h2>
+    <h2 class="text-3xl font-bold text-purple-800 mb-2">🎬 Movie Management</h2>
 
-    <p class="text-gray-600 mb-8">
-      Manage your movie catalog.
-    </p>
+    <p class="text-gray-600 mb-8">Manage your movie catalog.</p>
 
     <StyledButtonComponent to="/admin/movies/create" :showIcon="true" class="mb-10">
       Add Movie
     </StyledButtonComponent>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      <div v-for="movie in selectorMovies" :key="movie.id"
-        class="bg-white rounded-2xl shadow-md hover:shadow-xl transition duration-300 border border-purple-100 overflow-hidden">
+      <div
+        v-for="movie in selectorMovies"
+        :key="movie.id"
+        class="bg-white rounded-2xl shadow-md hover:shadow-xl transition duration-300 border border-purple-100 overflow-hidden"
+      >
         <!-- Image (or preview when editing) -->
         <div class="relative w-full h-56 bg-gray-100">
-          <img :src="selectedEditingMovieId === movie.id ? editForm.image || movie.image : movie.image" alt="Movie Cover"
-            class="w-full h-full object-cover" />
+          <img
+            :src="selectedEditingMovieId === movie.id ? editForm.image || movie.image : movie.image"
+            alt="Movie Cover"
+            class="w-full h-full object-cover"
+          />
         </div>
 
         <!-- Content: view mode -->
@@ -113,12 +113,18 @@ function saveEdit() {
               {{ movie.title }}
             </h3>
             <div class="flex items-center gap-2 shrink-0">
-              <button @click="startEdit(movie)" type="button"
-                class="bg-purple-500 hover:bg-purple-600 text-white px-3 py-1 rounded-lg text-sm transition">
+              <button
+                @click="startEdit(movie)"
+                type="button"
+                class="bg-purple-500 hover:bg-purple-600 text-white px-3 py-1 rounded-lg text-sm transition"
+              >
                 Edit
               </button>
-              <button @click="MovieService.deleteMovie(movie.id)" type="button"
-                class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg text-sm transition">
+              <button
+                @click="MovieService.deleteMovie(movie.id)"
+                type="button"
+                class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg text-sm transition"
+              >
                 Delete
               </button>
             </div>
@@ -128,12 +134,17 @@ function saveEdit() {
 
           <div class="grid grid-cols-2 gap-2 text-sm mt-4">
             <p><span class="font-semibold text-purple-700">Genre:</span> {{ movie.genre }}</p>
-            <p><span class="font-semibold text-purple-700">Duration:</span> {{ movie.durationMin }} min</p>
+            <p>
+              <span class="font-semibold text-purple-700">Duration:</span>
+              {{ movie.durationMin }} min
+            </p>
             <p><span class="font-semibold text-purple-700">Director:</span> {{ movie.director }}</p>
             <p><span class="font-semibold text-purple-700">Country:</span> {{ movie.country }}</p>
             <p><span class="font-semibold text-purple-700">Language:</span> {{ movie.language }}</p>
-            <p><span class="font-semibold text-purple-700">Release:</span> {{ new
-              Date(movie.releaseDate).toLocaleDateString() }}</p>
+            <p>
+              <span class="font-semibold text-purple-700">Release:</span>
+              {{ new Date(movie.releaseDate).toLocaleDateString() }}
+            </p>
           </div>
 
           <div class="pt-3 border-t border-purple-100 text-sm">
@@ -154,12 +165,18 @@ function saveEdit() {
           <div class="flex justify-between items-center border-b border-purple-100 pb-2">
             <span class="font-semibold text-purple-800">Edit movie</span>
             <div class="flex gap-2">
-              <button @click="saveEdit" type="button"
-                class="bg-purple-600 hover:bg-purple-700 text-white px-3 py-1.5 rounded-lg text-sm transition">
+              <button
+                @click="saveEdit"
+                type="button"
+                class="bg-purple-600 hover:bg-purple-700 text-white px-3 py-1.5 rounded-lg text-sm transition"
+              >
                 Save
               </button>
-              <button @click="cancelEdit" type="button"
-                class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-3 py-1.5 rounded-lg text-sm transition">
+              <button
+                @click="cancelEdit"
+                type="button"
+                class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-3 py-1.5 rounded-lg text-sm transition"
+              >
                 Cancel
               </button>
             </div>
@@ -168,57 +185,87 @@ function saveEdit() {
           <div class="space-y-2 text-sm">
             <div>
               <label class="block font-semibold text-gray-700 mb-0.5">Title</label>
-              <input v-model="editForm.title" type="text"
-                class="w-full border border-gray-300 rounded py-1.5 px-2 focus:outline-none focus:ring focus:border-purple-300" />
+              <input
+                v-model="editForm.title"
+                type="text"
+                class="w-full border border-gray-300 rounded py-1.5 px-2 focus:outline-none focus:ring focus:border-purple-300"
+              />
             </div>
             <div>
               <label class="block font-semibold text-gray-700 mb-0.5">Description</label>
-              <textarea v-model="editForm.description" rows="2"
-                class="w-full border border-gray-300 rounded py-1.5 px-2 focus:outline-none focus:ring focus:border-purple-300" />
+              <textarea
+                v-model="editForm.description"
+                rows="2"
+                class="w-full border border-gray-300 rounded py-1.5 px-2 focus:outline-none focus:ring focus:border-purple-300"
+              />
             </div>
             <div>
               <label class="block font-semibold text-gray-700 mb-0.5">Cast</label>
-              <input v-model="editForm.cast" type="text"
-                class="w-full border border-gray-300 rounded py-1.5 px-2 focus:outline-none focus:ring focus:border-purple-300" />
+              <input
+                v-model="editForm.cast"
+                type="text"
+                class="w-full border border-gray-300 rounded py-1.5 px-2 focus:outline-none focus:ring focus:border-purple-300"
+              />
             </div>
             <div>
               <label class="block font-semibold text-gray-700 mb-0.5">Director</label>
-              <input v-model="editForm.director" type="text"
-                class="w-full border border-gray-300 rounded py-1.5 px-2 focus:outline-none focus:ring focus:border-purple-300" />
+              <input
+                v-model="editForm.director"
+                type="text"
+                class="w-full border border-gray-300 rounded py-1.5 px-2 focus:outline-none focus:ring focus:border-purple-300"
+              />
             </div>
             <div class="grid grid-cols-2 gap-2">
               <div>
                 <label class="block font-semibold text-gray-700 mb-0.5">Release date</label>
-                <input v-model="editForm.releaseDate" type="date"
-                  class="w-full border border-gray-300 rounded py-1.5 px-2 focus:outline-none focus:ring focus:border-purple-300" />
+                <input
+                  v-model="editForm.releaseDate"
+                  type="date"
+                  class="w-full border border-gray-300 rounded py-1.5 px-2 focus:outline-none focus:ring focus:border-purple-300"
+                />
               </div>
               <div>
                 <label class="block font-semibold text-gray-700 mb-0.5">Duration (min)</label>
-                <input v-model.number="editForm.durationMin" type="number" min="1"
-                  class="w-full border border-gray-300 rounded py-1.5 px-2 focus:outline-none focus:ring focus:border-purple-300" />
+                <input
+                  v-model.number="editForm.durationMin"
+                  type="number"
+                  min="1"
+                  class="w-full border border-gray-300 rounded py-1.5 px-2 focus:outline-none focus:ring focus:border-purple-300"
+                />
               </div>
             </div>
             <div>
               <label class="block font-semibold text-gray-700 mb-0.5">Genre</label>
-              <input v-model="editForm.genre" type="text"
-                class="w-full border border-gray-300 rounded py-1.5 px-2 focus:outline-none focus:ring focus:border-purple-300" />
+              <input
+                v-model="editForm.genre"
+                type="text"
+                class="w-full border border-gray-300 rounded py-1.5 px-2 focus:outline-none focus:ring focus:border-purple-300"
+              />
             </div>
             <div class="grid grid-cols-2 gap-2">
               <div>
                 <label class="block font-semibold text-gray-700 mb-0.5">Country</label>
-                <input v-model="editForm.country" type="text"
-                  class="w-full border border-gray-300 rounded py-1.5 px-2 focus:outline-none focus:ring focus:border-purple-300" />
+                <input
+                  v-model="editForm.country"
+                  type="text"
+                  class="w-full border border-gray-300 rounded py-1.5 px-2 focus:outline-none focus:ring focus:border-purple-300"
+                />
               </div>
               <div>
                 <label class="block font-semibold text-gray-700 mb-0.5">Language</label>
-                <input v-model="editForm.language" type="text"
-                  class="w-full border border-gray-300 rounded py-1.5 px-2 focus:outline-none focus:ring focus:border-purple-300" />
+                <input
+                  v-model="editForm.language"
+                  type="text"
+                  class="w-full border border-gray-300 rounded py-1.5 px-2 focus:outline-none focus:ring focus:border-purple-300"
+                />
               </div>
             </div>
             <div>
               <label class="block font-semibold text-gray-700 mb-0.5">Actress</label>
-              <select v-model="editForm.selectedActressId"
-                class="w-full border border-gray-300 rounded py-1.5 px-2 focus:outline-none focus:ring focus:border-purple-300">
+              <select
+                v-model="editForm.selectedActressId"
+                class="w-full border border-gray-300 rounded py-1.5 px-2 focus:outline-none focus:ring focus:border-purple-300"
+              >
                 <option value="">None</option>
                 <option v-for="actress in selectorActresses" :key="actress.id" :value="actress.id">
                   {{ actress.fullName }}
@@ -227,9 +274,12 @@ function saveEdit() {
             </div>
             <div>
               <label class="block font-semibold text-gray-700 mb-0.5">Image URL</label>
-              <input v-model="editForm.image" type="text"
+              <input
+                v-model="editForm.image"
+                type="text"
                 class="w-full border border-gray-300 rounded py-1.5 px-2 focus:outline-none focus:ring focus:border-purple-300"
-                placeholder="https://..." />
+                placeholder="https://..."
+              />
             </div>
           </div>
         </div>

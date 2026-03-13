@@ -12,6 +12,6 @@ export interface MovieInterface {
   country: string;
   language: string;
   image: string;
-  
-  actressId: ActressInterface['id']; 
+
+  actressId: number;
 }
