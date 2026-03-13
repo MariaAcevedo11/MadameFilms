@@ -4,18 +4,19 @@ import { ActressService } from '@/services/ActressService';
 import { MovieService } from '@/services/MovieService';
 
 // Variables
-const movies = MovieService.getMovies()
+const movies = MovieService.getMovies();
 </script>
 
 <template>
   <section class="max-w-7xl mx-auto py-10 px-6">
-    <p class="text-gray-600 mb-8">
-      Movie catalog.
-    </p>
+    <p class="text-gray-600 mb-8">Movie catalog.</p>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      <div v-for="movie in movies" :key="movie.id"
-        class="bg-white rounded-2xl shadow-md hover:shadow-xl transition duration-300 border border-purple-100 overflow-hidden">
+      <div
+        v-for="movie in movies"
+        :key="movie.id"
+        class="bg-white rounded-2xl shadow-md hover:shadow-xl transition duration-300 border border-purple-100 overflow-hidden"
+      >
         <!-- Image -->
         <img :src="movie.image" alt="Movie Cover" class="w-full h-56 object-cover" />
 
@@ -36,7 +37,10 @@ const movies = MovieService.getMovies()
           <!-- Info Grid -->
           <div class="grid grid-cols-2 gap-2 text-sm mt-4">
             <p><span class="font-semibold text-purple-700">Genre:</span> {{ movie.genre }}</p>
-            <p><span class="font-semibold text-purple-700">Duration:</span> {{ movie.durationMin }} min</p>
+            <p>
+              <span class="font-semibold text-purple-700">Duration:</span>
+              {{ movie.durationMin }} min
+            </p>
             <p><span class="font-semibold text-purple-700">Director:</span> {{ movie.director }}</p>
             <p><span class="font-semibold text-purple-700">Country:</span> {{ movie.country }}</p>
             <p><span class="font-semibold text-purple-700">Language:</span> {{ movie.language }}</p>
@@ -59,7 +63,6 @@ const movies = MovieService.getMovies()
               {{ ActressService.getActressById(movie.actressId)?.fullName }}
             </span>
           </div>
-
         </div>
       </div>
     </div>

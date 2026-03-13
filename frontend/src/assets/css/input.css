@@ -1,6 +1,6 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
---color-darkPurple: #541D68;
---color-darkerPurple: #2E183D;
+  --color-darkPurple: #541d68;
+  --color-darkerPurple: #2e183d;
 }
