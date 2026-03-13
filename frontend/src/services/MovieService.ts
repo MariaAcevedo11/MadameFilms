@@ -3,7 +3,7 @@ import type { CreateMovieDTO } from '@/dtos/CreateMovieDTO';
 import type { UpdateMovieDTO } from '@/dtos/UpdateMovieDTO';
 import type { MovieInterface } from '@/interfaces/MovieInterface';
 import { useMovieStore } from '@/stores/moviestore';
-import { UserService } from './UserService';
+import { AuthService } from './AuthService';
 
 // Functions
 export class MovieService {
@@ -36,33 +36,33 @@ export class MovieService {
   }
 
   static updateMovie(id: number, dto: UpdateMovieDTO): void {
-  if (!UserService.isAdmin()) {
-    throw new Error('Only admin users can update movies.');
+    if (!AuthService.isAdmin()) {
+      throw new Error('Only admin users can update movies.');
+    }
+
+    const movieStore = useMovieStore();
+    const existing = MovieService.getMovieById(id);
+
+    if (!existing) {
+      throw new Error('Movie not found.');
+    }
+
+    const updatedMovie: MovieInterface = {
+      id: existing.id,
+      title: dto.title ?? existing.title,
+      description: dto.description ?? existing.description,
+      cast: dto.cast ?? existing.cast,
+      director: dto.director ?? existing.director,
+      releaseDate: dto.releaseDate ?? existing.releaseDate,
+      genre: dto.genre ?? existing.genre,
+      durationMin: dto.durationMin ?? existing.durationMin,
+      country: dto.country ?? existing.country,
+      language: dto.language ?? existing.language,
+      image: dto.image ?? existing.image,
+      actressId: dto.actressId ?? existing.actressId,
+    };
+
+    const index = movieStore.movies.findIndex((m) => m.id === id);
+    movieStore.movies[index] = updatedMovie;
   }
-
-  const movieStore = useMovieStore();
-  const existing = MovieService.getMovieById(id);
-
-  if (!existing) {
-    throw new Error('Movie not found.');
-  }
-
-  const updatedMovie: MovieInterface = {
-    id: existing.id,
-    title: dto.title ?? existing.title,
-    description: dto.description ?? existing.description,
-    cast: dto.cast ?? existing.cast,
-    director: dto.director ?? existing.director,
-    releaseDate: dto.releaseDate ?? existing.releaseDate,
-    genre: dto.genre ?? existing.genre,
-    durationMin: dto.durationMin ?? existing.durationMin,
-    country: dto.country ?? existing.country,
-    language: dto.language ?? existing.language,
-    image: dto.image ?? existing.image,
-    actressId: dto.actressId ?? existing.actressId,
-  };
-
-  const index = movieStore.movies.findIndex((m) => m.id === id);
-  movieStore.movies[index] = updatedMovie;
-}
 }

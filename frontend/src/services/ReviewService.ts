@@ -3,7 +3,7 @@ import type { CreateReviewDTO } from '@/dtos/CreateReviewDTO';
 import type { UpdateReviewDTO } from '@/dtos/UpdateReviewDTO';
 import type { ReviewInterface } from '@/interfaces/ReviewInterface';
 import { useReviewStore } from '@/stores/reviewstore.js';
-import { UserService } from './UserService';
+import { AuthService } from './AuthService';
 
 // Functions
 export class ReviewService {
@@ -17,7 +17,7 @@ export class ReviewService {
 
   static createReview(dto: CreateReviewDTO): ReviewInterface {
     const reviewStore = useReviewStore();
-    const loggedUser = UserService.getCurrentUser();
+    const loggedUser = AuthService.getCurrentUser();
 
     if (!loggedUser) {
       throw new Error('User must be logged in');
@@ -41,7 +41,7 @@ export class ReviewService {
   }
 
   static updateReview(id: number, dto: UpdateReviewDTO): void {
-    const loggedUser = UserService.getCurrentUser();
+    const loggedUser = AuthService.getCurrentUser();
     if (!loggedUser) {
       throw new Error('User must be logged in to update a review');
     }
@@ -71,7 +71,7 @@ export class ReviewService {
   }
 
   static canEdit(review: ReviewInterface): boolean {
-    const loggedUser = UserService.getCurrentUser();
+    const loggedUser = AuthService.getCurrentUser();
 
     if (!loggedUser) return false;
 
@@ -79,7 +79,7 @@ export class ReviewService {
   }
 
   static canDelete(review: ReviewInterface): boolean {
-    const loggedUser = UserService.getCurrentUser();
+    const loggedUser = AuthService.getCurrentUser();
 
     if (!loggedUser) return false;
 
