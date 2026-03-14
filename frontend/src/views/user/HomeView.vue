@@ -58,13 +58,6 @@ function createChart(): void {
       datasets: [
         {
           data: Object.values(genreData.value),
-          backgroundColor: [
-            'rgb(109 40 217)',
-            'rgb(139 92 246)',
-            'rgb(167 139 250)',
-            'rgb(196 181 253)',
-            'rgb(221 214 254)',
-          ],
           borderWidth: 0,
         },
       ],
@@ -250,22 +243,3 @@ onMounted(() => {
     </div>
   </div>
 </template>
-
-<style>
-.swiper-button-next,
-.swiper-button-prev {
-  color: white;
-  background: rgba(109, 40, 217, 0.7);
-  width: 36px !important;
-  height: 36px !important;
-  border-radius: 50%;
-  padding: 8px;
-}
-.swiper-button-next::after,
-.swiper-button-prev::after {
-  font-size: 14px !important;
-}
-.swiper-pagination-bullet-active {
-  background: #7c3aed;
-}
-</style>
