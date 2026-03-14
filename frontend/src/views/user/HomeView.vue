@@ -58,13 +58,6 @@ function createChart(): void {
       datasets: [
         {
           data: Object.values(genreData.value),
-          backgroundColor: [
-            'rgb(109 40 217)',
-            'rgb(139 92 246)',
-            'rgb(167 139 250)',
-            'rgb(196 181 253)',
-            'rgb(221 214 254)',
-          ],
           borderWidth: 0,
         },
       ],
