@@ -44,8 +44,8 @@ function saveEdit() {
 </script>
 
 <template>
-  <section>
-    <div class="max-w-7xl mx-auto">
+  <section class="pb-10">
+    <div class="max-w-7xl mx-auto mb-6">
       <div class="flex justify-end mb-6">
         <StyledButtonComponent to="/reviews/create" :showIcon="true">
           Add Review
@@ -82,6 +82,7 @@ function saveEdit() {
                     {{ n }} star{{ n > 1 ? 's' : '' }}
                   </option>
                 </select>
+
                 <label class="block text-gray-700 text-xs font-semibold mb-1">Comment</label>
                 <textarea
                   v-model="editForm.comment"
@@ -90,10 +91,13 @@ function saveEdit() {
                   placeholder="Your comment..."
                 />
               </template>
-              <p v-else class="text-gray-800 text-sm leading-relaxed">"{{ review.comment }}"</p>
+
+              <p v-else class="text-gray-800 text-sm leading-relaxed">
+                "{{ review.comment }}"
+              </p>
             </div>
 
-            <!-- User + Rating + Actions -->
+            <!-- User -->
             <div class="flex items-center justify-between px-5 py-4 border-t border-gray-100 mt-2">
               <div class="flex items-center gap-3">
                 <img
@@ -107,8 +111,9 @@ function saveEdit() {
               </div>
             </div>
 
+            <!-- Actions -->
             <template v-if="selectedEditingReviewId === review.id">
-              <div class="flex items-center gap-2">
+              <div class="flex items-center gap-2 px-5 pb-4">
                 <button
                   @click="saveEdit"
                   type="button"
@@ -125,14 +130,18 @@ function saveEdit() {
                 </button>
               </div>
             </template>
+
             <template v-else>
-              <div class="flex items-center gap-2">
+              <div class="flex items-center gap-2 px-5 pb-4">
                 <div
                   class="flex items-center gap-1 bg-yellow-50 border border-yellow-200 rounded-full px-3 py-1"
                 >
                   <span class="text-yellow-500 text-sm">⭐</span>
-                  <span class="text-sm font-bold text-yellow-600">{{ review.rating }}/5</span>
+                  <span class="text-sm font-bold text-yellow-600">
+                    {{ review.rating }}/5
+                  </span>
                 </div>
+
                 <button
                   v-if="ReviewService.canEdit(review)"
                   @click="startEdit(review)"
@@ -141,6 +150,7 @@ function saveEdit() {
                 >
                   Edit
                 </button>
+
                 <button
                   v-if="ReviewService.canDelete(review)"
                   @click="ReviewService.deleteReview(review.id)"
@@ -151,6 +161,7 @@ function saveEdit() {
                 </button>
               </div>
             </template>
+
           </div>
         </div>
       </div>
