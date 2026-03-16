@@ -58,7 +58,8 @@ export const moviesSeeder = [
     country: 'United Kingdom',
     language: 'English',
     actressId: 2,
-    image: 'https://variety.com/wp-content/uploads/2015/05/carol-cannes-film-festival-3.jpg?w=1000&h=563&crop=1',
+    image:
+      'https://variety.com/wp-content/uploads/2015/05/carol-cannes-film-festival-3.jpg?w=1000&h=563&crop=1',
   },
   {
     id: 5,
@@ -118,7 +119,8 @@ export const moviesSeeder = [
     country: 'Chile',
     language: 'English',
     actressId: 4,
-    image: 'https://m.media-amazon.com/images/S/pv-target-images/60f35eebba2695ae720f8d422abbf3aa4800a0b55724ee4f1db552801c3dcb81._SX1080_FMpng_.png',
+    image:
+      'https://m.media-amazon.com/images/S/pv-target-images/60f35eebba2695ae720f8d422abbf3aa4800a0b55724ee4f1db552801c3dcb81._SX1080_FMpng_.png',
   },
   {
     id: 9,
@@ -133,7 +135,8 @@ export const moviesSeeder = [
     country: 'United States',
     language: 'English',
     actressId: 5,
-    image: 'https://m.media-amazon.com/images/M/MV5BMjMwMzgwODc0MV5BMl5BanBnXkFtZTgwOTY3Njg4MDI@._V1_.jpg',
+    image:
+      'https://m.media-amazon.com/images/M/MV5BMjMwMzgwODc0MV5BMl5BanBnXkFtZTgwOTY3Njg4MDI@._V1_.jpg',
   },
   {
     id: 10,
@@ -148,7 +151,8 @@ export const moviesSeeder = [
     country: 'France',
     language: 'French',
     actressId: 6,
-    image: 'https://m.media-amazon.com/images/S/pv-target-images/c455681da5714774deab81a84623e2b804053ede2ff3ea80e32b32c132859db1.jpg',
+    image:
+      'https://m.media-amazon.com/images/S/pv-target-images/c455681da5714774deab81a84623e2b804053ede2ff3ea80e32b32c132859db1.jpg',
   },
   {
     id: 11,
@@ -163,7 +167,8 @@ export const moviesSeeder = [
     country: 'Belgium',
     language: 'French',
     actressId: 6,
-    image: 'https://i.guim.co.uk/img/static/sys-images/Guardian/Pix/pictures/2014/8/21/1408620532995/-Mesmerising--Marion-Coti-011.jpg?width=465&dpr=1&s=none&crop=none',
+    image:
+      'https://i.guim.co.uk/img/static/sys-images/Guardian/Pix/pictures/2014/8/21/1408620532995/-Mesmerising--Marion-Coti-011.jpg?width=465&dpr=1&s=none&crop=none',
   },
   {
     id: 12,
@@ -178,7 +183,8 @@ export const moviesSeeder = [
     country: 'United States',
     language: 'English',
     actressId: 7,
-    image: 'https://occ-0-8407-2218.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABdWOpLrYW2MebXJ6CILWdN3hFw9QA1Bte2vwoXcKIG3k8BvlbQeBVOuj82z_TMO_YEqyb8IatmVarROdQZesKxWRYGZ_oADVdpdP.jpg?r=401',
+    image:
+      'https://occ-0-8407-2218.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABdWOpLrYW2MebXJ6CILWdN3hFw9QA1Bte2vwoXcKIG3k8BvlbQeBVOuj82z_TMO_YEqyb8IatmVarROdQZesKxWRYGZ_oADVdpdP.jpg?r=401',
   },
   {
     id: 13,
@@ -193,7 +199,8 @@ export const moviesSeeder = [
     country: 'United States',
     language: 'English',
     actressId: 7,
-    image: 'https://m.media-amazon.com/images/S/pv-target-images/4b236c1551076741854c8de6707519c3ec8e963b0bcd1002803797856328190f._SX1080_FMjpg_.jpg',
+    image:
+      'https://m.media-amazon.com/images/S/pv-target-images/4b236c1551076741854c8de6707519c3ec8e963b0bcd1002803797856328190f._SX1080_FMjpg_.jpg',
   },
   {
     id: 14,
