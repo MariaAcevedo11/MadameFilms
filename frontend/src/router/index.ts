@@ -24,12 +24,7 @@ const router = createRouter({
 
   routes: [
     { path: '/', name: 'home', component: HomeView, meta: { title: 'Home' } },
-    {
-      path: '/actresses',
-      name: 'actresses',
-      component: ActressesView,
-      meta: { title: 'Actresses' },
-    },
+    { path: '/actresses', name: 'actresses', component: ActressesView, meta: { title: 'Actresses' } },
     { path: '/movies', name: 'movies', component: MoviesView, meta: { title: 'Movies' } },
     {
       path: '/admin/movies',
