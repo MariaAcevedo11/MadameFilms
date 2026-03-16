@@ -1,33 +1,50 @@
 <!-- Author: Gaby -->
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
+// External imports
 import { Chart, registerables, type ChartConfiguration } from 'chart.js';
-import { Swiper, SwiperSlide } from 'swiper/vue';
+import { computed, onMounted, ref } from 'vue';
 import { Navigation, Pagination } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/vue';
+
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import { MovieService } from '@/services/MovieService';
+
+// Internal imports
+import type { MovieInterface } from '@/interfaces/MovieInterface';
 import { ActressService } from '@/services/ActressService';
+import { MovieService } from '@/services/MovieService';
 import { ReviewService } from '@/services/ReviewService';
 import { UserService } from '@/services/UserService';
-import type { MovieInterface } from '@/interfaces/MovieInterface';
 
+// Forms
 Chart.register(...registerables);
 
+// Variables
 const modules = [Navigation, Pagination];
-const movies = ref<MovieInterface[]>([]);
-const chartRef = ref<HTMLCanvasElement | null>(null);
 let chartInstance: Chart | null = null;
 
-const totalMovies = computed(() => MovieService.getMovies().length);
-const totalActresses = computed(() => ActressService.getActress().length);
+// Reactive variables
+const chartRef = ref<HTMLCanvasElement | null>(null);
+const movies = ref<MovieInterface[]>([]);
 
+// Computed variables
 const averageRating = computed(() => {
   const reviews = ReviewService.getReviews();
   if (reviews.length === 0) return 0;
+
   const sum = reviews.reduce((acc, r) => acc + r.rating, 0);
   return (sum / reviews.length).toFixed(1);
+});
+
+const genreData = computed(() => {
+  const count: Record<string, number> = {};
+
+  MovieService.getMovies().forEach((m) => {
+    count[m.genre] = (count[m.genre] || 0) + 1;
+  });
+
+  return count;
 });
 
 const recentReviews = computed(() => {
@@ -37,18 +54,23 @@ const recentReviews = computed(() => {
     .slice(0, 3);
 });
 
-const genreData = computed(() => {
-  const count: Record<string, number> = {};
-  MovieService.getMovies().forEach((m) => {
-    count[m.genre] = (count[m.genre] || 0) + 1;
-  });
-  return count;
+const totalActresses = computed(() => ActressService.getActress().length);
+
+const totalMovies = computed(() => MovieService.getMovies().length);
+
+// Lifecycle hooks
+onMounted(() => {
+  movies.value = MovieService.getMovies();
+  createChart();
 });
 
+// Functions
 function createChart(): void {
   if (!chartRef.value || Object.keys(genreData.value).length === 0) return;
+
   const ctx = chartRef.value.getContext('2d');
   if (!ctx) return;
+
   if (chartInstance) chartInstance.destroy();
 
   const config: ChartConfiguration = {
@@ -76,11 +98,6 @@ function createChart(): void {
 
   chartInstance = new Chart(ctx, config);
 }
-
-onMounted(() => {
-  movies.value = MovieService.getMovies();
-  createChart();
-});
 </script>
 
 <template>

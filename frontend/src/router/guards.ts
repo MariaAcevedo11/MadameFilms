@@ -1,4 +1,7 @@
+// External imports
 import type { RouteLocationNormalized } from 'vue-router';
+
+// Internal imports
 import { AuthService } from '@/services/AuthService';
 
 export function guards(to: RouteLocationNormalized) {

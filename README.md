@@ -30,7 +30,7 @@ If something like 'v24.x.x' appears, then you are all done!
 
 ### 1. Download the Project
 
-- Go to the [Movies Repository](https://github.com/MariaAcevedo11/mujeres).
+- Go to the [Movies Repository](https://github.com/MariaAcevedo11/MadameFilms).
 - Click the green **"Code"** button and select **"Download ZIP"**.
 - Extract the contents into a folder (e.g., `Movies`).
 

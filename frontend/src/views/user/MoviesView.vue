@@ -1,3 +1,4 @@
+<!--Author: Gaby-->
 <script setup lang="ts">
 // Internal imports
 import { ActressService } from '@/services/ActressService';

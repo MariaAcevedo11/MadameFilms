@@ -1,41 +1,42 @@
+<!--Author: María Acevedo-->
 <script setup lang="ts">
 // External imports
 import { ref } from 'vue';
 
 // Internal imports
-import { ReviewService } from '@/services/ReviewService.js';
-import StyledButtonComponent from '@/components/StyledButtonComponent.vue';
-import type { ReviewInterface } from '@/interfaces/ReviewInterface';
 import { MovieService } from '@/services/MovieService';
+import { ReviewService } from '@/services/ReviewService.js';
+import type { ReviewInterface } from '@/interfaces/ReviewInterface';
+import StyledButtonComponent from '@/components/StyledButtonComponent.vue';
 import { UserService } from '@/services/UserService';
 
 //Selectors
-const SelectorReviews = ReviewService.getReviews();
-const SelectedEditingReviewId = ref<number | null>(null);
+const selectorReviews = ReviewService.getReviews();
+const selectedEditingReviewId = ref<number | null>(null);
 
 // Form
 const editForm = ref({ rating: 5, comment: '' });
 
 // Functions
 function startEdit(review: ReviewInterface) {
-  SelectedEditingReviewId.value = review.id;
+  selectedEditingReviewId.value = review.id;
   editForm.value = { rating: review.rating, comment: review.comment };
 }
 
 function cancelEdit() {
-  SelectedEditingReviewId.value = null;
+  selectedEditingReviewId.value = null;
 }
 
 function saveEdit() {
-  if (SelectedEditingReviewId.value === null) return;
+  if (selectedEditingReviewId.value === null) return;
 
   try {
-    ReviewService.updateReview(SelectedEditingReviewId.value, {
+    ReviewService.updateReview(selectedEditingReviewId.value, {
       rating: editForm.value.rating,
       comment: editForm.value.comment.trim(),
     });
 
-    SelectedEditingReviewId.value = null;
+    selectedEditingReviewId.value = null;
   } catch (err) {
     alert(err instanceof Error ? err.message : 'Failed to update review');
   }
@@ -52,7 +53,7 @@ function saveEdit() {
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <div v-for="review in SelectorReviews" :key="review.id">
+        <div v-for="review in selectorReviews" :key="review.id">
           <div
             class="bg-white rounded-lg shadow-md hover:shadow-lg transition duration-300 border border-gray-200 overflow-hidden"
           >
@@ -71,7 +72,7 @@ function saveEdit() {
 
             <!-- Comment or Edit form -->
             <div class="px-5 pt-4 pb-2">
-              <template v-if="SelectedEditingReviewId === review.id">
+              <template v-if="selectedEditingReviewId === review.id">
                 <label class="block text-gray-700 text-xs font-semibold mb-1">Rating</label>
                 <select
                   v-model.number="editForm.rating"
@@ -106,7 +107,7 @@ function saveEdit() {
               </div>
             </div>
 
-            <template v-if="SelectedEditingReviewId === review.id">
+            <template v-if="selectedEditingReviewId === review.id">
               <div class="flex items-center gap-2">
                 <button
                   @click="saveEdit"

@@ -1,11 +1,12 @@
+<!--Author: María Acevedo-->
 <script setup lang="ts">
 // External import
 import { ref } from 'vue';
 
-// Internal imports (services for selectors and DTOs)
-import { ReviewService } from '@/services/ReviewService';
-import { MovieService } from '@/services/MovieService';
+// Internal imports
 import type { CreateReviewDTO } from '@/dtos/CreateReviewDTO';
+import { MovieService } from '@/services/MovieService';
+import { ReviewService } from '@/services/ReviewService';
 
 //Selectors
 const selectorMovies = MovieService.getMovies();

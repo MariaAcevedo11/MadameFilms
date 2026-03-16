@@ -1,9 +1,9 @@
 // Internal imports
-import type { CreateReviewDTO } from '@/dtos/CreateReviewDTO';
-import type { UpdateReviewDTO } from '@/dtos/UpdateReviewDTO';
-import type { ReviewInterface } from '@/interfaces/ReviewInterface';
-import { useReviewStore } from '@/stores/reviewstore.js';
 import { AuthService } from './AuthService';
+import type { CreateReviewDTO } from '@/dtos/CreateReviewDTO';
+import type { ReviewInterface } from '@/interfaces/ReviewInterface';
+import type { UpdateReviewDTO } from '@/dtos/UpdateReviewDTO';
+import { useReviewStore } from '@/stores/reviewstore.js';
 
 // Functions
 export class ReviewService {

@@ -1,21 +1,22 @@
+<!--AUthor: María Acevedo-->
 <script setup lang="ts">
 // External imports
 import { ref } from 'vue';
 
 // Internal imports
-import { MovieService } from '@/services/MovieService';
 import { ActressService } from '@/services/ActressService';
+import { MovieService } from '@/services/MovieService';
 
-// Interfaces / Types
+// Interfaces
 import type { MovieInterface } from '@/interfaces/MovieInterface';
 
 // Components
 import StyledButtonComponent from '@/components/StyledButtonComponent.vue';
 
 //Selectors
-const selectorMovies = MovieService.getMovies();
-const selectorActresses = ActressService.getActress();
 const selectedEditingMovieId = ref<number | null>(null);
+const selectorActresses = ActressService.getActress();
+const selectorMovies = MovieService.getMovies();
 
 // Form
 const editForm = ref({
