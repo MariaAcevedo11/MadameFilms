@@ -1,4 +1,4 @@
-// Author: Gaby
+// Author: Gabriela Martinez
 export const reviewSeeder = [
   // Movie 1 - The Devil Wears Prada
   {
