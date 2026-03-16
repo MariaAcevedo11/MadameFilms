@@ -123,7 +123,7 @@ function createChart(): void {
               class="h-64 w-full object-cover transition-transform duration-300 group-hover:scale-105"
             />
             <div
-              class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"
+              class="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent"
             />
             <div class="absolute bottom-0 left-0 p-4">
               <h2 class="text-white font-bold text-lg line-clamp-1">{{ movie.title }}</h2>

@@ -234,7 +234,7 @@ watch([searchQuery, selectedCountry, selectedGenre], () => {
                     <img
                       :src="movie.image"
                       :alt="movie.title"
-                      class="w-8 h-10 rounded object-cover flex-shrink-0"
+                      class="w-8 h-10 rounded object-cover shrink-0"
                     />
                     <span class="font-medium text-gray-800 line-clamp-1">{{ movie.title }}</span>
                   </div>
@@ -304,7 +304,7 @@ watch([searchQuery, selectedCountry, selectedGenre], () => {
             <div class="flex items-start justify-between gap-2">
               <h3 class="text-lg font-bold text-purple-900 line-clamp-1">{{ movie.title }}</h3>
               <span
-                class="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-full whitespace-nowrap flex-shrink-0"
+                class="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-full whitespace-nowrap shrink-0"
               >
                 {{ movie.genre }}
               </span>
