@@ -1,5 +1,3 @@
-import type { ActressInterface } from './ActressInterface';
-
 export interface MovieInterface {
   id: number;
   title: string;

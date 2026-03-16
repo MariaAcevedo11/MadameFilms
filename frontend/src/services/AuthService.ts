@@ -1,6 +1,6 @@
 // Author: Gaby
-import type { UserInterface } from '@/interfaces/UserInterface';
 import { useAuthStore } from '@/stores/authstore';
+import type { UserInterface } from '@/interfaces/UserInterface';
 import { useUserStore } from '@/stores/userstore';
 
 export class AuthService {

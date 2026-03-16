@@ -1,15 +1,16 @@
+<!--Author: María Acevedo-->>
 <script setup lang="ts">
 // External import
 import { ref } from 'vue';
 
 // Internal imports
-import { MovieService } from '@/services/MovieService';
-import type { CreateMovieDTO } from '@/dtos/CreateMovieDTO';
 import { ActressService } from '@/services/ActressService';
+import type { CreateMovieDTO } from '@/dtos/CreateMovieDTO';
+import { MovieService } from '@/services/MovieService';
 
 // Selectors
-const selectorActresses = ActressService.getActress();
 const selectedActressId = ref<number | ''>('');
+const selectorActresses = ActressService.getActress();
 
 // Reactive variables
 const successMessage = ref('');

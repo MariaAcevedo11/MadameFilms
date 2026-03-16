@@ -1,27 +1,23 @@
 <!-- Author: Gaby -->
-<!-- ActressesView.vue - Actresses list with table, chart, and carousel -->
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
+// External imports
 import { Chart, registerables } from 'chart.js';
-import { Swiper, SwiperSlide } from 'swiper/vue';
+import { computed, onMounted, ref } from 'vue';
 import { Navigation, Pagination } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/vue';
+
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import { ActressService } from '@/services/ActressService';
-import type { ActressInterface } from '@/interfaces/ActressInterface';
 
+// Internal imports
+import type { ActressInterface } from '@/interfaces/ActressInterface';
+import { ActressService } from '@/services/ActressService';
+
+// Forms
 Chart.register(...registerables);
 
-const modules = [Navigation, Pagination];
-const actresses = ref<ActressInterface[]>([]);
-const selectedNationality = ref<string>('All');
-const searchQuery = ref<string>('');
-const chartCanvas = ref<HTMLCanvasElement | null>(null);
-
-const ROWS_PER_PAGE = 5;
-const currentPage = ref<number>(1);
-
+// Variables
 const CHART_COLORS = [
   'rgba(168, 85, 247, 0.8)',
   'rgba(236, 72, 153, 0.8)',
@@ -33,33 +29,33 @@ const CHART_COLORS = [
   'rgba(20, 184, 166, 0.8)',
 ];
 
-onMounted(() => {
-  actresses.value = ActressService.getActress();
-  renderChart();
+const modules = [Navigation, Pagination];
+const ROWS_PER_PAGE = 5;
+
+// Reactive variables
+const actresses = ref<ActressInterface[]>([]);
+const chartCanvas = ref<HTMLCanvasElement | null>(null);
+const currentPage = ref<number>(1);
+const searchQuery = ref<string>('');
+const selectedNationality = ref<string>('All');
+
+// Computed variables
+const filteredActresses = computed<ActressInterface[]>(() => {
+  currentPage.value = 1;
+
+  return actresses.value.filter((a) => {
+    const byNationality =
+      selectedNationality.value === 'All' || a.nationality === selectedNationality.value;
+
+    const byName = a.fullName.toLowerCase().includes(searchQuery.value.toLowerCase());
+
+    return byNationality && byName;
+  });
 });
 
 const nationalities = computed<string[]>(() => {
   const unique = [...new Set(actresses.value.map((a) => a.nationality))];
   return ['All', ...unique.sort()];
-});
-
-const filteredActresses = computed<ActressInterface[]>(() => {
-  currentPage.value = 1;
-  return actresses.value.filter((a) => {
-    const byNationality =
-      selectedNationality.value === 'All' || a.nationality === selectedNationality.value;
-    const byName = a.fullName.toLowerCase().includes(searchQuery.value.toLowerCase());
-    return byNationality && byName;
-  });
-});
-
-const totalPages = computed<number>(() =>
-  Math.ceil(filteredActresses.value.length / ROWS_PER_PAGE),
-);
-
-const paginatedActresses = computed<ActressInterface[]>(() => {
-  const start = (currentPage.value - 1) * ROWS_PER_PAGE;
-  return filteredActresses.value.slice(start, start + ROWS_PER_PAGE);
 });
 
 const nationalityCounts = computed<Record<string, number>>(() => {
@@ -72,9 +68,35 @@ const nationalityCounts = computed<Record<string, number>>(() => {
   );
 });
 
+const paginatedActresses = computed<ActressInterface[]>(() => {
+  const start = (currentPage.value - 1) * ROWS_PER_PAGE;
+  return filteredActresses.value.slice(start, start + ROWS_PER_PAGE);
+});
+
+const totalPages = computed<number>(() =>
+  Math.ceil(filteredActresses.value.length / ROWS_PER_PAGE),
+);
+
+// Lifecycle hooks
+onMounted(() => {
+  actresses.value = ActressService.getActress();
+  renderChart();
+});
+
+// Functions
+function nextPage(): void {
+  if (currentPage.value < totalPages.value) currentPage.value++;
+}
+
+function prevPage(): void {
+  if (currentPage.value > 1) currentPage.value--;
+}
+
 function renderChart(): void {
   if (!chartCanvas.value) return;
+
   const labels = Object.keys(nationalityCounts.value);
+
   new Chart(chartCanvas.value, {
     type: 'bar',
     data: {
@@ -111,13 +133,6 @@ function renderChart(): void {
       },
     },
   });
-}
-
-function prevPage(): void {
-  if (currentPage.value > 1) currentPage.value--;
-}
-function nextPage(): void {
-  if (currentPage.value < totalPages.value) currentPage.value++;
 }
 </script>
 
@@ -265,7 +280,7 @@ function nextPage(): void {
               <img
                 :src="actress.image"
                 :alt="actress.fullName"
-                class="w-14 h-14 rounded-full object-cover flex-shrink-0"
+                class="w-14 h-14 rounded-full object-cover shrink-0"
               />
               <div class="overflow-hidden">
                 <p class="font-semibold text-gray-800 truncate">{{ actress.fullName }}</p>

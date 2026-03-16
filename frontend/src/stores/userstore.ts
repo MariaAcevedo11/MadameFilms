@@ -1,7 +1,10 @@
 // Author: Gaby
-import type { UserInterface } from '@/interfaces/UserInterface.js';
+// External imports
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
+
+// Internal imports
+import type { UserInterface } from '@/interfaces/UserInterface.js';
 
 export const useUserStore = defineStore('user', () => {
   const users = ref<UserInterface[]>([]);

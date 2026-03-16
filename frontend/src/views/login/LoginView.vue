@@ -1,3 +1,4 @@
+<!--Author: Gabriela Sanabria-->>
 <script setup lang="ts">
 // External imports
 import { ref } from 'vue';

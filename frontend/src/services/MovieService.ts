@@ -1,9 +1,9 @@
 // Internal imports
-import type { CreateMovieDTO } from '@/dtos/CreateMovieDTO';
-import type { UpdateMovieDTO } from '@/dtos/UpdateMovieDTO';
-import type { MovieInterface } from '@/interfaces/MovieInterface';
-import { useMovieStore } from '@/stores/moviestore';
 import { AuthService } from './AuthService';
+import type { CreateMovieDTO } from '@/dtos/CreateMovieDTO';
+import type { MovieInterface } from '@/interfaces/MovieInterface';
+import type { UpdateMovieDTO } from '@/dtos/UpdateMovieDTO';
+import { useMovieStore } from '@/stores/moviestore';
 
 // Functions
 export class MovieService {
