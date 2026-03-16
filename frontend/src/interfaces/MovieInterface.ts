@@ -1,5 +1,4 @@
-import type { ActressInterface } from './ActressInterfaces';
-
+// Author: Gabriela Sanabria
 export interface MovieInterface {
   id: number;
   title: string;
@@ -11,5 +10,7 @@ export interface MovieInterface {
   durationMin: number;
   country: string;
   language: string;
-  actress?: ActressInterface;
+  image: string;
+
+  actressId: number;
 }
