@@ -1,3 +1,4 @@
+// Author: Gabriela Sanabria
 export interface ReviewInterface {
   id: number;
   rating: number;

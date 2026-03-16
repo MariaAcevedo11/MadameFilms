@@ -1,4 +1,4 @@
-// Author: Gaby
+// Author: Gabriela Martinez
 // External imports
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';

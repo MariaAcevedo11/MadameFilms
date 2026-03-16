@@ -1,3 +1,4 @@
+// Author: Gabriela Sanabria
 export interface MovieInterface {
   id: number;
   title: string;

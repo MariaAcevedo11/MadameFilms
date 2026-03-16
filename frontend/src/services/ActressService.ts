@@ -1,3 +1,4 @@
+// Author: Gabriela Sanabria
 // Internal imports
 import type { ActressInterface } from '@/interfaces/ActressInterface';
 import { useActressStore } from '@/stores/actressestore';

@@ -173,6 +173,7 @@ function resetForm() {
       </div>
 
       <!-- Actress -->
+      <label class="block text-gray-700 font-semibold mb-2">Actress</label>
       <select
         v-model="selectedActressId"
         class="w-full border border-gray-300 rounded py-2 px-3 focus:outline-none focus:ring focus:border-purple-300"

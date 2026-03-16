@@ -1,3 +1,4 @@
+// Author: Gabriela Sanabria
 export const userSeeder = [
   {
     id: 1,

@@ -1,3 +1,4 @@
+// Author: Gabriela Sanabria
 // Internal imports
 import { AuthService } from './AuthService';
 import type { CreateReviewDTO } from '@/dtos/CreateReviewDTO';

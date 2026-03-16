@@ -1,3 +1,4 @@
+<!-- Author: Maria Acevedo-->
 <template>
   <RouterLink
     :to="to"

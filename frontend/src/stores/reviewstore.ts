@@ -1,3 +1,4 @@
+// Author: Gabriela Sanabria
 // External imports
 import { defineStore } from 'pinia';
 import { ref } from 'vue';

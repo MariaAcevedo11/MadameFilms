@@ -11,8 +11,8 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
 // Internal imports
-import type { MovieInterface } from '@/interfaces/MovieInterface';
 import { ActressService } from '@/services/ActressService';
+import type { MovieInterface } from '@/interfaces/MovieInterface';
 import { MovieService } from '@/services/MovieService';
 import { ReviewService } from '@/services/ReviewService';
 import { UserService } from '@/services/UserService';
@@ -103,7 +103,7 @@ function createChart(): void {
 <template>
   <div class="py-8">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
-      <h1 class="text-4xl font-bold text-white text-center tracking-tight">MadameFilms</h1>
+      <h1 class="text-4xl font-bold text-white text-center tracking-tight">Madame Films</h1>
 
       <!-- Carrusel -->
       <Swiper

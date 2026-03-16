@@ -1,3 +1,4 @@
+// Author: Gabriela Sanabria
 // Internal imports
 import type { UserInterface } from '@/interfaces/UserInterface';
 import { useUserStore } from '@/stores/userstore';

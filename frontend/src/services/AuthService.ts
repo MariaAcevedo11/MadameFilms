@@ -1,4 +1,4 @@
-// Author: Gaby
+// Author: Gabriela Martinez
 import { useAuthStore } from '@/stores/authstore';
 import type { UserInterface } from '@/interfaces/UserInterface';
 import { useUserStore } from '@/stores/userstore';

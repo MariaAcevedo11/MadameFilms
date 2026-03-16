@@ -1,3 +1,4 @@
+// Author: Gabriela Sanabria
 export interface ActressInterface {
   id: number;
   fullName: string;
