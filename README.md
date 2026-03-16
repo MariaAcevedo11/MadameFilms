@@ -1,8 +1,8 @@
-# MadameFilms
+# Madame Films
 
-**MadameFilms** is a web dashboard dedicated to celebrating films with female protagonist, the platform is around films led by women which deserve a dedicated space to be discovered, discussed, and celebrated.
+**Madame Films** is a web dashboard dedicated to celebrating films with female protagonist, the platform is around films led by women which deserve a dedicated space to be discovered, discussed, and celebrated.
 
-MadameFilms lets you explore a curated catalog of films, follow the careers of remarkable actresses, and engage with a community that shares your passion for female-driven storytelling.
+Madame Films lets you explore a curated catalog of films, follow the careers of remarkable actresses, and engage with a community that shares your passion for female-driven storytelling.
 
 ### Features  
 
@@ -21,7 +21,7 @@ MadameFilms lets you explore a curated catalog of films, follow the careers of r
 
 ## Prerequisites
 
-Before running MadameFilms, make sure you have the following installed:
+Before running Madame Films, make sure you have the following installed:
 
 - **Node.js**: version `^20.19.0` or `>=22.12.0`
 - **npm**: bundled with Node.js
@@ -38,7 +38,7 @@ npm -v
 
 ### 1. Clone the repository
 ```bash
-git clone 
+git clone https://github.com/MariaAcevedo11/MadameFilms.git
 cd madamefilms
 ```
 
@@ -61,7 +61,7 @@ The dev server URL will be shown in the terminal — by default something like `
 
 ---
 
-You should now see the homepage. 🎉
+You should now see the homepage !
 
 ---
 
