@@ -92,9 +92,7 @@ function saveEdit() {
                 />
               </template>
 
-              <p v-else class="text-gray-800 text-sm leading-relaxed">
-                "{{ review.comment }}"
-              </p>
+              <p v-else class="text-gray-800 text-sm leading-relaxed">"{{ review.comment }}"</p>
             </div>
 
             <!-- User -->
@@ -137,9 +135,7 @@ function saveEdit() {
                   class="flex items-center gap-1 bg-yellow-50 border border-yellow-200 rounded-full px-3 py-1"
                 >
                   <span class="text-yellow-500 text-sm">⭐</span>
-                  <span class="text-sm font-bold text-yellow-600">
-                    {{ review.rating }}/5
-                  </span>
+                  <span class="text-sm font-bold text-yellow-600"> {{ review.rating }}/5 </span>
                 </div>
 
                 <button
@@ -161,7 +157,6 @@ function saveEdit() {
                 </button>
               </div>
             </template>
-
           </div>
         </div>
       </div>
