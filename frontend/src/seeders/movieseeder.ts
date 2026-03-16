@@ -1,4 +1,4 @@
-// Author: Gaby
+// Author: Gabriela Martinez
 export const moviesSeeder = [
   {
     id: 1,

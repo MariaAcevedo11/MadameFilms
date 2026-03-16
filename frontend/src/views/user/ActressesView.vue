@@ -1,8 +1,8 @@
-<!-- Author: Gaby -->
+<!-- Author: Gabriela Martinez -->
 <script setup lang="ts">
 // External imports
 import { Chart, registerables } from 'chart.js';
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 
@@ -41,8 +41,6 @@ const selectedNationality = ref<string>('All');
 
 // Computed variables
 const filteredActresses = computed<ActressInterface[]>(() => {
-  currentPage.value = 1;
-
   return actresses.value.filter((a) => {
     const byNationality =
       selectedNationality.value === 'All' || a.nationality === selectedNationality.value;
@@ -91,6 +89,10 @@ function nextPage(): void {
 function prevPage(): void {
   if (currentPage.value > 1) currentPage.value--;
 }
+
+watch([searchQuery, selectedNationality], () => {
+  currentPage.value = 1;
+});
 
 function renderChart(): void {
   if (!chartCanvas.value) return;

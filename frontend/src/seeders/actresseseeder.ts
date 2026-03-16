@@ -1,4 +1,4 @@
-// Author: Gaby
+// Author: Gabriela Martinez
 export const actressesSeeder = [
   {
     id: 1,

@@ -1,4 +1,4 @@
-<!-- Author: Gaby -->
+<!-- Author: Gabriela Martinez -->
 <script setup lang="ts">
 // External imports
 import { Chart, registerables, type ChartConfiguration } from 'chart.js';
