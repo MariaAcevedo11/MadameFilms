@@ -13,7 +13,7 @@ export const moviesSeeder = [
     country: 'United States',
     language: 'English',
     actressId: 1,
-    image: 'https://picsum.photos/seed/devilwearsprada/300/450',
+    image: 'https://assets.mubicdn.net/images/film/3658/image-w1280.jpg?1745489583',
   },
   {
     id: 2,
@@ -28,7 +28,7 @@ export const moviesSeeder = [
     country: 'United States',
     language: 'English',
     actressId: 1,
-    image: 'https://picsum.photos/seed/sophieschoice/300/450',
+    image: 'https://spoilertown.com/wp-content/uploads/2025/09/sophies-choice-1982.webp',
   },
   {
     id: 3,
@@ -43,7 +43,7 @@ export const moviesSeeder = [
     country: 'United States',
     language: 'English',
     actressId: 2,
-    image: 'https://picsum.photos/seed/bluejasmine/300/450',
+    image: 'https://is1-ssl.mzstatic.com/image/thumb/hfNu7B-G798kCZAK5E_9dQ/1200x675.jpg',
   },
   {
     id: 4,
@@ -58,7 +58,7 @@ export const moviesSeeder = [
     country: 'United Kingdom',
     language: 'English',
     actressId: 2,
-    image: 'https://picsum.photos/seed/carol2015/300/450',
+    image: 'https://variety.com/wp-content/uploads/2015/05/carol-cannes-film-festival-3.jpg?w=1000&h=563&crop=1',
   },
   {
     id: 5,
@@ -73,7 +73,7 @@ export const moviesSeeder = [
     country: 'Spain',
     language: 'Spanish',
     actressId: 3,
-    image: 'https://picsum.photos/seed/volver/300/450',
+    image: 'https://kviff.tv/media/_cache/film_detail_cover/films/2024/09/20/Volver_02.jpg',
   },
   {
     id: 6,
@@ -88,7 +88,7 @@ export const moviesSeeder = [
     country: 'Spain',
     language: 'Spanish',
     actressId: 3,
-    image: 'https://picsum.photos/seed/parallelmothers/300/450',
+    image: 'https://variety.com/wp-content/uploads/2021/05/parallel-mothers-1-e1629742836709.jpg',
   },
   {
     id: 7,
@@ -103,7 +103,7 @@ export const moviesSeeder = [
     country: 'United States',
     language: 'English',
     actressId: 4,
-    image: 'https://picsum.photos/seed/blackswan/300/450',
+    image: 'https://cinemotic.com/wp-content/uploads/2021/09/black-swan-movie-shot.jpg',
   },
   {
     id: 8,
@@ -118,7 +118,7 @@ export const moviesSeeder = [
     country: 'Chile',
     language: 'English',
     actressId: 4,
-    image: 'https://picsum.photos/seed/jackiemovie/300/450',
+    image: 'https://m.media-amazon.com/images/S/pv-target-images/60f35eebba2695ae720f8d422abbf3aa4800a0b55724ee4f1db552801c3dcb81._SX1080_FMpng_.png',
   },
   {
     id: 9,
@@ -133,7 +133,7 @@ export const moviesSeeder = [
     country: 'United States',
     language: 'English',
     actressId: 5,
-    image: 'https://picsum.photos/seed/fences2016/300/450',
+    image: 'https://m.media-amazon.com/images/M/MV5BMjMwMzgwODc0MV5BMl5BanBnXkFtZTgwOTY3Njg4MDI@._V1_.jpg',
   },
   {
     id: 10,
@@ -148,7 +148,7 @@ export const moviesSeeder = [
     country: 'France',
     language: 'French',
     actressId: 6,
-    image: 'https://picsum.photos/seed/lavieenrose/300/450',
+    image: 'https://m.media-amazon.com/images/S/pv-target-images/c455681da5714774deab81a84623e2b804053ede2ff3ea80e32b32c132859db1.jpg',
   },
   {
     id: 11,
@@ -163,7 +163,7 @@ export const moviesSeeder = [
     country: 'Belgium',
     language: 'French',
     actressId: 6,
-    image: 'https://picsum.photos/seed/twodaysonenightfilm/300/450',
+    image: 'https://i.guim.co.uk/img/static/sys-images/Guardian/Pix/pictures/2014/8/21/1408620532995/-Mesmerising--Marion-Coti-011.jpg?width=465&dpr=1&s=none&crop=none',
   },
   {
     id: 12,
@@ -178,7 +178,7 @@ export const moviesSeeder = [
     country: 'United States',
     language: 'English',
     actressId: 7,
-    image: 'https://picsum.photos/seed/ladybird/300/450',
+    image: 'https://occ-0-8407-2218.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABdWOpLrYW2MebXJ6CILWdN3hFw9QA1Bte2vwoXcKIG3k8BvlbQeBVOuj82z_TMO_YEqyb8IatmVarROdQZesKxWRYGZ_oADVdpdP.jpg?r=401',
   },
   {
     id: 13,
@@ -193,7 +193,7 @@ export const moviesSeeder = [
     country: 'United States',
     language: 'English',
     actressId: 7,
-    image: 'https://picsum.photos/seed/littlewomen2019/300/450',
+    image: 'https://m.media-amazon.com/images/S/pv-target-images/4b236c1551076741854c8de6707519c3ec8e963b0bcd1002803797856328190f._SX1080_FMjpg_.jpg',
   },
   {
     id: 14,
@@ -208,7 +208,7 @@ export const moviesSeeder = [
     country: 'China',
     language: 'Mandarin',
     actressId: 8,
-    image: 'https://picsum.photos/seed/crouchingtiger/300/450',
+    image: 'https://i.ytimg.com/vi/a3sQIjbrMQw/maxresdefault.jpg',
   },
   {
     id: 15,
@@ -223,6 +223,6 @@ export const moviesSeeder = [
     country: 'China',
     language: 'Mandarin',
     actressId: 8,
-    image: 'https://picsum.photos/seed/flyingdaggers/300/450',
+    image: 'https://www.screenslate.com/sites/default/files/2025-04/House-of-flying-Daggers.jpg',
   },
 ];
