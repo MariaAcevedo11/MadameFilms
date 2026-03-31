@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Actress } from 'src/actresses/entities/actress.entity';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 
 @Entity()
 export class Movie {
@@ -35,6 +36,6 @@ export class Movie {
   @Column()
   image: string;
 
-  @Column()
-  actressId: number;
+  @ManyToOne(() => Actress)
+  actress: Actress;
 }

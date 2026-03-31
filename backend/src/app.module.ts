@@ -1,8 +1,10 @@
+import { ActressesModule } from './actresses/actresses.module';
 import { HomeModule } from './home/home.module';
 import { Module } from '@nestjs/common';
 import { MoviesModule } from './movies/movies.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { ReviewsModule } from './reviews/reviews.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -15,6 +17,8 @@ import { ReviewsModule } from './reviews/reviews.module';
     HomeModule,
     MoviesModule,
     ReviewsModule,
+    UsersModule,
+    ActressesModule,
   ],
 })
 export class AppModule {}
