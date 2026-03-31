@@ -1,4 +1,23 @@
 <!-- Author: Maria Acevedo-->
+<script setup lang="ts">
+import { RouterLink } from 'vue-router';
+
+defineProps({
+  to: {
+    type: [String, Object],
+    required: true,
+  },
+  showIcon: {
+    type: Boolean,
+    default: false,
+  },
+  customClass: {
+    type: String,
+    default: '',
+  },
+});
+</script>
+
 <template>
   <RouterLink
     :to="to"
@@ -18,21 +37,3 @@
   </RouterLink>
 </template>
 
-<script setup lang="ts">
-import { RouterLink } from 'vue-router';
-
-defineProps({
-  to: {
-    type: [String, Object],
-    required: true,
-  },
-  showIcon: {
-    type: Boolean,
-    default: false,
-  },
-  customClass: {
-    type: String,
-    default: '',
-  },
-});
-</script>
