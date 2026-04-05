@@ -1,15 +1,18 @@
 // Author: Gabriela Sanabria
-// Internal imports
-import type { ActressInterface } from '@/interfaces/ActressInterface';
-import { useActressStore } from '@/stores/actressestore';
 
-// Functions
+import axios from 'axios';
+import type { ActressInterface } from '@/interfaces/ActressInterface';
+
 export class ActressService {
-  static getActress(): ActressInterface[] {
-    return useActressStore().actresses;
+  private static readonly API_URL = 'http://localhost:3000/api/actresses';
+
+  public static async getActress(): Promise<ActressInterface[]> {
+    const { data } = await axios.get(this.API_URL);
+    return data;
   }
 
-  static getActressById(id: number): ActressInterface | undefined {
-    return useActressStore().actresses.find((actress) => actress.id === id);
+  public static async getActressById(id: number): Promise<ActressInterface> {
+    const { data } = await axios.get(`${this.API_URL}/${id}`);
+    return data;
   }
 }

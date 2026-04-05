@@ -1,34 +1,49 @@
 // Author: Gabriela Martinez
-import { useAuthStore } from '@/stores/authstore';
+
+//External imports
+import axios from 'axios';
+
+//Internal imports
 import type { UserInterface } from '@/interfaces/UserInterface';
-import { useUserStore } from '@/stores/userstore';
 
 export class AuthService {
-  static login(email: string, password: string): void {
-    const userStore = useUserStore();
+  private static readonly API_URL = 'http://localhost:3000/api/auth';
+
+  static async login(
+    email: string,
+    password: string
+  ): Promise<UserInterface> {
     const normalizedEmail = email.trim().toLowerCase();
     const normalizedPassword = password.trim();
 
-    const user = userStore.users.find(
-      (u) => u.email.toLowerCase() === normalizedEmail && u.password === normalizedPassword,
-    );
+    const { data } = await axios.post(`${this.API_URL}/login`, {
+      email: normalizedEmail,
+      password: normalizedPassword,
+    });
 
-    useAuthStore().currentUser = user ?? null;
+    return data;
   }
 
-  static logout(): void {
-    useAuthStore().currentUser = null;
+  static async getCurrentUser(): Promise<UserInterface> {
+    const { data } = await axios.get(`${this.API_URL}/me`);
+    return data;
   }
 
-  static getCurrentUser(): UserInterface | null {
-    return useAuthStore().currentUser;
+  static async isLogged(): Promise<boolean> {
+    try {
+      await this.getCurrentUser();
+      return true;
+    } catch {
+      return false;
+    }
   }
 
-  static isLogged(): boolean {
-    return useAuthStore().isLogged;
+  static async isAdmin(): Promise<boolean> {
+    const user = await this.getCurrentUser();
+    return user.role === 'admin';
   }
 
-  static isAdmin(): boolean {
-    return useAuthStore().currentUser?.role === 'admin';
+  static async logout(): Promise<void> {
+    await axios.post(`${this.API_URL}/logout`);
   }
 }

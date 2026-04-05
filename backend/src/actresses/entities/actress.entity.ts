@@ -1,22 +1,26 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Movie } from 'src/movies/entities/movie.entity';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 @Entity()
 export class Actress {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ type: 'text' })
   fullName: string;
 
-  @Column()
+  @Column({ type: 'text' })
   nationality: string;
 
-  @Column('text')
+  @Column({ type: 'text' })
   biography: string;
 
-  @Column()
+  @Column({ type: 'text' })
   movies: string;
 
   @Column()
   image: string;
+
+  @OneToMany(() => Movie, (movie) => movie.actress)
+  movie: Movie;
 }

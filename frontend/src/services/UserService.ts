@@ -1,11 +1,17 @@
 // Author: Gabriela Sanabria
-// Internal imports
-import type { UserInterface } from '@/interfaces/UserInterface';
-import { useUserStore } from '@/stores/userstore';
 
-// Functions
+//External imports
+import axios from 'axios';
+
+//Internal imports
+import type { UserInterface } from '@/interfaces/UserInterface';
+
+
 export class UserService {
-  static getUserById(id: number): UserInterface | undefined {
-    return useUserStore().users.find((user) => user.id === id);
+  private static readonly API_URL = 'http://localhost:3000/api/users';
+
+  public static async getUserById(id: number): Promise<UserInterface> {
+    const { data } = await axios.get(`${this.API_URL}/${id}`);
+    return data;
   }
 }

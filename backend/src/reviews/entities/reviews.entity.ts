@@ -1,4 +1,12 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  JoinColumn,
+  RelationId,
+  CreateDateColumn,
+} from 'typeorm';
 import { Movie } from 'src/movies/entities/movie.entity';
 import { User } from 'src/users/entities/user.entity';
 
@@ -7,18 +15,26 @@ export class Review {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ type: 'int' })
   rating: number;
 
-  @Column()
+  @Column({ type: 'text' })
   comment: string;
 
-  @Column()
+  @CreateDateColumn()
   date: Date;
 
-  @ManyToOne(() => User)
+  @ManyToOne(() => User, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'userId' })
   user: User;
 
-  @ManyToOne(() => Movie)
+  @ManyToOne(() => Movie, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'movieId' })
   movie: Movie;
+
+  @RelationId((review: Review) => review.movie)
+  movieId: number;
+
+  @RelationId((review: Review) => review.user)
+  userId: number;
 }

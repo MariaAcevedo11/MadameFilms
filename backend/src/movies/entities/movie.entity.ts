@@ -1,41 +1,58 @@
 import { Actress } from 'src/actresses/entities/actress.entity';
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { Review } from 'src/reviews/entities/reviews.entity';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  OneToMany,
+  JoinColumn,
+  RelationId,
+  CreateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export class Movie {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ type: 'text' })
   title: string;
 
   @Column('text')
   description: string;
 
-  @Column()
+  @Column({ type: 'text' })
   cast: string;
 
-  @Column()
+  @Column({ type: 'text' })
   director: string;
 
-  @Column()
+  @CreateDateColumn()
   releaseDate: Date;
 
-  @Column()
+  @Column({ type: 'text' })
   genre: string;
 
-  @Column()
+  @Column({ type: 'int' })
   durationMin: number;
 
-  @Column()
+  @Column({ type: 'text' })
   country: string;
 
-  @Column()
+  @Column({ type: 'text' })
   language: string;
 
   @Column()
   image: string;
 
-  @ManyToOne(() => Actress)
+  @ManyToOne(() => Actress, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'actressId' })
   actress: Actress;
+
+  @RelationId((movie: Movie) => movie.actress)
+  actressId: number;
+
+  @OneToMany(() => Review, (review) => review.movie)
+  reviews: Review[];
 }
