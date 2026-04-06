@@ -10,6 +10,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Movie } from './entities/movie.entity';
 import { Repository } from 'typeorm';
+import { User } from 'src/users/entities/user.entity';
 
 // Functions
 @Injectable()
@@ -37,8 +38,8 @@ export class MoviesService {
     await this.MoviesRepository.delete(id);
   }
 
-  async update(id: number, dto: UpdateMovieDto): Promise<Movie> {
-    if (!this.authService.isAdmin()) {
+  async update(id: number, dto: UpdateMovieDto, user: User): Promise<Movie> {
+    if (!this.authService.isAdmin(user)) {
       throw new Error('Only admin users can update movies.');
     }
 

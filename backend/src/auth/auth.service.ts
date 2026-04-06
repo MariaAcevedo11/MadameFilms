@@ -1,4 +1,4 @@
-//External imports
+// External imports
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -8,6 +8,8 @@ import { User } from '../users/entities/user.entity';
 
 @Injectable()
 export class AuthService {
+  private loggedUser: User | null = null;
+
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
@@ -25,7 +27,16 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
+    this.loggedUser = user;
     return user;
+  }
+
+  getCurrentUser(): User | null {
+    return this.loggedUser;
+  }
+
+  logout(): void {
+    this.loggedUser = null;
   }
 
   async findById(id: number): Promise<User | null> {
