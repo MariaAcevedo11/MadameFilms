@@ -1,16 +1,17 @@
-<!--Author: María Acevedo-->>
+<!--Author: María Acevedo-->
 <script setup lang="ts">
-// External import
-import { ref } from 'vue';
+// External imports
+import { onMounted, ref } from 'vue';
 
 // Internal imports
 import { ActressService } from '@/services/ActressService';
+import type { ActressInterface } from '@/interfaces/ActressInterface';
 import type { CreateMovieDTO } from '@/dtos/CreateMovieDTO';
 import { MovieService } from '@/services/MovieService';
 
 // Selectors
 const selectedActressId = ref<number | ''>('');
-const selectorActresses = ref(await ActressService.getActress());
+const selectorActresses = ref<ActressInterface[] | null>(null);
 
 // Reactive variables
 const successMessage = ref('');
@@ -38,12 +39,10 @@ async function submitForm() {
 
   try {
     await MovieService.createMovie(form.value);
-
     successMessage.value = 'Movie added successfully!';
     resetForm();
-    
   } catch (error) {
-    console.error(error)
+    console.error(error);
   }
 }
 
@@ -63,6 +62,14 @@ function resetForm() {
     image: '',
   };
 }
+
+onMounted(async () => {
+  try {
+    selectorActresses.value = await ActressService.getActress();
+  } catch (error) {
+    console.error(error);
+  }
+});
 </script>
 
 <template>

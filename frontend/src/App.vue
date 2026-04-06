@@ -13,9 +13,21 @@ import type { UserInterface } from './interfaces/UserInterface';
 const isAdmin = ref(false);
 const loggedUser = ref<UserInterface | null>(null);
   
+// Functions
+async function logout() {
+  await AuthService.logout();
+  loggedUser.value = null;
+  isAdmin.value = false;
+}
+
 onMounted(async () => {
-  loggedUser.value = await AuthService.getCurrentUser();
-  isAdmin.value = await AuthService.isAdmin();
+  try {
+    loggedUser.value = await AuthService.getCurrentUser();
+    isAdmin.value = await AuthService.isAdmin();
+  } catch {
+    loggedUser.value = null;
+    isAdmin.value = false;
+  }
 });
 
 </script>
@@ -102,7 +114,7 @@ onMounted(async () => {
                 <span class="font-semibold" :class="loggedUser.role === 'admin' ? 'text-red-500' : 'text-blue-500'">
                   {{ loggedUser.role }}
                 </span>
-                <button @click="AuthService.logout()" class="text-red-400 hover:underline text-left mt-0.5">
+                <button @click="logout()" class="text-red-400 hover:underline text-left mt-0.5">
                   Logout
                 </button>
               </div>

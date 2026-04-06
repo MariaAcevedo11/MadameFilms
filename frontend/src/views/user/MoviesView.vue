@@ -71,10 +71,13 @@ const paginatedMovies = computed<MovieInterface[]>(() => {
 
 const totalPages = computed<number>(() => Math.ceil(filteredMovies.value.length / ROWS_PER_PAGE));
 
-// Lifecycle hooks
-onMounted(() => {
-  movies.value = MovieService.getMovies();
-  renderChart();
+onMounted(async () => {
+  try {
+    movies.value = await MovieService.getMovies();
+    renderChart();
+  } catch (error) {
+    console.error(error);
+  }
 });
 
 // Functions
@@ -143,63 +146,35 @@ watch([searchQuery, selectedCountry, selectedGenre], () => {
       <!-- Filters -->
       <div class="flex flex-wrap gap-3 items-center">
         <!-- Search -->
-        <input
-          v-model="searchQuery"
-          type="text"
-          placeholder="Search by title..."
-          class="px-4 py-2 rounded-lg border border-purple-300 bg-white text-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 w-52"
-        />
+        <input v-model="searchQuery" type="text" placeholder="Search by title..."
+          class="px-4 py-2 rounded-lg border border-purple-300 bg-white text-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 w-52" />
 
         <!-- Genre selector -->
         <div class="relative">
-          <select
-            v-model="selectedGenre"
-            class="appearance-none px-4 py-2 pr-8 rounded-lg border border-purple-300 bg-white text-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 cursor-pointer"
-          >
+          <select v-model="selectedGenre"
+            class="appearance-none px-4 py-2 pr-8 rounded-lg border border-purple-300 bg-white text-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 cursor-pointer">
             <option v-for="genre in genres" :key="genre" :value="genre">
               {{ genre === 'All' ? 'All Genres' : genre }}
             </option>
           </select>
           <div class="pointer-events-none absolute inset-y-0 right-2 flex items-center">
-            <svg
-              class="w-4 h-4 text-purple-500"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M19 9l-7 7-7-7"
-              />
+            <svg class="w-4 h-4 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
             </svg>
           </div>
         </div>
 
         <!-- Country selector -->
         <div class="relative">
-          <select
-            v-model="selectedCountry"
-            class="appearance-none px-4 py-2 pr-8 rounded-lg border border-purple-300 bg-white text-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 cursor-pointer"
-          >
+          <select v-model="selectedCountry"
+            class="appearance-none px-4 py-2 pr-8 rounded-lg border border-purple-300 bg-white text-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 cursor-pointer">
             <option v-for="country in countries" :key="country" :value="country">
               {{ country === 'All' ? 'All Countries' : country }}
             </option>
           </select>
           <div class="pointer-events-none absolute inset-y-0 right-2 flex items-center">
-            <svg
-              class="w-4 h-4 text-purple-500"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M19 9l-7 7-7-7"
-              />
+            <svg class="w-4 h-4 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
             </svg>
           </div>
         </div>
@@ -221,28 +196,19 @@ watch([searchQuery, selectedCountry, selectedGenre], () => {
               </tr>
             </thead>
             <tbody>
-              <tr
-                v-for="(movie, index) in paginatedMovies"
-                :key="movie.id"
-                class="border-t border-gray-100 hover:bg-purple-50 transition-colors"
-              >
+              <tr v-for="(movie, index) in paginatedMovies" :key="movie.id"
+                class="border-t border-gray-100 hover:bg-purple-50 transition-colors">
                 <td class="px-4 py-3 text-gray-400">
                   {{ (currentPage - 1) * ROWS_PER_PAGE + index + 1 }}
                 </td>
                 <td class="px-4 py-3">
                   <div class="flex items-center gap-3">
-                    <img
-                      :src="movie.image"
-                      :alt="movie.title"
-                      class="w-8 h-10 rounded object-cover shrink-0"
-                    />
+                    <img :src="movie.image" :alt="movie.title" class="w-8 h-10 rounded object-cover shrink-0" />
                     <span class="font-medium text-gray-800 line-clamp-1">{{ movie.title }}</span>
                   </div>
                 </td>
                 <td class="px-4 py-3">
-                  <span
-                    class="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-full font-medium"
-                  >
+                  <span class="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-full font-medium">
                     {{ movie.genre }}
                   </span>
                 </td>
@@ -259,24 +225,16 @@ watch([searchQuery, selectedCountry, selectedGenre], () => {
           </table>
 
           <!-- Pagination -->
-          <div
-            v-if="totalPages > 1"
-            class="flex items-center justify-between px-4 py-3 border-t border-gray-100 bg-gray-50"
-          >
+          <div v-if="totalPages > 1"
+            class="flex items-center justify-between px-4 py-3 border-t border-gray-100 bg-gray-50">
             <span class="text-xs text-gray-500">Page {{ currentPage }} of {{ totalPages }}</span>
             <div class="flex gap-2">
-              <button
-                @click="prevPage"
-                :disabled="currentPage === 1"
-                class="px-3 py-1 rounded-lg text-sm font-medium border border-purple-200 text-purple-700 hover:bg-purple-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
-              >
+              <button @click="prevPage" :disabled="currentPage === 1"
+                class="px-3 py-1 rounded-lg text-sm font-medium border border-purple-200 text-purple-700 hover:bg-purple-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors">
                 ← Prev
               </button>
-              <button
-                @click="nextPage"
-                :disabled="currentPage === totalPages"
-                class="px-3 py-1 rounded-lg text-sm font-medium border border-purple-200 text-purple-700 hover:bg-purple-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
-              >
+              <button @click="nextPage" :disabled="currentPage === totalPages"
+                class="px-3 py-1 rounded-lg text-sm font-medium border border-purple-200 text-purple-700 hover:bg-purple-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors">
                 Next →
               </button>
             </div>
@@ -294,18 +252,13 @@ watch([searchQuery, selectedCountry, selectedGenre], () => {
 
       <!-- Cards grid -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div
-          v-for="movie in filteredMovies"
-          :key="movie.id"
-          class="bg-white rounded-2xl shadow-md hover:shadow-xl transition duration-300 border border-purple-100 overflow-hidden"
-        >
+        <div v-for="movie in filteredMovies" :key="movie.id"
+          class="bg-white rounded-2xl shadow-md hover:shadow-xl transition duration-300 border border-purple-100 overflow-hidden">
           <img :src="movie.image" :alt="movie.title" class="w-full h-48 object-cover" />
           <div class="p-5 space-y-3">
             <div class="flex items-start justify-between gap-2">
               <h3 class="text-lg font-bold text-purple-900 line-clamp-1">{{ movie.title }}</h3>
-              <span
-                class="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-full whitespace-nowrap shrink-0"
-              >
+              <span class="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-full whitespace-nowrap shrink-0">
                 {{ movie.genre }}
               </span>
             </div>
@@ -337,16 +290,13 @@ watch([searchQuery, selectedCountry, selectedGenre], () => {
             <div v-if="movie.actressId" class="bg-purple-50 rounded-lg px-3 py-2 text-xs">
               ⭐
               <span class="font-semibold text-purple-800">
-                {{ ActressService.getActressById(movie.actressId)?.fullName }}
+                {{ ActressService.getActressName(movie.actressId) }}
               </span>
             </div>
           </div>
         </div>
 
-        <div
-          v-if="filteredMovies.length === 0"
-          class="col-span-3 text-center text-purple-300 py-12"
-        >
+        <div v-if="filteredMovies.length === 0" class="col-span-3 text-center text-purple-300 py-12">
           No movies match your filters.
         </div>
       </div>

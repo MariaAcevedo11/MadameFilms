@@ -1,16 +1,17 @@
 <!--Author: María Acevedo-->
 <script setup lang="ts">
-// External import
-import { ref } from 'vue';
+// External imports
+import { onMounted, ref } from 'vue';
 
 // Internal imports
 import type { CreateReviewDTO } from '@/dtos/CreateReviewDTO';
+import type { MovieInterface } from '@/interfaces/MovieInterface';
 import { MovieService } from '@/services/MovieService';
 import { ReviewService } from '@/services/ReviewService';
 
-//Selectors
-const selectorMovies = MovieService.getMovies();
+// Selectors
 const selectedMovieId = ref<number | ''>('');
+const selectorMovies = ref<MovieInterface[] | null>(null);
 
 // Reactive variables
 const successMessage = ref('');
@@ -31,9 +32,7 @@ async function submitForm() {
 
   form.value.comment = form.value.comment.trim();
   try {
-    
     await ReviewService.createReview(form.value);
-
     successMessage.value = 'Review created successfully!';
     resetForm();
   } catch (error) {
@@ -50,6 +49,14 @@ function resetForm() {
     movieId: 0,
   };
 }
+
+onMounted(async () => {
+  try {
+    selectorMovies.value = await MovieService.getMovies();
+  } catch (error) {
+    console.error(error);
+  }
+});
 </script>
 
 <template>

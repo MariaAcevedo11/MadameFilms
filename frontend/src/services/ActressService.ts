@@ -15,4 +15,9 @@ export class ActressService {
     const { data } = await axios.get(`${this.API_URL}/${id}`);
     return data;
   }
+
+  public static async getActressName(id: number): Promise<string> {
+    const { data } = await axios.get(`${this.API_URL}/${id}`);
+    return data.fullName;
+  }
 }

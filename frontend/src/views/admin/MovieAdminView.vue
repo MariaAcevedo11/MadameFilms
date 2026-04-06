@@ -1,24 +1,26 @@
-<!--AUthor: María Acevedo-->
+<!--Author: María Acevedo-->
 <script setup lang="ts">
 // External imports
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 
 // Internal imports
 import { ActressService } from '@/services/ActressService';
-import { MovieService } from '@/services/MovieService';
-
-// Interfaces
+import type { ActressInterface } from '@/interfaces/ActressInterface';
 import type { MovieInterface } from '@/interfaces/MovieInterface';
+import { MovieService } from '@/services/MovieService';
 
 // Components
 import StyledButtonComponent from '@/components/StyledButtonComponent.vue';
 
-//Selectors
-const selectedEditingMovieId = ref<number | null>(null);
-const selectorActresses = ActressService.getActress();
-const selectorMovies = MovieService.getMovies();
+//Reactive variables 
+const actressNames = ref<Record<number, string>>({});
 
-// Form
+// Selectors
+const selectedEditingMovieId = ref<number | null>(null);
+const selectorActresses = ref<ActressInterface[] | null>(null);
+const selectorMovies = ref<MovieInterface[] | null>(null);
+
+// Forms
 const editForm = ref({
   title: '',
   description: '',
@@ -55,11 +57,11 @@ function cancelEdit() {
   selectedEditingMovieId.value = null;
 }
 
-function saveEdit() {
+async function saveEdit() {
   if (selectedEditingMovieId.value === null) return;
 
   try {
-    MovieService.updateMovie(selectedEditingMovieId.value, {
+    await MovieService.updateMovie(selectedEditingMovieId.value, {
       title: editForm.value.title.trim(),
       description: editForm.value.description.trim(),
       cast: editForm.value.cast.trim(),
@@ -79,6 +81,23 @@ function saveEdit() {
     alert(err instanceof Error ? err.message : 'Failed to update movie');
   }
 }
+
+onMounted(async () => {
+  try {
+    selectorActresses.value = await ActressService.getActress();
+    selectorMovies.value = await MovieService.getMovies();
+
+    if (selectorMovies.value) {
+      for (const movie of selectorMovies.value) {
+        if (movie.actressId) {
+          actressNames.value[movie.actressId] = await ActressService.getActressName(movie.actressId);
+        }
+      }
+    }
+  } catch (error) {
+    console.error(error);
+  }
+});
 </script>
 
 <template>
@@ -92,18 +111,12 @@ function saveEdit() {
     </StyledButtonComponent>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      <div
-        v-for="movie in selectorMovies"
-        :key="movie.id"
-        class="bg-white rounded-2xl shadow-md hover:shadow-xl transition duration-300 border border-purple-100 overflow-hidden"
-      >
+      <div v-for="movie in selectorMovies" :key="movie.id"
+        class="bg-white rounded-2xl shadow-md hover:shadow-xl transition duration-300 border border-purple-100 overflow-hidden">
         <!-- Image (or preview when editing) -->
         <div class="relative w-full h-56 bg-gray-100">
-          <img
-            :src="selectedEditingMovieId === movie.id ? editForm.image || movie.image : movie.image"
-            alt="Movie Cover"
-            class="w-full h-full object-cover"
-          />
+          <img :src="selectedEditingMovieId === movie.id ? editForm.image || movie.image : movie.image"
+            alt="Movie Cover" class="w-full h-full object-cover" />
         </div>
 
         <!-- Content: view mode -->
@@ -114,18 +127,12 @@ function saveEdit() {
               {{ movie.title }}
             </h3>
             <div class="flex items-center gap-2 shrink-0">
-              <button
-                @click="startEdit(movie)"
-                type="button"
-                class="bg-purple-500 hover:bg-purple-600 text-white px-3 py-1 rounded-lg text-sm transition"
-              >
+              <button @click="startEdit(movie)" type="button"
+                class="bg-purple-500 hover:bg-purple-600 text-white px-3 py-1 rounded-lg text-sm transition">
                 Edit
               </button>
-              <button
-                @click="MovieService.deleteMovie(movie.id)"
-                type="button"
-                class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg text-sm transition"
-              >
+              <button @click="MovieService.deleteMovie(movie.id)" type="button"
+                class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg text-sm transition">
                 Delete
               </button>
             </div>
@@ -156,7 +163,7 @@ function saveEdit() {
           <div v-if="movie.actressId" class="bg-purple-50 rounded-lg p-3 mt-3 text-sm">
             ⭐ Featured Actress:
             <span class="font-semibold text-purple-800">
-              {{ ActressService.getActressById(movie.actressId)?.fullName }}
+              {{ actressNames[movie.actressId] }}
             </span>
           </div>
         </div>
@@ -166,18 +173,12 @@ function saveEdit() {
           <div class="flex justify-between items-center border-b border-purple-100 pb-2">
             <span class="font-semibold text-purple-800">Edit movie</span>
             <div class="flex gap-2">
-              <button
-                @click="saveEdit"
-                type="button"
-                class="bg-purple-600 hover:bg-purple-700 text-white px-3 py-1.5 rounded-lg text-sm transition"
-              >
+              <button @click="saveEdit" type="button"
+                class="bg-purple-600 hover:bg-purple-700 text-white px-3 py-1.5 rounded-lg text-sm transition">
                 Save
               </button>
-              <button
-                @click="cancelEdit"
-                type="button"
-                class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-3 py-1.5 rounded-lg text-sm transition"
-              >
+              <button @click="cancelEdit" type="button"
+                class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-3 py-1.5 rounded-lg text-sm transition">
                 Cancel
               </button>
             </div>
@@ -186,87 +187,57 @@ function saveEdit() {
           <div class="space-y-2 text-sm">
             <div>
               <label class="block font-semibold text-gray-700 mb-0.5">Title</label>
-              <input
-                v-model="editForm.title"
-                type="text"
-                class="w-full border border-gray-300 rounded py-1.5 px-2 focus:outline-none focus:ring focus:border-purple-300"
-              />
+              <input v-model="editForm.title" type="text"
+                class="w-full border border-gray-300 rounded py-1.5 px-2 focus:outline-none focus:ring focus:border-purple-300" />
             </div>
             <div>
               <label class="block font-semibold text-gray-700 mb-0.5">Description</label>
-              <textarea
-                v-model="editForm.description"
-                rows="2"
-                class="w-full border border-gray-300 rounded py-1.5 px-2 focus:outline-none focus:ring focus:border-purple-300"
-              />
+              <textarea v-model="editForm.description" rows="2"
+                class="w-full border border-gray-300 rounded py-1.5 px-2 focus:outline-none focus:ring focus:border-purple-300" />
             </div>
             <div>
               <label class="block font-semibold text-gray-700 mb-0.5">Cast</label>
-              <input
-                v-model="editForm.cast"
-                type="text"
-                class="w-full border border-gray-300 rounded py-1.5 px-2 focus:outline-none focus:ring focus:border-purple-300"
-              />
+              <input v-model="editForm.cast" type="text"
+                class="w-full border border-gray-300 rounded py-1.5 px-2 focus:outline-none focus:ring focus:border-purple-300" />
             </div>
             <div>
               <label class="block font-semibold text-gray-700 mb-0.5">Director</label>
-              <input
-                v-model="editForm.director"
-                type="text"
-                class="w-full border border-gray-300 rounded py-1.5 px-2 focus:outline-none focus:ring focus:border-purple-300"
-              />
+              <input v-model="editForm.director" type="text"
+                class="w-full border border-gray-300 rounded py-1.5 px-2 focus:outline-none focus:ring focus:border-purple-300" />
             </div>
             <div class="grid grid-cols-2 gap-2">
               <div>
                 <label class="block font-semibold text-gray-700 mb-0.5">Release date</label>
-                <input
-                  v-model="editForm.releaseDate"
-                  type="date"
-                  class="w-full border border-gray-300 rounded py-1.5 px-2 focus:outline-none focus:ring focus:border-purple-300"
-                />
+                <input v-model="editForm.releaseDate" type="date"
+                  class="w-full border border-gray-300 rounded py-1.5 px-2 focus:outline-none focus:ring focus:border-purple-300" />
               </div>
               <div>
                 <label class="block font-semibold text-gray-700 mb-0.5">Duration (min)</label>
-                <input
-                  v-model.number="editForm.durationMin"
-                  type="number"
-                  min="1"
-                  class="w-full border border-gray-300 rounded py-1.5 px-2 focus:outline-none focus:ring focus:border-purple-300"
-                />
+                <input v-model.number="editForm.durationMin" type="number" min="1"
+                  class="w-full border border-gray-300 rounded py-1.5 px-2 focus:outline-none focus:ring focus:border-purple-300" />
               </div>
             </div>
             <div>
               <label class="block font-semibold text-gray-700 mb-0.5">Genre</label>
-              <input
-                v-model="editForm.genre"
-                type="text"
-                class="w-full border border-gray-300 rounded py-1.5 px-2 focus:outline-none focus:ring focus:border-purple-300"
-              />
+              <input v-model="editForm.genre" type="text"
+                class="w-full border border-gray-300 rounded py-1.5 px-2 focus:outline-none focus:ring focus:border-purple-300" />
             </div>
             <div class="grid grid-cols-2 gap-2">
               <div>
                 <label class="block font-semibold text-gray-700 mb-0.5">Country</label>
-                <input
-                  v-model="editForm.country"
-                  type="text"
-                  class="w-full border border-gray-300 rounded py-1.5 px-2 focus:outline-none focus:ring focus:border-purple-300"
-                />
+                <input v-model="editForm.country" type="text"
+                  class="w-full border border-gray-300 rounded py-1.5 px-2 focus:outline-none focus:ring focus:border-purple-300" />
               </div>
               <div>
                 <label class="block font-semibold text-gray-700 mb-0.5">Language</label>
-                <input
-                  v-model="editForm.language"
-                  type="text"
-                  class="w-full border border-gray-300 rounded py-1.5 px-2 focus:outline-none focus:ring focus:border-purple-300"
-                />
+                <input v-model="editForm.language" type="text"
+                  class="w-full border border-gray-300 rounded py-1.5 px-2 focus:outline-none focus:ring focus:border-purple-300" />
               </div>
             </div>
             <div>
               <label class="block font-semibold text-gray-700 mb-0.5">Actress</label>
-              <select
-                v-model="editForm.selectedActressId"
-                class="w-full border border-gray-300 rounded py-1.5 px-2 focus:outline-none focus:ring focus:border-purple-300"
-              >
+              <select v-model="editForm.selectedActressId"
+                class="w-full border border-gray-300 rounded py-1.5 px-2 focus:outline-none focus:ring focus:border-purple-300">
                 <option value="">None</option>
                 <option v-for="actress in selectorActresses" :key="actress.id" :value="actress.id">
                   {{ actress.fullName }}
@@ -275,12 +246,9 @@ function saveEdit() {
             </div>
             <div>
               <label class="block font-semibold text-gray-700 mb-0.5">Image URL</label>
-              <input
-                v-model="editForm.image"
-                type="text"
+              <input v-model="editForm.image" type="text"
                 class="w-full border border-gray-300 rounded py-1.5 px-2 focus:outline-none focus:ring focus:border-purple-300"
-                placeholder="https://..."
-              />
+                placeholder="https://..." />
             </div>
           </div>
         </div>
