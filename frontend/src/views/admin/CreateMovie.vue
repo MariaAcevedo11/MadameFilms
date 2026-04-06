@@ -10,7 +10,7 @@ import { MovieService } from '@/services/MovieService';
 
 // Selectors
 const selectedActressId = ref<number | ''>('');
-const selectorActresses = ActressService.getActress();
+const selectorActresses = ref(await ActressService.getActress());
 
 // Reactive variables
 const successMessage = ref('');
