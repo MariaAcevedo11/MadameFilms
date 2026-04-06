@@ -5,8 +5,8 @@ import { Chart, registerables, type ChartConfiguration } from 'chart.js';
 import { computed, onMounted, ref, watch } from 'vue';
 
 // Internal imports
-import type { MovieInterface } from '@/interfaces/MovieInterface';
 import { ActressService } from '@/services/ActressService';
+import type { MovieInterface } from '@/interfaces/MovieInterface';
 import { MovieService } from '@/services/MovieService';
 
 // Forms

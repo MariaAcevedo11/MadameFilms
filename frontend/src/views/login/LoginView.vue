@@ -1,4 +1,4 @@
-<!--Author: Gabriela Sanabria-->>
+<!--Author: Gabriela Sanabria-->
 <script setup lang="ts">
 // External imports
 import { ref } from 'vue';
@@ -9,18 +9,18 @@ import { AuthService } from '@/services/AuthService';
 // Reactive variables
 const errorMessage = ref('');
 
-//Form
+// Form
 const form = ref({
   email: '',
   password: '',
 });
 
 // Functions
-function handleLogin() {
+async function handleLogin() {
   errorMessage.value = '';
 
   try {
-    AuthService.login(form.value.email, form.value.password);
+    await AuthService.login(form.value.email, form.value.password);
   } catch (err) {
     errorMessage.value = err instanceof Error ? err.message : 'Login failed';
   }
