@@ -5,7 +5,6 @@ import { Chart, registerables, type ChartConfiguration } from 'chart.js';
 import { computed, onMounted, ref } from 'vue';
 import { Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/vue';
-
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -15,54 +14,46 @@ import { ActressService } from '@/services/ActressService';
 import type { MovieInterface } from '@/interfaces/MovieInterface';
 import { MovieService } from '@/services/MovieService';
 import { ReviewService } from '@/services/ReviewService';
-import { UserService } from '@/services/UserService';
 
-// Forms
+// Chart
 Chart.register(...registerables);
 
 // Variables
 const modules = [Navigation, Pagination];
 let chartInstance: Chart | null = null;
 
-// Reactive variables
+// Selectors
 const chartRef = ref<HTMLCanvasElement | null>(null);
+
+// Reactive variables
+const actresses = ref<ActressInterface[]>([]);
 const movies = ref<MovieInterface[]>([]);
+const reviews = ref<ReviewInterface[]>([]);
 
 // Computed variables
 const averageRating = computed(() => {
-  const reviews = ReviewService.getReviews();
-  if (reviews.length === 0) return 0;
-
-  const sum = reviews.reduce((acc, r) => acc + r.rating, 0);
-  return (sum / reviews.length).toFixed(1);
+  if (reviews.value.length === 0) return 0;
+  const sum = reviews.value.reduce((acc, r) => acc + r.rating, 0);
+  return (sum / reviews.value.length).toFixed(1);
 });
 
 const genreData = computed(() => {
   const count: Record<string, number> = {};
-
-  MovieService.getMovies().forEach((m) => {
+  movies.value.forEach((m) => {
     count[m.genre] = (count[m.genre] || 0) + 1;
   });
-
   return count;
 });
 
 const recentReviews = computed(() => {
-  return ReviewService.getReviews()
+  return reviews.value
     .slice()
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
     .slice(0, 3);
 });
 
-const totalActresses = computed(() => ActressService.getActress().length);
-
-const totalMovies = computed(() => MovieService.getMovies().length);
-
-// Lifecycle hooks
-onMounted(() => {
-  movies.value = MovieService.getMovies();
-  createChart();
-});
+const totalActresses = computed(() => actresses.value.length);
+const totalMovies = computed(() => movies.value.length);
 
 // Functions
 function createChart(): void {
@@ -98,6 +89,19 @@ function createChart(): void {
 
   chartInstance = new Chart(ctx, config);
 }
+
+// Lifecycle hooks
+onMounted(async () => {
+  try {
+    actresses.value = await ActressService.getActress();
+    movies.value = await MovieService.getMovies();
+    reviews.value = await ReviewService.getReviews();
+
+    createChart();
+  } catch (error) {
+    console.error(error);
+  }
+});
 </script>
 
 <template>
@@ -236,16 +240,6 @@ function createChart(): void {
               class="rounded-xl border border-purple-100 p-4 hover:bg-purple-50 transition-colors"
             >
               <div class="flex items-center justify-between mb-1">
-                <div class="flex items-center gap-2">
-                  <img
-                    :src="UserService.getUserById(review.userId)?.image"
-                    :alt="UserService.getUserById(review.userId)?.username"
-                    class="w-8 h-8 rounded-full object-cover"
-                  />
-                  <span class="font-semibold text-purple-900 text-sm">
-                    {{ UserService.getUserById(review.userId)?.username ?? 'Unknown' }}
-                  </span>
-                </div>
                 <span
                   class="text-xs font-bold text-purple-600 bg-purple-100 px-2 py-1 rounded-full"
                 >

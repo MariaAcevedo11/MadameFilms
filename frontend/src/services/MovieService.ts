@@ -31,14 +31,10 @@ export class MovieService {
     await axios.delete(`${this.API_URL}/${id}`);
   }
 
-  public static async updateMovie(
-    id: number,
-    dto: UpdateMovieDTO
-  ): Promise<MovieInterface> {
+  public static async updateMovie(id: number, dto: UpdateMovieDTO): Promise<MovieInterface> {
     if (!AuthService.isAdmin()) {
       throw new Error('Only admin users can update movies.');
     }
-
     const { data } = await axios.put(`${this.API_URL}/${id}`, dto);
     return data;
   }

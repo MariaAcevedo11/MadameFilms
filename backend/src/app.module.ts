@@ -1,4 +1,5 @@
 import { ActressesModule } from './actresses/actresses.module';
+//import { AuthModule } from './auth/auth.module';
 import { HomeModule } from './home/home.module';
 import { Module } from '@nestjs/common';
 import { MoviesModule } from './movies/movies.module';

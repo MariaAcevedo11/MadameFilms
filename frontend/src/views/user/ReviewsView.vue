@@ -1,46 +1,73 @@
 <!--Author: María Acevedo-->
 <script setup lang="ts">
 // External imports
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 
 // Internal imports
 import { MovieService } from '@/services/MovieService';
 import { ReviewService } from '@/services/ReviewService.js';
 import type { ReviewInterface } from '@/interfaces/ReviewInterface';
 import StyledButtonComponent from '@/components/StyledButtonComponent.vue';
-import { UserService } from '@/services/UserService';
+import type { MovieInterface } from '@/interfaces/MovieInterface';
+import { AuthService } from '@/services/AuthService';
+
+// Variables
+const movies = ref<MovieInterface[]>([]);
+const currentUserId = ref<number | null>(null);
 
 //Selectors
-const selectorReviews = ReviewService.getReviews();
+const selectorReviews = ref<ReviewInterface[]>([]);
 const selectedEditingReviewId = ref<number | null>(null);
 
 // Form
 const editForm = ref({ rating: 5, comment: '' });
 
 // Functions
-function startEdit(review: ReviewInterface) {
+async function startEdit(review: ReviewInterface) {
   selectedEditingReviewId.value = review.id;
   editForm.value = { rating: review.rating, comment: review.comment };
 }
 
-function cancelEdit() {
+async function cancelEdit() {
   selectedEditingReviewId.value = null;
 }
 
-function saveEdit() {
+async function saveEdit() {
   if (selectedEditingReviewId.value === null) return;
 
   try {
-    ReviewService.updateReview(selectedEditingReviewId.value, {
+    await ReviewService.updateReview(selectedEditingReviewId.value, {
       rating: editForm.value.rating,
       comment: editForm.value.comment.trim(),
     });
 
     selectedEditingReviewId.value = null;
+    selectorReviews.value = await ReviewService.getReviews();
   } catch (err) {
     alert(err instanceof Error ? err.message : 'Failed to update review');
   }
 }
+
+async function deleteReview(id: number) {
+  try {
+    await ReviewService.deleteReview(id);
+
+    selectorReviews.value = await ReviewService.getReviews();
+  } catch (err) {
+    alert(err instanceof Error ? err.message : 'Failed to delete review');
+  }
+}
+
+onMounted(async () => {
+  try {
+    const user = await AuthService.getCurrentUser();
+    currentUserId.value = user.id;
+    selectorReviews.value = await ReviewService.getReviews();
+    movies.value = await MovieService.getMovies();
+  } catch (err) {
+    console.error(err);
+  }
+});
 </script>
 
 <template>
@@ -57,19 +84,6 @@ function saveEdit() {
           <div
             class="bg-white rounded-lg shadow-md hover:shadow-lg transition duration-300 border border-gray-200 overflow-hidden"
           >
-            <!-- Movie banner -->
-            <div class="relative h-36 bg-gray-100">
-              <img
-                :src="MovieService.getMovieById(review.movieId)?.image"
-                :alt="MovieService.getMovieById(review.movieId)?.title"
-                class="w-full h-full object-cover"
-              />
-              <div class="absolute inset-0 bg-linear-to-t from-black/60 to-transparent"></div>
-              <span class="absolute bottom-2 left-3 text-white text-sm font-semibold drop-shadow">
-                {{ MovieService.getMovieById(review.movieId)?.title }}
-              </span>
-            </div>
-
             <!-- Comment or Edit form -->
             <div class="px-5 pt-4 pb-2">
               <template v-if="selectedEditingReviewId === review.id">
@@ -95,21 +109,6 @@ function saveEdit() {
               <p v-else class="text-gray-800 text-sm leading-relaxed">"{{ review.comment }}"</p>
             </div>
 
-            <!-- User -->
-            <div class="flex items-center justify-between px-5 py-4 border-t border-gray-100 mt-2">
-              <div class="flex items-center gap-3">
-                <img
-                  :src="UserService.getUserById(review.userId)?.image"
-                  :alt="UserService.getUserById(review.userId)?.username"
-                  class="w-10 h-10 object-cover rounded-full ring-2 ring-purple-400"
-                />
-                <span class="text-sm font-semibold text-gray-700">
-                  {{ UserService.getUserById(review.userId)?.username }}
-                </span>
-              </div>
-            </div>
-
-            <!-- Actions -->
             <template v-if="selectedEditingReviewId === review.id">
               <div class="flex items-center gap-2 px-5 pb-4">
                 <button
@@ -139,7 +138,7 @@ function saveEdit() {
                 </div>
 
                 <button
-                  v-if="ReviewService.canEdit(review)"
+                  v-if="review.userId === currentUserId"
                   @click="startEdit(review)"
                   type="button"
                   class="text-purple-600 text-sm font-medium hover:text-purple-800"
@@ -148,8 +147,8 @@ function saveEdit() {
                 </button>
 
                 <button
-                  v-if="ReviewService.canDelete(review)"
-                  @click="ReviewService.deleteReview(review.id)"
+                  v-if="review.userId === currentUserId"
+                  @click="deleteReview(review.id)"
                   type="button"
                   class="text-red-500 text-sm hover:text-red-700"
                 >

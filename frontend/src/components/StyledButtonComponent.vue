@@ -36,4 +36,3 @@ defineProps({
     <slot />
   </RouterLink>
 </template>
-

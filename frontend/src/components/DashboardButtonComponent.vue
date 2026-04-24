@@ -4,7 +4,7 @@ import { RouterLink } from 'vue-router';
 
 defineProps({
   to: {
-    type: [String, Object],
+    type: String,
     required: true,
   },
 });

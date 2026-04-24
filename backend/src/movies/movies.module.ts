@@ -1,3 +1,6 @@
+import { Actress } from 'src/actresses/entities/actress.entity';
+import { ActressesController } from 'src/actresses/actresses.controller';
+import { ActressesService } from 'src/actresses/actresses.service';
 import { AuthModule } from 'src/auth/auth.module';
 import { Module } from '@nestjs/common';
 import { Movie } from './entities/movie.entity';
@@ -9,8 +12,8 @@ import { ReviewsService } from 'src/reviews/reviews.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
-  imports: [AuthModule, TypeOrmModule.forFeature([Movie, Review])],
-  controllers: [MoviesController, ReviewsController],
-  providers: [MoviesService, ReviewsService],
+  imports: [AuthModule, TypeOrmModule.forFeature([Movie, Review, Actress])],
+  controllers: [MoviesController, ReviewsController, ActressesController],
+  providers: [MoviesService, ReviewsService, ActressesService],
 })
 export class MoviesModule {}

@@ -49,7 +49,6 @@ function resetForm() {
     movieId: 0,
   };
 }
-
 onMounted(async () => {
   try {
     selectorMovies.value = await MovieService.getMovies();
@@ -67,8 +66,10 @@ onMounted(async () => {
       <!-- Select movie-->
       <div>
         <label class="block text-gray-700 font-semibold mb-2" for="rating"> Movie </label>
-        <select v-model="selectedMovieId"
-          class="w-full border border-gray-300 rounded py-2 px-3 focus:outline-none focus:ring focus:border-purple-300">
+        <select
+          v-model="selectedMovieId"
+          class="w-full border border-gray-300 rounded py-2 px-3 focus:outline-none focus:ring focus:border-purple-300"
+        >
           <option value="">Select a movie</option>
 
           <option v-for="movie in selectorMovies" :key="movie.id" :value="movie.id">
@@ -80,9 +81,12 @@ onMounted(async () => {
       <!-- Rating -->
       <div>
         <label class="block text-gray-700 font-semibold mb-2" for="rating"> Rating </label>
-        <select v-model.number="form.rating" id="rating"
+        <select
+          v-model.number="form.rating"
+          id="rating"
           class="w-full border border-gray-300 rounded py-2 px-3 focus:outline-none focus:ring focus:border-blue-300"
-          required>
+          required
+        >
           <option v-for="n in 5" :key="n" :value="n">{{ n }} star{{ n > 1 ? 's' : '' }}</option>
         </select>
       </div>
@@ -90,14 +94,21 @@ onMounted(async () => {
       <!-- Comment -->
       <div>
         <label class="block text-gray-700 font-semibold mb-2" for="comment"> Comment </label>
-        <textarea v-model="form.comment" id="comment" rows="4"
+        <textarea
+          v-model="form.comment"
+          id="comment"
+          rows="4"
           class="w-full border border-gray-300 rounded py-2 px-3 focus:outline-none focus:ring focus:border-blue-300"
-          required placeholder="Write your review..." />
+          required
+          placeholder="Write your review..."
+        />
       </div>
 
       <div class="pt-4">
-        <button type="submit"
-          class="w-full bg-blue-600 text-white font-semibold py-3 rounded hover:bg-blue-700 transition">
+        <button
+          type="submit"
+          class="w-full bg-blue-600 text-white font-semibold py-3 rounded hover:bg-blue-700 transition"
+        >
           Create Review
         </button>
       </div>

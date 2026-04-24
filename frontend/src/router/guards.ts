@@ -5,8 +5,12 @@ import type { RouteLocationNormalized } from 'vue-router';
 import { AuthService } from '@/services/AuthService';
 
 export async function guards(to: RouteLocationNormalized) {
-  const isLogged = await AuthService.isLogged();
-  const isAdmin = await AuthService.isAdmin();
+  let isLogged = false;
+  let isAdmin = false;
+  try {
+    isLogged = await AuthService.isLogged();
+    isAdmin = await AuthService.isAdmin();
+  } catch {}
 
   if (to.meta.requiresAuth && !isLogged) {
     return { name: 'login', query: { redirect: to.fullPath } };

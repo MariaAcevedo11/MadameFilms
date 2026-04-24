@@ -14,7 +14,7 @@ export class AuthController {
     return this.authService.login(body.email, body.password);
   }
 
-  @Get('me')
+  @Get('currentUser')
   getCurrentUser(): User | null {
     return this.authService.getCurrentUser();
   }

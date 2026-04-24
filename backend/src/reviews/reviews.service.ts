@@ -28,9 +28,13 @@ export class ReviewsService {
     return this.reviewsRepository.findOneBy({ id });
   }
 
-  create(createReviewDto: CreateReviewDto): Promise<Review> {
-    const review = this.reviewsRepository.create(createReviewDto);
-    return this.reviewsRepository.save(review);
+  async create(dto: CreateReviewDto): Promise<Review> {
+    const newReview = this.reviewsRepository.create({
+      ...dto,
+      user: { id: dto.userId },
+      movie: { id: dto.movieId },
+    });
+    return await this.reviewsRepository.save(newReview);
   }
 
   async update(

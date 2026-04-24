@@ -3,7 +3,7 @@ import { CreateReviewDto } from './dto/create-review.dto';
 import { ReviewsService } from './reviews.service';
 import { Review } from './entities/reviews.entity';
 
-@Controller('Reviews')
+@Controller('reviews')
 export class ReviewsController {
   constructor(private readonly reviewsService: ReviewsService) {}
 
