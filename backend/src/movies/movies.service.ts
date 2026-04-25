@@ -17,28 +17,28 @@ import { User } from 'src/users/entities/user.entity';
 export class MoviesService {
   constructor(
     @InjectRepository(Movie)
-    private MoviesRepository: Repository<Movie>,
+    private moviesRepository: Repository<Movie>,
     private authService: AuthService,
   ) {}
 
   async findAll(): Promise<Movie[]> {
-    return this.MoviesRepository.find();
+    return this.moviesRepository.find();
   }
 
   async findOne(id: number): Promise<Movie | null> {
-    return this.MoviesRepository.findOneBy({ id });
+    return this.moviesRepository.findOneBy({ id });
   }
 
   async create(dto: CreateMovieDto): Promise<Movie> {
-    const newMovie = this.MoviesRepository.create({
+    const newMovie = this.moviesRepository.create({
       ...dto,
       actress: { id: dto.actressId },
     });
-    return this.MoviesRepository.save(newMovie);
+    return this.moviesRepository.save(newMovie);
   }
 
   async delete(id: number): Promise<void> {
-    await this.MoviesRepository.delete(id);
+    await this.moviesRepository.delete(id);
   }
 
   async update(id: number, dto: UpdateMovieDto, user: User): Promise<Movie> {
@@ -67,6 +67,6 @@ export class MoviesService {
       actressId: dto.actressId ?? existing.actressId,
     };
 
-    return this.MoviesRepository.save(updatedMovie);
+    return this.moviesRepository.save(updatedMovie);
   }
 }
