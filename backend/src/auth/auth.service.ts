@@ -1,49 +1,51 @@
-// External imports
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { JwtService } from '@nestjs/jwt';
 
 // Internal imports
 import { User } from '../users/entities/user.entity';
+import { UsersService } from 'src/users/users.service';
+import { LoginDto } from './dto/login.dto';
+import { RegisterDto } from './dto/register.dto';
+import { JwtPayload } from './jwt/jwt-payload.type';
 
 @Injectable()
 export class AuthService {
-  private loggedUser: User | null = null;
-
   constructor(
-    @InjectRepository(User)
-    private usersRepository: Repository<User>,
+    private readonly usersService: UsersService,
+    private readonly jwtService: JwtService,
   ) {}
 
-  async login(email: string, password: string): Promise<User> {
-    const normalizedEmail = email.trim().toLowerCase();
-    const normalizedPassword = password.trim();
+  async login(dto: LoginDto): Promise<{ access_token: string }> {
+    const { email, password } = dto;
 
-    const user = await this.usersRepository.findOne({
-      where: { email: normalizedEmail },
-    });
+    const user = await this.usersService.findByEmail(email);
 
-    if (!user || user.password !== normalizedPassword) {
+    if (!user || user.password !== password) {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    this.loggedUser = user;
-    return user;
+    const payload: JwtPayload = { sub: user.id, username: user.username };
+    const accessToken = await this.jwtService.signAsync(payload);
+
+    return { access_token: accessToken };
   }
 
-  getCurrentUser(): User | null {
-    return this.loggedUser;
+  async register(dto: RegisterDto): Promise<{ access_token: string }> {
+    const user = await this.usersService.create({
+      username: dto.username,
+      email: dto.email,
+      password: dto.password,
+      image: dto.image,
+      role: 'user',
+    });
+
+    const payload: JwtPayload = { sub: user.id, username: user.username };
+    const accessToken = await this.jwtService.signAsync(payload);
+
+    return { access_token: accessToken };
   }
 
-  logout(): void {
-    this.loggedUser = null;
-  }
-
-  async findById(id: number): Promise<User | null> {
-    return this.usersRepository.findOneBy({ id });
-  }
-
-  isAdmin(user: User): boolean {
-    return user.role === 'admin';
+  async getProfile(jwtPayload: JwtPayload): Promise<User | null> {
+    return this.usersService.findOne(jwtPayload.sub);
   }
 }

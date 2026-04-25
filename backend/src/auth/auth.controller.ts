@@ -1,26 +1,39 @@
-// External imports
-import { Body, Controller, Get, Post } from '@nestjs/common';
-
-// Internal imports
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { User } from '../users/entities/user.entity';
+import { LoginDto } from './dto/login.dto';
+import { RegisterDto } from './dto/register.dto';
+import { AuthGuard } from '@nestjs/passport';
+import { User } from 'src/users/entities/user.entity';
+import { JwtPayload } from './jwt/jwt-payload.type';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('login')
-  login(@Body() body: { email: string; password: string }): Promise<User> {
-    return this.authService.login(body.email, body.password);
+  login(@Body() dto: LoginDto): Promise<{ access_token: string }> {
+    return this.authService.login(dto);
   }
 
-  @Get('currentUser')
-  getCurrentUser(): User | null {
-    return this.authService.getCurrentUser();
+  @Post('register')
+  register(@Body() dto: RegisterDto): Promise<{ access_token: string }> {
+    return this.authService.register(dto);
   }
 
-  @Post('logout')
-  logout(): void {
-    return this.authService.logout();
+  @UseGuards(AuthGuard('jwt'))
+  @Get('profile')
+  async getProfile(
+    @Request() req: Request & { user: JwtPayload },
+  ): Promise<User | null> {
+    const user = await this.authService.getProfile(req.user);
+
+    return user;
   }
 }

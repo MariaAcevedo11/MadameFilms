@@ -1,8 +1,6 @@
 // Author: Gabriela Sanabria
 
 // Internal imports
-
-import { AuthService } from 'src/auth/auth.service';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { UpdateMovieDto } from './dto/update-movie.dto';
 
@@ -10,7 +8,6 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Movie } from './entities/movie.entity';
 import { Repository } from 'typeorm';
-import { User } from 'src/users/entities/user.entity';
 
 // Functions
 @Injectable()
@@ -18,7 +15,6 @@ export class MoviesService {
   constructor(
     @InjectRepository(Movie)
     private moviesRepository: Repository<Movie>,
-    private authService: AuthService,
   ) {}
 
   async findAll(): Promise<Movie[]> {
@@ -41,11 +37,7 @@ export class MoviesService {
     await this.moviesRepository.delete(id);
   }
 
-  async update(id: number, dto: UpdateMovieDto, user: User): Promise<Movie> {
-    if (!this.authService.isAdmin(user)) {
-      throw new Error('Only admin users can update movies.');
-    }
-
+  async update(id: number, dto: UpdateMovieDto): Promise<Movie> {
     const existing = await this.findOne(id);
 
     if (!existing) {

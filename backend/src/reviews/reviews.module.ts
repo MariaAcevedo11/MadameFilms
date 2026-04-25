@@ -1,16 +1,17 @@
-import { AuthModule } from 'src/auth/auth.module';
+// External imports
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { Module } from '@nestjs/common';
-import { Movie } from 'src/movies/entities/movie.entity';
-import { MoviesController } from 'src/movies/movies.controller';
-import { MoviesService } from 'src/movies/movies.service';
+
+//Internal imports
+import { MoviesModule } from 'src/movies/movies.module';
 import { Review } from './entities/reviews.entity';
 import { ReviewsController } from './reviews.controller';
 import { ReviewsService } from './reviews.service';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { UsersModule } from '../users/users.module';
 
 @Module({
-  imports: [AuthModule, TypeOrmModule.forFeature([Review, Movie])],
-  controllers: [ReviewsController, MoviesController],
-  providers: [ReviewsService, MoviesService],
+  imports: [TypeOrmModule.forFeature([Review]), UsersModule, MoviesModule],
+  controllers: [ReviewsController],
+  providers: [ReviewsService],
 })
 export class ReviewsModule {}
