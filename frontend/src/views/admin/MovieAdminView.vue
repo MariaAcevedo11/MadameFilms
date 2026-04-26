@@ -14,6 +14,8 @@ import StyledButtonComponent from '@/components/StyledButtonComponent.vue';
 
 //Reactive variables
 const actressNames = ref<Record<number, string>>({});
+const expandedRow = ref<number | null>(null);
+
 
 // Selectors
 const selectedEditingMovieId = ref<number | null>(null);
@@ -76,7 +78,7 @@ async function saveEdit() {
         editForm.value.selectedActressId !== '' ? Number(editForm.value.selectedActressId) : 0,
     });
 
-    refreshMovies(); 
+    refreshMovies();
 
     selectedEditingMovieId.value = null;
   } catch (err) {
@@ -116,212 +118,183 @@ async function deleteMovie(id: number) {
     alert(err instanceof Error ? err.message : 'Failed to delete review');
   }
 }
+
+// Style functions
+function toggleRow(id: number) {
+  expandedRow.value = expandedRow.value === id ? null : id;
+}
+
 </script>
 
 <template>
   <section class="max-w-7xl mx-auto py-10 px-6">
     <h2 class="text-3xl font-bold text-purple-800 mb-2">🎬 Movie Management</h2>
+    <p class="text-gray-600 mb-6">Manage your movie catalog.</p>
 
-    <p class="text-gray-600 mb-8">Manage your movie catalog.</p>
-
-    <StyledButtonComponent to="/admin/movies/create" :showIcon="true" class="mb-10">
+    <StyledButtonComponent to="/admin/movies/create" :showIcon="true" class="mb-6">
       Add Movie
     </StyledButtonComponent>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      <div
-        v-for="movie in selectorMovies"
-        :key="movie.id"
-        class="bg-white rounded-2xl shadow-md hover:shadow-xl transition duration-300 border border-purple-100 overflow-hidden"
-      >
-        <!-- Image (or preview when editing) -->
-        <div class="relative w-full h-56 bg-gray-100">
-          <img
-            :src="selectedEditingMovieId === movie.id ? editForm.image || movie.image : movie.image"
-            alt="Movie Cover"
-            class="w-full h-full object-cover"
-          />
-        </div>
+    <div class="overflow-x-auto bg-white rounded-2xl shadow-md border border-purple-100">
+      <table class="min-w-full text-sm">
+        <!-- HEADER -->
+        <thead class="bg-purple-100 text-purple-800">
+          <tr>
+            <th class="px-3 py-2">Image</th>
+            <th class="px-3 py-2">Title</th>
+            <th class="px-3 py-2">Genre</th>
+            <th class="px-3 py-2">Duration</th>
+            <th class="px-3 py-2">Director</th>
+            <th class="px-3 py-2">Actress</th>
+            <th class="px-3 py-2">Actions</th>
+          </tr>
+        </thead>
 
-        <!-- Content: view mode -->
-        <div v-if="selectedEditingMovieId !== movie.id" class="p-6 space-y-3">
-          <!-- Title + Actions -->
-          <div class="flex justify-between items-start gap-2">
-            <h3 class="text-xl font-bold text-purple-900">
-              {{ movie.title }}
-            </h3>
-            <div class="flex items-center gap-2 shrink-0">
-              <button
-                @click="startEdit(movie)"
-                type="button"
-                class="bg-purple-500 hover:bg-purple-600 text-white px-3 py-1 rounded-lg text-sm transition"
-              >
-                Edit
-              </button>
-              <button
-                @click="deleteMovie(movie.id)"
-                type="button"
-                class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg text-sm transition"
-              >
-                Delete
-              </button>
-            </div>
-          </div>
+        <tbody>
+          <template v-for="movie in selectorMovies" :key="movie.id">
+            <!-- ROW PRINCIPAL -->
+            <tr class="border-t hover:bg-purple-50 cursor-pointer" @click="toggleRow(movie.id)">
+              <!-- IMAGE -->
+              <td class="px-3 py-2">
+                <img :src="selectedEditingMovieId === movie.id ? editForm.image || movie.image : movie.image"
+                  class="w-16 h-20 object-cover rounded" />
+              </td>
 
-          <p class="text-gray-600 text-sm line-clamp-3">{{ movie.description }}</p>
+              <!-- TITLE -->
+              <td class="px-3 py-2">
+                <input v-if="selectedEditingMovieId === movie.id" v-model="editForm.title"
+                  class="border rounded px-2 py-1 w-full" />
+                <span v-else>{{ movie.title }}</span>
+              </td>
 
-          <div class="grid grid-cols-2 gap-2 text-sm mt-4">
-            <p><span class="font-semibold text-purple-700">Genre:</span> {{ movie.genre }}</p>
-            <p>
-              <span class="font-semibold text-purple-700">Duration:</span>
-              {{ movie.durationMin }} min
-            </p>
-            <p><span class="font-semibold text-purple-700">Director:</span> {{ movie.director }}</p>
-            <p><span class="font-semibold text-purple-700">Country:</span> {{ movie.country }}</p>
-            <p><span class="font-semibold text-purple-700">Language:</span> {{ movie.language }}</p>
-            <p>
-              <span class="font-semibold text-purple-700">Release:</span>
-              {{ new Date(movie.releaseDate).toLocaleDateString() }}
-            </p>
-          </div>
+              <!-- GENRE -->
+              <td class="px-3 py-2">
+                <input v-if="selectedEditingMovieId === movie.id" v-model="editForm.genre"
+                  class="border rounded px-2 py-1 w-full" />
+                <span v-else>{{ movie.genre }}</span>
+              </td>
 
-          <div class="pt-3 border-t border-purple-100 text-sm">
-            <span class="font-semibold text-purple-700">Cast:</span>
-            <p class="text-gray-600">{{ movie.cast }}</p>
-          </div>
+              <!-- DURATION -->
+              <td class="px-3 py-2">
+                <input v-if="selectedEditingMovieId === movie.id" v-model.number="editForm.durationMin" type="number"
+                  class="border rounded px-2 py-1 w-full" />
+                <span v-else>{{ movie.durationMin }} min</span>
+              </td>
 
-          <div v-if="movie.actressId" class="bg-purple-50 rounded-lg p-3 mt-3 text-sm">
-            ⭐ Featured Actress:
-            <span class="font-semibold text-purple-800">
-              {{ actressNames[movie.actressId] }}
-            </span>
-          </div>
-        </div>
+              <!-- DIRECTOR -->
+              <td class="px-3 py-2">
+                <input v-if="selectedEditingMovieId === movie.id" v-model="editForm.director"
+                  class="border rounded px-2 py-1 w-full" />
+                <span v-else>{{ movie.director }}</span>
+              </td>
 
-        <!-- Content: edit form -->
-        <div v-else class="p-4 space-y-3 max-h-[70vh] overflow-y-auto">
-          <div class="flex justify-between items-center border-b border-purple-100 pb-2">
-            <span class="font-semibold text-purple-800">Edit movie</span>
-            <div class="flex gap-2">
-              <button
-                @click="saveEdit"
-                type="button"
-                class="bg-purple-600 hover:bg-purple-700 text-white px-3 py-1.5 rounded-lg text-sm transition"
-              >
-                Save
-              </button>
-              <button
-                @click="cancelEdit"
-                type="button"
-                class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-3 py-1.5 rounded-lg text-sm transition"
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
+              <!-- ACTRESS -->
+              <td class="px-3 py-2">
+                <select v-if="selectedEditingMovieId === movie.id" v-model="editForm.selectedActressId"
+                  class="border rounded px-2 py-1 w-full">
+                  <option value="">None</option>
+                  <option v-for="actress in selectorActresses" :key="actress.id" :value="actress.id">
+                    {{ actress.fullName }}
+                  </option>
+                </select>
 
-          <div class="space-y-2 text-sm">
-            <div>
-              <label class="block font-semibold text-gray-700 mb-0.5">Title</label>
-              <input
-                v-model="editForm.title"
-                type="text"
-                class="w-full border border-gray-300 rounded py-1.5 px-2 focus:outline-none focus:ring focus:border-purple-300"
-              />
-            </div>
-            <div>
-              <label class="block font-semibold text-gray-700 mb-0.5">Description</label>
-              <textarea
-                v-model="editForm.description"
-                rows="2"
-                class="w-full border border-gray-300 rounded py-1.5 px-2 focus:outline-none focus:ring focus:border-purple-300"
-              />
-            </div>
-            <div>
-              <label class="block font-semibold text-gray-700 mb-0.5">Cast</label>
-              <input
-                v-model="editForm.cast"
-                type="text"
-                class="w-full border border-gray-300 rounded py-1.5 px-2 focus:outline-none focus:ring focus:border-purple-300"
-              />
-            </div>
-            <div>
-              <label class="block font-semibold text-gray-700 mb-0.5">Director</label>
-              <input
-                v-model="editForm.director"
-                type="text"
-                class="w-full border border-gray-300 rounded py-1.5 px-2 focus:outline-none focus:ring focus:border-purple-300"
-              />
-            </div>
-            <div class="grid grid-cols-2 gap-2">
-              <div>
-                <label class="block font-semibold text-gray-700 mb-0.5">Release date</label>
-                <input
-                  v-model="editForm.releaseDate"
-                  type="date"
-                  class="w-full border border-gray-300 rounded py-1.5 px-2 focus:outline-none focus:ring focus:border-purple-300"
-                />
-              </div>
-              <div>
-                <label class="block font-semibold text-gray-700 mb-0.5">Duration (min)</label>
-                <input
-                  v-model.number="editForm.durationMin"
-                  type="number"
-                  min="1"
-                  class="w-full border border-gray-300 rounded py-1.5 px-2 focus:outline-none focus:ring focus:border-purple-300"
-                />
-              </div>
-            </div>
-            <div>
-              <label class="block font-semibold text-gray-700 mb-0.5">Genre</label>
-              <input
-                v-model="editForm.genre"
-                type="text"
-                class="w-full border border-gray-300 rounded py-1.5 px-2 focus:outline-none focus:ring focus:border-purple-300"
-              />
-            </div>
-            <div class="grid grid-cols-2 gap-2">
-              <div>
-                <label class="block font-semibold text-gray-700 mb-0.5">Country</label>
-                <input
-                  v-model="editForm.country"
-                  type="text"
-                  class="w-full border border-gray-300 rounded py-1.5 px-2 focus:outline-none focus:ring focus:border-purple-300"
-                />
-              </div>
-              <div>
-                <label class="block font-semibold text-gray-700 mb-0.5">Language</label>
-                <input
-                  v-model="editForm.language"
-                  type="text"
-                  class="w-full border border-gray-300 rounded py-1.5 px-2 focus:outline-none focus:ring focus:border-purple-300"
-                />
-              </div>
-            </div>
-            <div>
-              <label class="block font-semibold text-gray-700 mb-0.5">Actress</label>
-              <select
-                v-model="editForm.selectedActressId"
-                class="w-full border border-gray-300 rounded py-1.5 px-2 focus:outline-none focus:ring focus:border-purple-300"
-              >
-                <option value="">None</option>
-                <option v-for="actress in selectorActresses" :key="actress.id" :value="actress.id">
-                  {{ actress.fullName }}
-                </option>
-              </select>
-            </div>
-            <div>
-              <label class="block font-semibold text-gray-700 mb-0.5">Image URL</label>
-              <input
-                v-model="editForm.image"
-                type="text"
-                class="w-full border border-gray-300 rounded py-1.5 px-2 focus:outline-none focus:ring focus:border-purple-300"
-                placeholder="https://..."
-              />
-            </div>
-          </div>
-        </div>
-      </div>
+                <span v-else>
+                  {{ actressNames[movie.actressId] || '—' }}
+                </span>
+              </td>
+
+              <!-- ACTIONS -->
+              <td class="px-3 py-2 space-x-2" @click.stop>
+                <template v-if="selectedEditingMovieId === movie.id">
+                  <button @click="saveEdit" class="bg-purple-600 text-white px-2 py-1 rounded text-xs">
+                    Save
+                  </button>
+
+                  <button @click="cancelEdit" class="bg-gray-300 px-2 py-1 rounded text-xs">
+                    Cancel
+                  </button>
+                </template>
+
+                <template v-else>
+                  <button @click="startEdit(movie)" class="bg-purple-500 text-white px-2 py-1 rounded text-xs">
+                    Edit
+                  </button>
+
+                  <button @click="deleteMovie(movie.id)" class="bg-red-500 text-white px-2 py-1 rounded text-xs">
+                    Delete
+                  </button>
+                </template>
+              </td>
+            </tr>
+
+            <!-- ROW EXPANDIBLE -->
+            <tr v-if="expandedRow === movie.id">
+              <td colspan="7" class="px-6 py-5 bg-linear-to-r from-purple-50 to-white">
+
+                <div class="bg-white rounded-2xl shadow-sm border border-purple-100 p-5">
+
+                  <!-- HEADER -->
+                  <div class="flex items-center justify-between mb-4">
+                    <h4 class="text-lg font-semibold text-purple-800 flex items-center gap-2">
+                      📄 Movie Details
+                    </h4>
+
+                    <span class="text-xs text-gray-400">
+                      ID: {{ movie.id }}
+                    </span>
+                  </div>
+
+                  <!-- GRID INFO -->
+                  <div class="grid md:grid-cols-2 gap-4 text-sm">
+
+                    <div class="space-y-2">
+                      <p>
+                        <span class="font-semibold text-purple-700">🎭 Cast:</span><br />
+                        <span class="text-gray-600">{{ movie.cast }}</span>
+                      </p>
+
+                      <p>
+                        <span class="font-semibold text-purple-700">🌍 Country:</span>
+                        <span class="text-gray-600">{{ movie.country }}</span>
+                      </p>
+
+                      <p>
+                        <span class="font-semibold text-purple-700">🗣 Language:</span>
+                        <span class="text-gray-600">{{ movie.language }}</span>
+                      </p>
+                    </div>
+
+                    <div class="space-y-2">
+                      <p>
+                        <span class="font-semibold text-purple-700">📅 Release:</span>
+                        <span class="text-gray-600">
+                          {{ new Date(movie.releaseDate).toLocaleDateString() }}
+                        </span>
+                      </p>
+
+                      <p v-if="movie.actressId">
+                        <span class="font-semibold text-purple-700">⭐ Actress:</span>
+                        <span class="text-gray-600">
+                          {{ actressNames[movie.actressId] }}
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+
+                  <!-- DESCRIPTION -->
+                  <div class="mt-5 pt-4 border-t border-purple-100">
+                    <p class="font-semibold text-purple-700 mb-1">📝 Description</p>
+                    <p class="text-gray-600 leading-relaxed">
+                      {{ movie.description }}
+                    </p>
+                  </div>
+
+                </div>
+              </td>
+            </tr>
+          </template>
+        </tbody>
+      </table>
     </div>
   </section>
 </template>
