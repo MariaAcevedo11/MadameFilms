@@ -1,3 +1,5 @@
+// External imports
+import { AuthGuard } from '@nestjs/passport';
 import {
   Body,
   Controller,
@@ -6,10 +8,11 @@ import {
   Request,
   UseGuards,
 } from '@nestjs/common';
+
+// Internal imports
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
-import { AuthGuard } from '@nestjs/passport';
 import { User } from 'src/users/entities/user.entity';
 import { JwtPayload } from './jwt/jwt-payload.type';
 

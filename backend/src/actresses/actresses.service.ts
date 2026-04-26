@@ -1,8 +1,11 @@
-import { Actress } from './entities/actress.entity';
+// External imports
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+
+// Internal imports
 import { CreateActressDto } from './dto/create-actress.dto';
+import { Actress } from './entities/actress.entity';
 
 @Injectable()
 export class ActressesService {

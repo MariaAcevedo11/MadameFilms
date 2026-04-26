@@ -106,6 +106,16 @@ onMounted(async () => {
 async function refreshMovies() {
   selectorMovies.value = await MovieService.getMovies();
 }
+
+async function deleteMovie(id: number) {
+  try {
+    await MovieService.deleteMovie(id);
+
+    selectorMovies.value = await MovieService.getMovies();
+  } catch (err) {
+    alert(err instanceof Error ? err.message : 'Failed to delete review');
+  }
+}
 </script>
 
 <template>
@@ -149,7 +159,7 @@ async function refreshMovies() {
                 Edit
               </button>
               <button
-                @click="MovieService.deleteMovie(movie.id)"
+                @click="deleteMovie(movie.id)"
                 type="button"
                 class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg text-sm transition"
               >

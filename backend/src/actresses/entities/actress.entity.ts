@@ -1,5 +1,8 @@
+// External imports
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+
+// Internal imports
 import { Movie } from 'src/movies/entities/movie.entity';
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 @Entity()
 export class Actress {

@@ -1,16 +1,18 @@
-import { Actress } from 'src/actresses/entities/actress.entity';
-import { Review } from 'src/reviews/entities/reviews.entity';
+// External imports
 import {
-  Entity,
   Column,
-  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
   ManyToOne,
   OneToMany,
-  JoinColumn,
+  PrimaryGeneratedColumn,
   RelationId,
-  CreateDateColumn,
 } from 'typeorm';
 
+// Internal imports
+import { Actress } from 'src/actresses/entities/actress.entity';
+import { Review } from 'src/reviews/entities/reviews.entity';
 @Entity()
 export class Movie {
   @PrimaryGeneratedColumn()

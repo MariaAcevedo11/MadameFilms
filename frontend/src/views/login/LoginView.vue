@@ -22,12 +22,10 @@ async function handleLogin() {
 
   try {
     await AuthService.login(form.value.email, form.value.password);
-
-    // obtener el perfil inmediatamente después de login
+  
     const user = await AuthService.getProfile();
     console.log('Usuario logueado:', user);
 
-    // redirigir a la vista principal
     router.push('/');
   } catch (err) {
     errorMessage.value = err instanceof Error ? err.message : 'Login failed';

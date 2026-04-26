@@ -1,15 +1,18 @@
+// External imports
 import {
+  Body,
   Controller,
+  Delete,
   Get,
   Param,
-  Post,
-  Body,
-  Delete,
   Patch,
+  Post,
 } from '@nestjs/common';
+
+// Internal imports
 import { CreateMovieDto } from './dto/create-movie.dto';
-import { MoviesService } from './movies.service';
 import { Movie } from './entities/movie.entity';
+import { MoviesService } from './movies.service';
 
 @Controller('movies')
 export class MoviesController {

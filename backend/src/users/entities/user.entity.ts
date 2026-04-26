@@ -1,6 +1,8 @@
-import { Review } from 'src/reviews/entities/reviews.entity';
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+// External imports
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
+// Internal imports
+import { Review } from 'src/reviews/entities/reviews.entity';
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()

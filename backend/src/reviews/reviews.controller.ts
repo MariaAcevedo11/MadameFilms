@@ -1,15 +1,22 @@
+// External imports
 import {
+  Body,
   Controller,
+  Delete,
   Get,
   Param,
-  Post,
-  Body,
-  Delete,
   Patch,
+  Post,
+  Request,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+
+// Internal imports
+import type { AuthRequest } from 'src/auth/jwt/auth-request.type';
 import { CreateReviewDto } from './dto/create-review.dto';
-import { ReviewsService } from './reviews.service';
 import { Review } from './entities/reviews.entity';
+import { ReviewsService } from './reviews.service';
 
 @Controller('reviews')
 export class ReviewsController {
@@ -26,8 +33,9 @@ export class ReviewsController {
   }
 
   @Post()
-  create(@Body() createReviewDto: CreateReviewDto): Promise<Review> {
-    return this.reviewsService.create(createReviewDto);
+  @UseGuards(AuthGuard('jwt'))
+  create(@Body() dto: CreateReviewDto, @Request() req: AuthRequest) {
+    return this.reviewsService.create(dto, req.user.id);
   }
 
   @Patch(':id')

@@ -24,15 +24,6 @@ onMounted(async () => {
   }
 });
 
-// en App.vue
-import { watchEffect } from 'vue';
-
-watchEffect(async () => {
-  loggedUser.value = await AuthService.getCurrentUser();
-  isAdmin.value = loggedUser.value?.role === 'admin';
-});
-
-
 // Logout
 function logout(): void {
   AuthService.logout();

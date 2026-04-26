@@ -1,4 +1,7 @@
-import { Controller, Get, Param, Body, Post } from '@nestjs/common';
+// External imports
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+
+// Internal imports
 import { Actress } from './entities/actress.entity';
 import { ActressesService } from './actresses.service';
 import { CreateActressDto } from './dto/create-actress.dto';
