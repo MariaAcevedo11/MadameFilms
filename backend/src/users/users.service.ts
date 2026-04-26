@@ -47,12 +47,12 @@ export class UsersService {
     return this.usersRepository.save(dto);
   }
 
-  async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
+  async update(id: number, dto: UpdateUserDto): Promise<User> {
     const user = await this.findOne(id);
 
-    if (updateUserDto.username) {
+    if (dto.username) {
       const usernameExists = await this.usersRepository.findOneBy({
-        username: updateUserDto.username,
+        username: dto.username,
       });
 
       if (usernameExists && usernameExists.id !== user.id) {
@@ -60,9 +60,9 @@ export class UsersService {
       }
     }
 
-    if (updateUserDto.email) {
+    if (dto.email) {
       const emailExists = await this.usersRepository.findOneBy({
-        email: updateUserDto.email,
+        email: dto.email,
       });
 
       if (emailExists && emailExists.id !== user.id) {
@@ -72,7 +72,7 @@ export class UsersService {
 
     const updatedUser = this.usersRepository.create({
       ...user,
-      ...updateUserDto,
+      ...dto,
     });
 
     return this.usersRepository.save(updatedUser);

@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Body } from '@nestjs/common';
+import { Controller, Get, Param, Post, Body, Delete } from '@nestjs/common';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { MoviesService } from './movies.service';
 import { Movie } from './entities/movie.entity';
@@ -20,5 +20,9 @@ export class MoviesController {
   @Post()
   create(@Body() createMovieDto: CreateMovieDto): Promise<Movie> {
     return this.moviesService.create(createMovieDto);
+  }
+  @Delete(':id')
+  delete(@Param('id') id: string): Promise<void> {
+    return this.moviesService.delete(Number(id));
   }
 }

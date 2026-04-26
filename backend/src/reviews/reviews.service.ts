@@ -1,9 +1,5 @@
 // External imports
-import {
-  ForbiddenException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -37,44 +33,27 @@ export class ReviewsService {
     return await this.reviewsRepository.save(newReview);
   }
 
-  async update(
-    id: number,
-    updateReviewDto: UpdateReviewDto,
-    loggedUser: User,
-  ): Promise<Review> {
+  async update(id: number, dto: UpdateReviewDto): Promise<Review> {
     const existing = await this.findOne(id);
 
     if (!existing) {
       throw new NotFoundException(`Review with id ${id} not found`);
     }
 
-    if (existing.userId !== loggedUser.id) {
-      throw new ForbiddenException(
-        'You are not authorized to update this review',
-      );
-    }
-
     const updated = this.reviewsRepository.merge(existing, {
-      ...updateReviewDto,
+      ...dto,
       date: new Date(),
     });
 
     return this.reviewsRepository.save(updated);
   }
 
-  async delete(id: number, loggedUser: User): Promise<void> {
+  async delete(id: number): Promise<void> {
     const review = await this.findOne(id);
 
     if (!review) {
       throw new NotFoundException(`Review with id ${id} not found`);
     }
-
-    if (!this.canDelete(review, loggedUser)) {
-      throw new ForbiddenException(
-        'You are not authorized to delete this review',
-      );
-    }
-
     await this.reviewsRepository.delete(id);
   }
 

@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Body } from '@nestjs/common';
+import { Controller, Get, Param, Post, Body, Delete } from '@nestjs/common';
 import { CreateReviewDto } from './dto/create-review.dto';
 import { ReviewsService } from './reviews.service';
 import { Review } from './entities/reviews.entity';
@@ -20,5 +20,9 @@ export class ReviewsController {
   @Post()
   create(@Body() createReviewDto: CreateReviewDto): Promise<Review> {
     return this.reviewsService.create(createReviewDto);
+  }
+  @Delete(':id')
+  delete(@Param('id') id: string): Promise<void> {
+    return this.reviewsService.delete(Number(id));
   }
 }
