@@ -55,6 +55,8 @@ const router = createRouter({
   ],
 });
 
-router.beforeEach(guards);
+router.beforeEach(async (to) => {
+  return await guards(to);
+});
 
 export default router;

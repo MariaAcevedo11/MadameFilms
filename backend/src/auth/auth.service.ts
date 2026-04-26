@@ -25,7 +25,7 @@ export class AuthService {
     }
 
     const payload: JwtPayload = {
-      sub: user.id,
+      id: user.id,
       username: user.username,
       role: user.role,
     };
@@ -44,7 +44,7 @@ export class AuthService {
     });
 
     const payload: JwtPayload = {
-      sub: user.id,
+      id: user.id,
       username: user.username,
       role: user.role,
     };
@@ -54,6 +54,6 @@ export class AuthService {
   }
 
   async getProfile(jwtPayload: JwtPayload): Promise<User | null> {
-    return this.usersService.findOne(jwtPayload.sub);
+    return this.usersService.findOne(jwtPayload.id);
   }
 }
