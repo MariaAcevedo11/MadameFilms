@@ -8,6 +8,7 @@ import { AuthService } from '@/services/AuthService';
 
 // Reactive variables
 const errorMessage = ref('');
+const successMessage = ref('');
 // Form
 const form = ref({
   email: '',
@@ -17,9 +18,11 @@ const form = ref({
 // Functions
 async function handleLogin() {
   errorMessage.value = '';
+  successMessage.value = '';
 
   try {
     await AuthService.login(form.value.email, form.value.password);
+    successMessage.value = 'Usuario registrado correctamente';
   } catch (err) {
     errorMessage.value = err instanceof Error ? err.message : 'Login failed';
   }
@@ -48,6 +51,9 @@ async function handleLogin() {
 
         <p v-if="errorMessage" class="text-red-500 text-sm">
           {{ errorMessage }}
+        </p>
+        <p v-if="successMessage" class="text-green-500 text-sm">
+          {{ successMessage }}
         </p>
 
         <button @click="handleLogin"
