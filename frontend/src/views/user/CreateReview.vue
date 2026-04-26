@@ -20,7 +20,6 @@ const successMessage = ref('');
 const form = ref<CreateReviewDTO>({
   rating: 1,
   comment: '',
-  userId: 0,
   movieId: 0,
 });
 
@@ -45,7 +44,6 @@ function resetForm() {
   form.value = {
     rating: 1,
     comment: '',
-    userId: 0,
     movieId: 0,
   };
 }

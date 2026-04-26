@@ -23,12 +23,13 @@ export class ReviewsService {
     return this.reviewsRepository.findOneBy({ id });
   }
 
-  async create(dto: CreateReviewDto): Promise<Review> {
+  async create(dto: CreateReviewDto, userId: number): Promise<Review> {
     const newReview = this.reviewsRepository.create({
       ...dto,
-      user: { id: dto.userId },
-      movie: { id: dto.movieId },
+      user: { id: userId },
+      date: new Date(),
     });
+
     return await this.reviewsRepository.save(newReview);
   }
 
