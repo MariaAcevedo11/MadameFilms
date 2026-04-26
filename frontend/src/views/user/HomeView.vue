@@ -92,7 +92,7 @@ function createChart(): void {
   chartInstance = new Chart(ctx, config);
 }
 
-// Lifecycle hooks
+// On Mounted 
 onMounted(async () => {
   try {
     actresses.value = await ActressService.getActress();

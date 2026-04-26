@@ -17,8 +17,8 @@ const actressNames = ref<Record<number, string>>({});
 
 // Selectors
 const selectedEditingMovieId = ref<number | null>(null);
-const selectorActresses = ref<ActressInterface[] | null>(null);
-const selectorMovies = ref<MovieInterface[] | null>(null);
+const selectorActresses = ref<ActressInterface[]>([]);
+const selectorMovies = ref<MovieInterface[]>([]);
 
 // Forms
 const editForm = ref({
@@ -36,7 +36,7 @@ const editForm = ref({
 });
 
 // Functions
-function startEdit(movie: MovieInterface) {
+async function startEdit(movie: MovieInterface) {
   selectedEditingMovieId.value = movie.id;
   editForm.value = {
     title: movie.title,
@@ -53,7 +53,7 @@ function startEdit(movie: MovieInterface) {
   };
 }
 
-function cancelEdit() {
+async function cancelEdit() {
   selectedEditingMovieId.value = null;
 }
 
@@ -75,6 +75,8 @@ async function saveEdit() {
       actressId:
         editForm.value.selectedActressId !== '' ? Number(editForm.value.selectedActressId) : 0,
     });
+
+    refreshMovies(); 
 
     selectedEditingMovieId.value = null;
   } catch (err) {
@@ -100,6 +102,10 @@ onMounted(async () => {
     console.error(error);
   }
 });
+
+async function refreshMovies() {
+  selectorMovies.value = await MovieService.getMovies();
+}
 </script>
 
 <template>
