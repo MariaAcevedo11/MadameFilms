@@ -27,6 +27,7 @@ export class ReviewsService {
     const newReview = this.reviewsRepository.create({
       ...dto,
       user: { id: userId },
+      movie: { id: dto.movieId },
       date: new Date(),
     });
 

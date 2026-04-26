@@ -34,21 +34,17 @@ export class AuthService {
     const authStore = useAuthStore();
 
     if (!authStore.accessToken) return null;
-
     if (authStore.loggedInUser) {
       return authStore.loggedInUser;
     }
 
     await authStore.fetchUser();
-
     return authStore.loggedInUser;
   }
 
   public static async isAdmin(): Promise<boolean> {
     const user = await this.getCurrentUser();
-
     if (!user) return false;
-
     return user.role === 'admin';
   }
 

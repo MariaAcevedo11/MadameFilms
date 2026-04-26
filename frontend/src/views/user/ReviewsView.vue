@@ -14,6 +14,7 @@ import { AuthService } from '@/services/AuthService';
 // Variables
 const movies = ref<MovieInterface[]>([]);
 const currentUserId = ref<number | null>(null);
+const isAdmin = ref(false);
 
 //Selectors
 const selectorReviews = ref<ReviewInterface[]>([]);
@@ -41,7 +42,7 @@ async function saveEdit() {
       comment: editForm.value.comment.trim(),
     });
 
-    refreshReviews(); 
+    refreshReviews();
 
     selectedEditingReviewId.value = null;
     selectorReviews.value = await ReviewService.getReviews();
@@ -64,6 +65,7 @@ onMounted(async () => {
   try {
     const user = await AuthService.getCurrentUser();
     currentUserId.value = user?.id ?? null;
+    isAdmin.value = user?.role === 'admin';
 
     selectorReviews.value = await ReviewService.getReviews();
     movies.value = await MovieService.getMovies();
@@ -130,12 +132,12 @@ async function refreshReviews() {
                   <span class="text-sm font-bold text-yellow-600"> {{ review.rating }}/5 </span>
                 </div>
 
-                <button v-if="review.userId === currentUserId" @click="startEdit(review)" type="button"
+                <button v-if="review.userId === currentUserId || isAdmin" @click="startEdit(review)" type="button"
                   class="text-purple-600 text-sm font-medium hover:text-purple-800">
                   Edit
                 </button>
 
-                <button v-if="review.userId === currentUserId" @click="deleteReview(review.id)" type="button"
+                <button v-if="review.userId === currentUserId || isAdmin" @click="deleteReview(review.id)" type="button"
                   class="text-red-500 text-sm hover:text-red-700">
                   Delete
                 </button>
