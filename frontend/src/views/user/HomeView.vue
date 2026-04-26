@@ -11,6 +11,8 @@ import 'swiper/css/pagination';
 
 // Internal imports
 import { ActressService } from '@/services/ActressService';
+import type { ActressInterface } from '@/interfaces/ActressInterface';
+import type { ReviewInterface } from '@/interfaces/ReviewInterface';
 import type { MovieInterface } from '@/interfaces/MovieInterface';
 import { MovieService } from '@/services/MovieService';
 import { ReviewService } from '@/services/ReviewService';

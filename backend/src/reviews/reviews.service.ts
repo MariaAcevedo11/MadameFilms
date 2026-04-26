@@ -7,7 +7,6 @@ import { Repository } from 'typeorm';
 import { CreateReviewDto } from './dto/create-review.dto';
 import { UpdateReviewDto } from './dto/update-review.dto';
 import { Review } from './entities/reviews.entity';
-import { User } from '../users/entities/user.entity';
 
 @Injectable()
 export class ReviewsService {
@@ -55,17 +54,5 @@ export class ReviewsService {
       throw new NotFoundException(`Review with id ${id} not found`);
     }
     await this.reviewsRepository.delete(id);
-  }
-
-  canEdit(review: Review, loggedUser: User | null): boolean {
-    if (!loggedUser) return false;
-
-    return review.userId === loggedUser.id;
-  }
-
-  canDelete(review: Review, loggedUser: User | null): boolean {
-    if (!loggedUser) return false;
-
-    return review.userId === loggedUser.id || loggedUser.role === 'admin';
   }
 }

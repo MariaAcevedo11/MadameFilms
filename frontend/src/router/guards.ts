@@ -1,26 +1,28 @@
-// External imports
-import type { RouteLocationNormalized } from 'vue-router';
 
-// Internal imports
+import type { RouteLocationNormalized } from 'vue-router';
 import { AuthService } from '@/services/AuthService';
 
 export async function guards(to: RouteLocationNormalized) {
-  let isLogged = false;
-  let isAdmin = false;
   try {
-    isLogged = await AuthService.isLogged();
-    isAdmin = await AuthService.isAdmin();
-  } catch {}
+    const user = await AuthService.getCurrentUser();
+    const isLogged = !!user;
+    const isAdmin = user?.role === 'admin';
 
-  if (to.meta.requiresAuth && !isLogged) {
-    return { name: 'login', query: { redirect: to.fullPath } };
-  }
+    if (to.meta.requiresAuth && !isLogged) {
+      return { name: 'login', query: { redirect: to.fullPath } };
+    }
 
-  if (to.meta.requiresAdmin && !isAdmin) {
-    return { name: 'home' };
-  }
+    if (to.meta.requiresAdmin && !isAdmin) {
+      return { name: 'home' };
+    }
 
-  if (to.meta.guestOnly && isLogged) {
-    return { name: 'home' };
+    if (to.meta.guestOnly && isLogged) {
+      return { name: 'home' };
+    }
+  } catch (err) {
+    
+    if (to.meta.requiresAuth) {
+      return { name: 'login', query: { redirect: to.fullPath } };
+    }
   }
 }

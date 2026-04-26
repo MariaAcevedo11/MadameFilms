@@ -1,50 +1,59 @@
-// Author: Gabriela Martinez
-
-//External imports
-import axios from 'axios';
-
-//Internal imports
+// External imports
 import type { UserInterface } from '@/interfaces/UserInterface';
+import { useAuthStore } from '@/stores/authStore';
+import api from "@/api/interceptors";
 
 export class AuthService {
-  private static readonly API_URL = 'http://localhost:3000/api/auth';
+  private static readonly API_URL = '/auth';
 
-  public static async login(email: string, password: string): Promise<UserInterface> {
-    const normalizedEmail = email.trim().toLowerCase();
-    const normalizedPassword = password.trim();
-
-    const { data } = await axios.post(`${this.API_URL}/login`, {
-      email: normalizedEmail,
-      password: normalizedPassword,
+  public static async login(email: string, password: string): Promise<void> {
+    const { data } = await api.post(`${this.API_URL}/login`, {
+      email: email.trim().toLowerCase(),
+      password: password.trim(),
     });
 
+    const authStore = useAuthStore();
+    authStore.setSession(data.access_token);
+
+    // inmediatamente obtener el perfil
+    const profile = await this.getProfile();
+    authStore.setUser(profile);
+  }
+
+  public static async getProfile(): Promise<UserInterface> {
+    const authStore = useAuthStore();
+    const { data } = await api.get(`${this.API_URL}/profile`, {
+      headers: {
+        Authorization: `Bearer ${authStore.accessToken}`,
+      },
+    });
     return data;
   }
 
-  public static async getCurrentUser(): Promise<UserInterface> {
-    const { data } = await axios.get(`${this.API_URL}/currentUser`);
-    return data;
-  }
+  public static async getCurrentUser(): Promise<UserInterface | null> {
+    const authStore = useAuthStore();
 
-  public static async isLogged(): Promise<boolean> {
-    try {
-      await this.getCurrentUser();
-      return true;
-    } catch {
-      return false;
+    if (!authStore.accessToken) return null;
+
+    if (authStore.loggedInUser) {
+      return authStore.loggedInUser;
     }
+
+    await authStore.fetchUser();
+
+    return authStore.loggedInUser;
   }
 
   public static async isAdmin(): Promise<boolean> {
-    try {
-      const user = await this.getCurrentUser();
-      return user.role === 'admin';
-    } catch {
-      return false;
-    }
+    const user = await this.getCurrentUser();
+
+    if (!user) return false;
+
+    return user.role === 'admin';
   }
 
-  public static async logout(): Promise<void> {
-    await axios.post(`${this.API_URL}/logout`);
+  public static logout(): void {
+    const authStore = useAuthStore();
+    authStore.clearSession();
   }
 }
