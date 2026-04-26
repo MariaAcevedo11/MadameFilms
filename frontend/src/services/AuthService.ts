@@ -1,7 +1,7 @@
 // External imports
 import type { UserInterface } from '@/interfaces/UserInterface';
 import { useAuthStore } from '@/stores/authStore';
-import api from "@/api/interceptors";
+import api from '@/api/interceptors';
 
 export class AuthService {
   private static readonly API_URL = '/auth';
@@ -16,6 +16,28 @@ export class AuthService {
     authStore.setSession(data.access_token);
 
     // inmediatamente obtener el perfil
+    const profile = await this.getProfile();
+    authStore.setUser(profile);
+  }
+
+  public static async register(dto: {
+    username: string;
+    email: string;
+    password: string;
+    image: string;
+    role: string;
+  }): Promise<void> {
+    const { data } = await api.post(`${this.API_URL}/register`, {
+      username: dto.username.trim(),
+      email: dto.email.trim().toLowerCase(),
+      password: dto.password.trim(),
+      image: dto.image.trim(),
+      role: dto.role, 
+    });
+
+    const authStore = useAuthStore();
+    authStore.setSession(data.access_token);
+
     const profile = await this.getProfile();
     authStore.setUser(profile);
   }

@@ -89,6 +89,21 @@ function logout(): void {
             </DashboardButtonComponent>
           </li>
 
+          <li
+            class="group w-14 overflow-hidden rounded-lg border-l border-transparent bg-white transition-all duration-500 hover:w-36 hover:border-gray-200 hover:shadow-[0_4px_20px_rgba(0,0,0,0.35)]">
+            <DashboardButtonComponent to="/register">
+              <template #icon>
+                <svg class="size-6" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" fill="none">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M15 14c3.314 0 6 2.686 6 6H3c0-3.314 2.686-6 6-6h6z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 12a4 4 0 100-8 4 4 0 000 8z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 8h4m-2-2v4" />
+                </svg>
+              </template>
+              Register
+            </DashboardButtonComponent>
+          </li>
+
           <li v-if="isAdmin"
             class="group w-14 overflow-hidden rounded-lg border-l border-transparent bg-white transition-all duration-500 hover:w-36 hover:border-gray-200 hover:shadow-[0_4px_20px_rgba(0,0,0,0.35)]">
             <DashboardButtonComponent to="/admin/movies">

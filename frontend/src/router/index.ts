@@ -15,6 +15,7 @@ import MovieAdminView from '@/views/admin/MovieAdminView.vue';
 
 // Auth views
 import LoginView from '@/views/login/LoginView.vue';
+import RegisterView from '@/views/login/RegisterView.vue';
 
 // Guards
 import { guards } from './guards';
@@ -52,6 +53,7 @@ const router = createRouter({
       meta: { title: 'ReviewsCreate', requiresAuth: true },
     },
     { path: '/login', name: 'login', component: LoginView, meta: { title: 'Login' } },
+    { path: '/register', name: 'register', component: RegisterView, meta: { title: 'Register' } },
   ],
 });
 
