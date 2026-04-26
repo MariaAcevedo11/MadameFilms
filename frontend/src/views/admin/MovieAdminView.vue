@@ -40,6 +40,7 @@ const editForm = ref({
 // Functions
 async function startEdit(movie: MovieInterface) {
   selectedEditingMovieId.value = movie.id;
+  expandedRow.value = movie.id;
   editForm.value = {
     title: movie.title,
     description: movie.description,
@@ -234,58 +235,53 @@ function toggleRow(id: number) {
                 <div class="bg-white rounded-2xl shadow-sm border border-purple-100 p-5">
 
                   <!-- HEADER -->
-                  <div class="flex items-center justify-between mb-4">
-                    <h4 class="text-lg font-semibold text-purple-800 flex items-center gap-2">
-                      📄 Movie Details
+                  <div class="flex justify-between items-center mb-4">
+                    <h4 class="text-lg font-semibold text-purple-800">
+                      Movie Details
                     </h4>
-
-                    <span class="text-xs text-gray-400">
-                      ID: {{ movie.id }}
-                    </span>
                   </div>
 
-                  <!-- GRID INFO -->
-                  <div class="grid md:grid-cols-2 gap-4 text-sm">
+                  <!-- MODO EDICIÓN -->
+                  <div v-if="selectedEditingMovieId === movie.id" class="space-y-4 text-sm">
 
-                    <div class="space-y-2">
-                      <p>
-                        <span class="font-semibold text-purple-700">🎭 Cast:</span><br />
-                        <span class="text-gray-600">{{ movie.cast }}</span>
-                      </p>
-
-                      <p>
-                        <span class="font-semibold text-purple-700">🌍 Country:</span>
-                        <span class="text-gray-600">{{ movie.country }}</span>
-                      </p>
-
-                      <p>
-                        <span class="font-semibold text-purple-700">🗣 Language:</span>
-                        <span class="text-gray-600">{{ movie.language }}</span>
-                      </p>
+                    <div>
+                      <label class="font-semibold text-purple-700">Description</label>
+                      <textarea v-model="editForm.description" class="w-full border rounded px-2 py-1"></textarea>
                     </div>
 
-                    <div class="space-y-2">
-                      <p>
-                        <span class="font-semibold text-purple-700">📅 Release:</span>
-                        <span class="text-gray-600">
-                          {{ new Date(movie.releaseDate).toLocaleDateString() }}
-                        </span>
-                      </p>
-
-                      <p v-if="movie.actressId">
-                        <span class="font-semibold text-purple-700">⭐ Actress:</span>
-                        <span class="text-gray-600">
-                          {{ actressNames[movie.actressId] }}
-                        </span>
-                      </p>
+                    <div>
+                      <label class="font-semibold text-purple-700">Cast</label>
+                      <input v-model="editForm.cast" class="w-full border rounded px-2 py-1" />
                     </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                      <div>
+                        <label class="font-semibold text-purple-700">Country</label>
+                        <input v-model="editForm.country" class="w-full border rounded px-2 py-1" />
+                      </div>
+
+                      <div>
+                        <label class="font-semibold text-purple-700">Language</label>
+                        <input v-model="editForm.language" class="w-full border rounded px-2 py-1" />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label class="font-semibold text-purple-700">Release Date</label>
+                      <input type="date" v-model="editForm.releaseDate" class="w-full border rounded px-2 py-1" />
+                    </div>
+
                   </div>
 
-                  <!-- DESCRIPTION -->
-                  <div class="mt-5 pt-4 border-t border-purple-100">
-                    <p class="font-semibold text-purple-700 mb-1">📝 Description</p>
-                    <p class="text-gray-600 leading-relaxed">
-                      {{ movie.description }}
+                  <!-- MODO VISTA -->
+                  <div v-else class="space-y-3 text-sm">
+                    <p><span class="font-semibold text-purple-700">Description:</span> {{ movie.description }}</p>
+                    <p><span class="font-semibold text-purple-700">Cast:</span> {{ movie.cast }}</p>
+                    <p><span class="font-semibold text-purple-700">Country:</span> {{ movie.country }}</p>
+                    <p><span class="font-semibold text-purple-700">Language:</span> {{ movie.language }}</p>
+                    <p>
+                      <span class="font-semibold text-purple-700">Release:</span>
+                      {{ new Date(movie.releaseDate).toLocaleDateString() }}
                     </p>
                   </div>
 
