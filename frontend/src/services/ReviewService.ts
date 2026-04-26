@@ -1,11 +1,11 @@
-import api from "@/api/interceptors";
+import api from '@/api/interceptors';
 
-import type { CreateReviewDTO } from "@/dtos/CreateReviewDTO";
-import type { UpdateReviewDTO } from "@/dtos/UpdateReviewDTO";
-import type { ReviewInterface } from "@/interfaces/ReviewInterface";
+import type { CreateReviewDTO } from '@/dtos/CreateReviewDTO';
+import type { UpdateReviewDTO } from '@/dtos/UpdateReviewDTO';
+import type { ReviewInterface } from '@/interfaces/ReviewInterface';
 
 export class ReviewService {
-  private static readonly API_URL = "/reviews";
+  private static readonly API_URL = '/reviews';
 
   public static async getReviews(): Promise<ReviewInterface[]> {
     const { data } = await api.get(this.API_URL);
@@ -22,10 +22,7 @@ export class ReviewService {
     return data;
   }
 
-  public static async updateReview(
-    id: number,
-    dto: UpdateReviewDTO
-  ): Promise<ReviewInterface> {
+  public static async updateReview(id: number, dto: UpdateReviewDTO): Promise<ReviewInterface> {
     const { data } = await api.patch(`${this.API_URL}/${id}`, dto);
     return data;
   }

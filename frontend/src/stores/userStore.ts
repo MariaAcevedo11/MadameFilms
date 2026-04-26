@@ -4,7 +4,6 @@ import type { CreateUserDTO } from '@/dtos/CreateUserDTO';
 import type { UserInterface } from '@/interfaces/UserInterface';
 import { UserService } from '@/services/UserService';
 
-
 import { defineStore } from 'pinia';
 
 export const useUsersStore = defineStore('users', {

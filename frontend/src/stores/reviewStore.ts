@@ -36,11 +36,7 @@ export const useReviewsStore = defineStore('reviews', {
       }
     },
 
-    async updateReviewById(
-      id: number,
-      dto: UpdateReviewDTO,
-      token: string,
-    ): Promise<boolean> {
+    async updateReviewById(id: number, dto: UpdateReviewDTO, token: string): Promise<boolean> {
       try {
         const updated = await ReviewService.updateReview(id, dto);
 

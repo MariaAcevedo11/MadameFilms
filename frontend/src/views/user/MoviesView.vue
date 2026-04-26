@@ -84,11 +84,7 @@ function renderChart(): void {
 
   const labels = Object.keys(countryCount.value);
 
-  chartInstance = createDoughnutChart(
-    chartCanvas.value,
-    labels,
-    Object.values(countryCount.value)
-  );
+  chartInstance = createDoughnutChart(chartCanvas.value, labels, Object.values(countryCount.value));
 }
 
 watch([searchQuery, selectedCountry, selectedGenre], () => {

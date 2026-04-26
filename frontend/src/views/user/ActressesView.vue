@@ -79,11 +79,7 @@ function renderChart(): void {
 
   const labels = Object.keys(nationalityCounts.value);
 
-  createBarChart(
-    chartCanvas.value,
-    labels,
-    Object.values(nationalityCounts.value)
-  );
+  createBarChart(chartCanvas.value, labels, Object.values(nationalityCounts.value));
 }
 </script>
 

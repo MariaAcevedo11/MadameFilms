@@ -36,11 +36,7 @@ export const useMoviesStore = defineStore('movies', {
       }
     },
 
-    async updateMovieById(
-      id: number,
-      dto: UpdateMovieDTO,
-      token: string,
-    ): Promise<boolean> {
+    async updateMovieById(id: number, dto: UpdateMovieDTO, token: string): Promise<boolean> {
       try {
         const updated = await MovieService.updateMovie(id, dto);
 

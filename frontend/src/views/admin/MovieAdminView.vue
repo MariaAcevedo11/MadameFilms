@@ -124,7 +124,6 @@ async function deleteMovie(id: number) {
 function toggleRow(id: number) {
   expandedRow.value = expandedRow.value === id ? null : id;
 }
-
 </script>
 
 <template>
@@ -157,44 +156,70 @@ function toggleRow(id: number) {
             <tr class="border-t hover:bg-purple-50 cursor-pointer" @click="toggleRow(movie.id)">
               <!-- IMAGE -->
               <td class="px-3 py-2">
-                <img :src="selectedEditingMovieId === movie.id ? editForm.image || movie.image : movie.image"
-                  class="w-16 h-20 object-cover rounded" />
+                <img
+                  :src="
+                    selectedEditingMovieId === movie.id
+                      ? editForm.image || movie.image
+                      : movie.image
+                  "
+                  class="w-16 h-20 object-cover rounded"
+                />
               </td>
 
               <!-- TITLE -->
               <td class="px-3 py-2">
-                <input v-if="selectedEditingMovieId === movie.id" v-model="editForm.title"
-                  class="border rounded px-2 py-1 w-full" />
+                <input
+                  v-if="selectedEditingMovieId === movie.id"
+                  v-model="editForm.title"
+                  class="border rounded px-2 py-1 w-full"
+                />
                 <span v-else>{{ movie.title }}</span>
               </td>
 
               <!-- GENRE -->
               <td class="px-3 py-2">
-                <input v-if="selectedEditingMovieId === movie.id" v-model="editForm.genre"
-                  class="border rounded px-2 py-1 w-full" />
+                <input
+                  v-if="selectedEditingMovieId === movie.id"
+                  v-model="editForm.genre"
+                  class="border rounded px-2 py-1 w-full"
+                />
                 <span v-else>{{ movie.genre }}</span>
               </td>
 
               <!-- DURATION -->
               <td class="px-3 py-2">
-                <input v-if="selectedEditingMovieId === movie.id" v-model.number="editForm.durationMin" type="number"
-                  class="border rounded px-2 py-1 w-full" />
+                <input
+                  v-if="selectedEditingMovieId === movie.id"
+                  v-model.number="editForm.durationMin"
+                  type="number"
+                  class="border rounded px-2 py-1 w-full"
+                />
                 <span v-else>{{ movie.durationMin }} min</span>
               </td>
 
               <!-- DIRECTOR -->
               <td class="px-3 py-2">
-                <input v-if="selectedEditingMovieId === movie.id" v-model="editForm.director"
-                  class="border rounded px-2 py-1 w-full" />
+                <input
+                  v-if="selectedEditingMovieId === movie.id"
+                  v-model="editForm.director"
+                  class="border rounded px-2 py-1 w-full"
+                />
                 <span v-else>{{ movie.director }}</span>
               </td>
 
               <!-- ACTRESS -->
               <td class="px-3 py-2">
-                <select v-if="selectedEditingMovieId === movie.id" v-model="editForm.selectedActressId"
-                  class="border rounded px-2 py-1 w-full">
+                <select
+                  v-if="selectedEditingMovieId === movie.id"
+                  v-model="editForm.selectedActressId"
+                  class="border rounded px-2 py-1 w-full"
+                >
                   <option value="">None</option>
-                  <option v-for="actress in selectorActresses" :key="actress.id" :value="actress.id">
+                  <option
+                    v-for="actress in selectorActresses"
+                    :key="actress.id"
+                    :value="actress.id"
+                  >
                     {{ actress.fullName }}
                   </option>
                 </select>
@@ -207,7 +232,10 @@ function toggleRow(id: number) {
               <!-- ACTIONS -->
               <td class="px-3 py-2 space-x-2" @click.stop>
                 <template v-if="selectedEditingMovieId === movie.id">
-                  <button @click="saveEdit" class="bg-purple-600 text-white px-2 py-1 rounded text-xs">
+                  <button
+                    @click="saveEdit"
+                    class="bg-purple-600 text-white px-2 py-1 rounded text-xs"
+                  >
                     Save
                   </button>
 
@@ -217,11 +245,17 @@ function toggleRow(id: number) {
                 </template>
 
                 <template v-else>
-                  <button @click="startEdit(movie)" class="bg-purple-500 text-white px-2 py-1 rounded text-xs">
+                  <button
+                    @click="startEdit(movie)"
+                    class="bg-purple-500 text-white px-2 py-1 rounded text-xs"
+                  >
                     Edit
                   </button>
 
-                  <button @click="deleteMovie(movie.id)" class="bg-red-500 text-white px-2 py-1 rounded text-xs">
+                  <button
+                    @click="deleteMovie(movie.id)"
+                    class="bg-red-500 text-white px-2 py-1 rounded text-xs"
+                  >
                     Delete
                   </button>
                 </template>
@@ -231,22 +265,20 @@ function toggleRow(id: number) {
             <!-- ROW EXPANDIBLE -->
             <tr v-if="expandedRow === movie.id">
               <td colspan="7" class="px-6 py-5 bg-linear-to-r from-purple-50 to-white">
-
                 <div class="bg-white rounded-2xl shadow-sm border border-purple-100 p-5">
-
                   <!-- HEADER -->
                   <div class="flex justify-between items-center mb-4">
-                    <h4 class="text-lg font-semibold text-purple-800">
-                      Movie Details
-                    </h4>
+                    <h4 class="text-lg font-semibold text-purple-800">Movie Details</h4>
                   </div>
 
                   <!-- MODO EDICIÓN -->
                   <div v-if="selectedEditingMovieId === movie.id" class="space-y-4 text-sm">
-
                     <div>
                       <label class="font-semibold text-purple-700">Description</label>
-                      <textarea v-model="editForm.description" class="w-full border rounded px-2 py-1"></textarea>
+                      <textarea
+                        v-model="editForm.description"
+                        class="w-full border rounded px-2 py-1"
+                      ></textarea>
                     </div>
 
                     <div>
@@ -262,29 +294,43 @@ function toggleRow(id: number) {
 
                       <div>
                         <label class="font-semibold text-purple-700">Language</label>
-                        <input v-model="editForm.language" class="w-full border rounded px-2 py-1" />
+                        <input
+                          v-model="editForm.language"
+                          class="w-full border rounded px-2 py-1"
+                        />
                       </div>
                     </div>
 
                     <div>
                       <label class="font-semibold text-purple-700">Release Date</label>
-                      <input type="date" v-model="editForm.releaseDate" class="w-full border rounded px-2 py-1" />
+                      <input
+                        type="date"
+                        v-model="editForm.releaseDate"
+                        class="w-full border rounded px-2 py-1"
+                      />
                     </div>
-
                   </div>
 
                   <!-- MODO VISTA -->
                   <div v-else class="space-y-3 text-sm">
-                    <p><span class="font-semibold text-purple-700">Description:</span> {{ movie.description }}</p>
+                    <p>
+                      <span class="font-semibold text-purple-700">Description:</span>
+                      {{ movie.description }}
+                    </p>
                     <p><span class="font-semibold text-purple-700">Cast:</span> {{ movie.cast }}</p>
-                    <p><span class="font-semibold text-purple-700">Country:</span> {{ movie.country }}</p>
-                    <p><span class="font-semibold text-purple-700">Language:</span> {{ movie.language }}</p>
+                    <p>
+                      <span class="font-semibold text-purple-700">Country:</span>
+                      {{ movie.country }}
+                    </p>
+                    <p>
+                      <span class="font-semibold text-purple-700">Language:</span>
+                      {{ movie.language }}
+                    </p>
                     <p>
                       <span class="font-semibold text-purple-700">Release:</span>
                       {{ new Date(movie.releaseDate).toLocaleDateString() }}
                     </p>
                   </div>
-
                 </div>
               </td>
             </tr>

@@ -15,7 +15,7 @@ import type { MovieInterface } from '@/interfaces/MovieInterface';
 import { MovieService } from '@/services/MovieService';
 import { ReviewService } from '@/services/ReviewService';
 
-// Swiper imports 
+// Swiper imports
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -66,14 +66,10 @@ function createChart(): void {
 
   destroyChart(chartInstance);
 
-  chartInstance = createPieChart(
-    ctx,
-    Object.keys(genreData.value),
-    Object.values(genreData.value)
-  );
+  chartInstance = createPieChart(ctx, Object.keys(genreData.value), Object.values(genreData.value));
 }
 
-// On Mounted 
+// On Mounted
 onMounted(async () => {
   try {
     actresses.value = await ActressService.getActress();

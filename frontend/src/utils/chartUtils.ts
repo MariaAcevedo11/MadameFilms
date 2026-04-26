@@ -20,11 +20,7 @@ export function destroyChart(chart: Chart | null) {
 }
 
 // 📊 BAR CHART (actresses por nacionalidad)
-export function createBarChart(
-  canvas: HTMLCanvasElement,
-  labels: string[],
-  data: number[]
-) {
+export function createBarChart(canvas: HTMLCanvasElement, labels: string[], data: number[]) {
   return new Chart(canvas, {
     type: 'bar',
     data: {
@@ -44,8 +40,7 @@ export function createBarChart(
         legend: { display: false },
         tooltip: {
           callbacks: {
-            label: (ctx) =>
-              ` ${ctx.parsed.y} actress${ctx.parsed.y !== 1 ? 'es' : ''}`,
+            label: (ctx) => ` ${ctx.parsed.y} actress${ctx.parsed.y !== 1 ? 'es' : ''}`,
           },
         },
       },
@@ -61,11 +56,7 @@ export function createBarChart(
 }
 
 // 🥧 PIE CHART (géneros)
-export function createPieChart(
-  ctx: CanvasRenderingContext2D,
-  labels: string[],
-  data: number[]
-) {
+export function createPieChart(ctx: CanvasRenderingContext2D, labels: string[], data: number[]) {
   const config: ChartConfiguration = {
     type: 'pie',
     data: {
@@ -87,11 +78,7 @@ export function createPieChart(
 }
 
 // 🍩 DOUGHNUT CHART (películas por país)
-export function createDoughnutChart(
-  canvas: HTMLCanvasElement,
-  labels: string[],
-  data: number[]
-) {
+export function createDoughnutChart(canvas: HTMLCanvasElement, labels: string[], data: number[]) {
   const config: ChartConfiguration = {
     type: 'doughnut',
     data: {
@@ -113,8 +100,7 @@ export function createDoughnutChart(
         },
         tooltip: {
           callbacks: {
-            label: (ctx) =>
-              ` ${ctx.label}: ${ctx.parsed} movie${ctx.parsed !== 1 ? 's' : ''}`,
+            label: (ctx) => ` ${ctx.label}: ${ctx.parsed} movie${ctx.parsed !== 1 ? 's' : ''}`,
           },
         },
       },

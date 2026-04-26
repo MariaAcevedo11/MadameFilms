@@ -15,10 +15,9 @@ api.interceptors.request.use((config) => {
   }
 
   // Log para verificar
-    console.log('Request URL:', config.url);
-    console.log('Request Headers:', config.headers);
+  console.log('Request URL:', config.url);
+  console.log('Request Headers:', config.headers);
 
-    
   return config;
 });
 
@@ -30,7 +29,6 @@ api.interceptors.response.use(
       authStore.clearSession();
     }
 
-    
     return Promise.reject(error);
   },
 );

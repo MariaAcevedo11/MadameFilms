@@ -1,6 +1,5 @@
-
 // External imports
-import api from "@/api/interceptors";
+import api from '@/api/interceptors';
 
 // Internal imports
 import type { CreateUserDTO } from '@/dtos/CreateUserDTO';

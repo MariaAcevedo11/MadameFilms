@@ -1,11 +1,11 @@
-import api from "@/api/interceptors";
+import api from '@/api/interceptors';
 
-import type { CreateMovieDTO } from "@/dtos/CreateMovieDTO";
-import type { UpdateMovieDTO } from "@/dtos/UpdateMovieDTO";
-import type { MovieInterface } from "@/interfaces/MovieInterface";
+import type { CreateMovieDTO } from '@/dtos/CreateMovieDTO';
+import type { UpdateMovieDTO } from '@/dtos/UpdateMovieDTO';
+import type { MovieInterface } from '@/interfaces/MovieInterface';
 
 export class MovieService {
-  private static readonly API_URL = "/movies";
+  private static readonly API_URL = '/movies';
 
   public static async getMovies(): Promise<MovieInterface[]> {
     const { data } = await api.get(this.API_URL);
@@ -22,10 +22,7 @@ export class MovieService {
     return data;
   }
 
-  public static async updateMovie(
-    id: number,
-    dto: UpdateMovieDTO
-  ): Promise<MovieInterface> {
+  public static async updateMovie(id: number, dto: UpdateMovieDTO): Promise<MovieInterface> {
     const { data } = await api.patch(`${this.API_URL}/${id}`, dto);
     return data;
   }
