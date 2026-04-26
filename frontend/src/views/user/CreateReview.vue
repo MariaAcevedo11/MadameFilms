@@ -39,7 +39,7 @@ async function submitForm() {
   }
 }
 
-function resetForm() {
+async function resetForm() {
   selectedMovieId.value = '';
   form.value = {
     rating: 1,
@@ -47,6 +47,8 @@ function resetForm() {
     movieId: 0,
   };
 }
+
+//On mounted
 onMounted(async () => {
   try {
     selectorMovies.value = await MovieService.getMovies();

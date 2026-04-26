@@ -15,7 +15,6 @@ export class AuthService {
     const authStore = useAuthStore();
     authStore.setSession(data.access_token);
 
-    // inmediatamente obtener el perfil
     const profile = await this.getProfile();
     authStore.setUser(profile);
   }
@@ -64,6 +63,11 @@ export class AuthService {
     return authStore.loggedInUser;
   }
 
+  public static async getUserId(): Promise<number | null> {
+    const user = await this.getCurrentUser();
+    return user ? user.id : null;
+  }
+
   public static async isAdmin(): Promise<boolean> {
     const user = await this.getCurrentUser();
     if (!user) return false;
@@ -79,5 +83,4 @@ export class AuthService {
     const authStore = useAuthStore();
     return !!authStore.accessToken;
   }
-
 }

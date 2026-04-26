@@ -60,10 +60,11 @@ async function deleteReview(id: number) {
   }
 }
 
+//On Mounted
 onMounted(async () => {
   try {
-    const user = await AuthService.getCurrentUser();
-    currentUserId.value = user?.id ?? null;
+    
+    currentUserId.value = await AuthService.getUserId();
     isAdmin.value = await AuthService.isAdmin();
     selectorReviews.value = await ReviewService.getReviews();
     movies.value = await MovieService.getMovies();

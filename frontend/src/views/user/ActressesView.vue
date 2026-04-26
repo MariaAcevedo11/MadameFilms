@@ -1,34 +1,21 @@
 <!-- Author: Gabriela Martinez -->
 <script setup lang="ts">
 // External imports
-import { Chart, registerables } from 'chart.js';
+import { createBarChart } from '@/utils/chartUtils';
 import { computed, onMounted, ref, watch } from 'vue';
 import { Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/vue';
+
+// Internal imports
+import type { ActressInterface } from '@/interfaces/ActressInterface';
+import { ActressService } from '@/services/ActressService';
 
 //Chart imports
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
-// Internal imports
-import type { ActressInterface } from '@/interfaces/ActressInterface';
-import { ActressService } from '@/services/ActressService';
-
-// Chart
-Chart.register(...registerables);
-
 // Variables
-const CHART_COLORS = [
-  'rgba(168, 85, 247, 0.8)',
-  'rgba(236, 72, 153, 0.8)',
-  'rgba(59, 130, 246, 0.8)',
-  'rgba(16, 185, 129, 0.8)',
-  'rgba(245, 158, 11, 0.8)',
-  'rgba(239, 68, 68, 0.8)',
-  'rgba(99, 102, 241, 0.8)',
-  'rgba(20, 184, 166, 0.8)',
-];
 const modules = [Navigation, Pagination];
 const ROWS_PER_PAGE = 5;
 
@@ -69,7 +56,7 @@ const totalPages = computed<number>(() =>
   Math.ceil(filteredActresses.value.length / ROWS_PER_PAGE),
 );
 
-// Lifecycle
+// On Mounted
 onMounted(async () => {
   actresses.value = await ActressService.getActress();
   renderChart();
@@ -89,41 +76,14 @@ function prevPage(): void {
 }
 function renderChart(): void {
   if (!chartCanvas.value) return;
+
   const labels = Object.keys(nationalityCounts.value);
-  new Chart(chartCanvas.value, {
-    type: 'bar',
-    data: {
-      labels,
-      datasets: [
-        {
-          label: 'Actresses',
-          data: Object.values(nationalityCounts.value),
-          backgroundColor: labels.map((_, i) => CHART_COLORS[i % CHART_COLORS.length]),
-          borderRadius: 8,
-          borderWidth: 2,
-        },
-      ],
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          callbacks: {
-            label: (ctx) => ` ${ctx.parsed.y} actress${ctx.parsed.y !== 1 ? 'es' : ''}`,
-          },
-        },
-      },
-      scales: {
-        x: { grid: { display: false } },
-        y: {
-          beginAtZero: true,
-          grid: { color: 'rgba(0,0,0,0.05)' },
-          ticks: { stepSize: 1 },
-        },
-      },
-    },
-  });
+
+  createBarChart(
+    chartCanvas.value,
+    labels,
+    Object.values(nationalityCounts.value)
+  );
 }
 </script>
 

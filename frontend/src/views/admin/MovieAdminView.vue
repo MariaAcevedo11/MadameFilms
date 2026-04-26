@@ -16,7 +16,6 @@ import StyledButtonComponent from '@/components/StyledButtonComponent.vue';
 const actressNames = ref<Record<number, string>>({});
 const expandedRow = ref<number | null>(null);
 
-
 // Selectors
 const selectedEditingMovieId = ref<number | null>(null);
 const selectorActresses = ref<ActressInterface[]>([]);
@@ -87,6 +86,7 @@ async function saveEdit() {
   }
 }
 
+//On Mounted
 onMounted(async () => {
   try {
     selectorActresses.value = await ActressService.getActress();

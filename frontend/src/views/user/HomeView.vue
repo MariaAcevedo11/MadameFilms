@@ -1,13 +1,11 @@
 <!-- Author: Gabriela Martinez -->
 <script setup lang="ts">
 // External imports
-import { Chart, registerables, type ChartConfiguration } from 'chart.js';
+import { createPieChart, destroyChart } from '@/utils/chartUtils';
+import type { Chart } from 'chart.js';
 import { computed, onMounted, ref } from 'vue';
 import { Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/vue';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
 
 // Internal imports
 import { ActressService } from '@/services/ActressService';
@@ -17,8 +15,10 @@ import type { MovieInterface } from '@/interfaces/MovieInterface';
 import { MovieService } from '@/services/MovieService';
 import { ReviewService } from '@/services/ReviewService';
 
-// Chart
-Chart.register(...registerables);
+// Swiper imports 
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 
 // Variables
 const modules = [Navigation, Pagination];
@@ -64,32 +64,13 @@ function createChart(): void {
   const ctx = chartRef.value.getContext('2d');
   if (!ctx) return;
 
-  if (chartInstance) chartInstance.destroy();
+  destroyChart(chartInstance);
 
-  const config: ChartConfiguration = {
-    type: 'pie',
-    data: {
-      labels: Object.keys(genreData.value),
-      datasets: [
-        {
-          data: Object.values(genreData.value),
-          borderWidth: 0,
-        },
-      ],
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          position: 'bottom',
-          labels: { padding: 20, font: { size: 12 } },
-        },
-      },
-    },
-  };
-
-  chartInstance = new Chart(ctx, config);
+  chartInstance = createPieChart(
+    ctx,
+    Object.keys(genreData.value),
+    Object.values(genreData.value)
+  );
 }
 
 // On Mounted 

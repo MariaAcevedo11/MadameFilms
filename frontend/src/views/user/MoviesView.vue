@@ -1,7 +1,8 @@
 <!-- Author: Gabriela Martinez -->
 <script setup lang="ts">
 // External imports
-import { Chart, registerables, type ChartConfiguration } from 'chart.js';
+import { createDoughnutChart, destroyChart } from '@/utils/chartUtils';
+import { Chart } from 'chart.js';
 import { computed, onMounted, ref, watch } from 'vue';
 
 // Internal imports
@@ -9,20 +10,6 @@ import { ActressService } from '@/services/ActressService';
 import type { MovieInterface } from '@/interfaces/MovieInterface';
 import { MovieService } from '@/services/MovieService';
 
-// Forms
-Chart.register(...registerables);
-
-// Variables
-const CHART_COLORS = [
-  'rgba(168, 85, 247, 0.8)',
-  'rgba(236, 72, 153, 0.8)',
-  'rgba(59, 130, 246, 0.8)',
-  'rgba(16, 185, 129, 0.8)',
-  'rgba(245, 158, 11, 0.8)',
-  'rgba(239, 68, 68, 0.8)',
-  'rgba(99, 102, 241, 0.8)',
-  'rgba(20, 184, 166, 0.8)',
-];
 const ROWS_PER_PAGE = 5;
 
 // Reactive variables
@@ -71,6 +58,7 @@ const paginatedMovies = computed<MovieInterface[]>(() => {
 
 const totalPages = computed<number>(() => Math.ceil(filteredMovies.value.length / ROWS_PER_PAGE));
 
+//On Mounted
 onMounted(async () => {
   try {
     movies.value = await MovieService.getMovies();
@@ -91,40 +79,16 @@ function prevPage(): void {
 
 function renderChart(): void {
   if (!chartCanvas.value) return;
-  if (chartInstance) chartInstance.destroy();
+
+  destroyChart(chartInstance);
 
   const labels = Object.keys(countryCount.value);
-  const config: ChartConfiguration = {
-    type: 'doughnut',
-    data: {
-      labels,
-      datasets: [
-        {
-          data: Object.values(countryCount.value),
-          backgroundColor: labels.map((_, i) => CHART_COLORS[i % CHART_COLORS.length]),
-          borderColor: '#fff',
-          borderWidth: 2,
-        },
-      ],
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          position: 'bottom',
-          labels: { padding: 12, font: { size: 11 } },
-        },
-        tooltip: {
-          callbacks: {
-            label: (ctx) => ` ${ctx.label}: ${ctx.parsed} movie${ctx.parsed !== 1 ? 's' : ''}`,
-          },
-        },
-      },
-    },
-  };
 
-  chartInstance = new Chart(chartCanvas.value, config);
+  chartInstance = createDoughnutChart(
+    chartCanvas.value,
+    labels,
+    Object.values(countryCount.value)
+  );
 }
 
 watch([searchQuery, selectedCountry, selectedGenre], () => {

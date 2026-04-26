@@ -9,11 +9,11 @@ import { AuthService } from '@/services/AuthService';
 import DashboardButtonComponent from './components/DashboardButtonComponent.vue';
 import type { UserInterface } from './interfaces/UserInterface';
 
-// State
+// Variables
 const loggedUser = ref<UserInterface | null>(null);
 const isAdmin = ref(false);
 
-// Init
+// On mounted
 onMounted(async () => {
   try {
     loggedUser.value = await AuthService.getCurrentUser();
