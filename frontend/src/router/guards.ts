@@ -6,7 +6,7 @@ export async function guards(to: RouteLocationNormalized) {
   try {
     const user = await AuthService.getCurrentUser();
     const isLogged = !!user;
-    const isAdmin = user?.role === 'admin';
+    const isAdmin = await AuthService.isAdmin(); 
 
     if (to.meta.requiresAuth && !isLogged) {
       return { name: 'login', query: { redirect: to.fullPath } };

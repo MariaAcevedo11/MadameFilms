@@ -43,7 +43,6 @@ async function saveEdit() {
     });
 
     refreshReviews();
-
     selectedEditingReviewId.value = null;
     selectorReviews.value = await ReviewService.getReviews();
   } catch (err) {
@@ -54,8 +53,8 @@ async function saveEdit() {
 async function deleteReview(id: number) {
   try {
     await ReviewService.deleteReview(id);
-
     selectorReviews.value = await ReviewService.getReviews();
+
   } catch (err) {
     alert(err instanceof Error ? err.message : 'Failed to delete review');
   }
@@ -65,10 +64,10 @@ onMounted(async () => {
   try {
     const user = await AuthService.getCurrentUser();
     currentUserId.value = user?.id ?? null;
-    isAdmin.value = user?.role === 'admin';
-
+    isAdmin.value = await AuthService.isAdmin();
     selectorReviews.value = await ReviewService.getReviews();
     movies.value = await MovieService.getMovies();
+
   } catch (err) {
     console.error(err);
   }

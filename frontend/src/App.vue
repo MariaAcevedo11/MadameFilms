@@ -17,7 +17,7 @@ const isAdmin = ref(false);
 onMounted(async () => {
   try {
     loggedUser.value = await AuthService.getCurrentUser();
-    isAdmin.value = loggedUser.value?.role === 'admin';
+    isAdmin.value = await AuthService.isAdmin();
   } catch {
     loggedUser.value = null;
     isAdmin.value = false;

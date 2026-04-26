@@ -5,11 +5,9 @@ import { ref } from 'vue';
 
 // Internal imports
 import { AuthService } from '@/services/AuthService';
-import { useRouter } from 'vue-router';
 
 // Reactive variables
 const errorMessage = ref('');
-const router = useRouter();
 // Form
 const form = ref({
   email: '',
@@ -22,11 +20,6 @@ async function handleLogin() {
 
   try {
     await AuthService.login(form.value.email, form.value.password);
-  
-    const user = await AuthService.getProfile();
-    console.log('Usuario logueado:', user);
-
-    router.push('/');
   } catch (err) {
     errorMessage.value = err instanceof Error ? err.message : 'Login failed';
   }

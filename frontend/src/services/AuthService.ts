@@ -32,7 +32,7 @@ export class AuthService {
       email: dto.email.trim().toLowerCase(),
       password: dto.password.trim(),
       image: dto.image.trim(),
-      role: dto.role, 
+      role: dto.role,
     });
 
     const authStore = useAuthStore();
@@ -70,8 +70,14 @@ export class AuthService {
     return user.role === 'admin';
   }
 
-  public static logout(): void {
+  public static async logout(): Promise<void> {
     const authStore = useAuthStore();
     authStore.clearSession();
   }
+
+  public static async isLoggedIn(): Promise<boolean> {
+    const authStore = useAuthStore();
+    return !!authStore.accessToken;
+  }
+
 }

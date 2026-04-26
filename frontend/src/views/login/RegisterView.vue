@@ -1,14 +1,13 @@
 <script setup lang="ts">
 // External imports
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
 
 // Internal imports
 import { AuthService } from '@/services/AuthService';
 
 // Reactive variables
 const errorMessage = ref('');
-const router = useRouter();
+const successMessage = ref('');
 
 // Form
 const form = ref({
@@ -22,13 +21,13 @@ const form = ref({
 // Functions
 async function handleRegister() {
   errorMessage.value = '';
+  successMessage.value = '';
 
   try {
     await AuthService.register(form.value);
-
     await AuthService.login(form.value.email, form.value.password);
 
-    router.push('/');
+    successMessage.value = 'Usuario registrado correctamente';
   } catch (err) {
     errorMessage.value = err instanceof Error ? err.message : 'Register failed';
   }
@@ -80,6 +79,10 @@ async function handleRegister() {
 
         <p v-if="errorMessage" class="text-red-500 text-sm">
           {{ errorMessage }}
+        </p>
+
+        <p v-if="successMessage" class="text-green-600 text-sm">
+          {{ successMessage }}
         </p>
 
         <button @click="handleRegister"
