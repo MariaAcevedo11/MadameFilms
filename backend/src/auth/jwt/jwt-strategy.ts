@@ -4,7 +4,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 
 // Internal imports
-import { JWT_CLAVE } from './jwt-constants';
+
 import { JwtPayload } from '../types/jwt-payload.type';
 
 @Injectable()
@@ -13,7 +13,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: JWT_CLAVE,
+      secretOrKey: process.env.JWT_CLAVE,
     });
   }
 
