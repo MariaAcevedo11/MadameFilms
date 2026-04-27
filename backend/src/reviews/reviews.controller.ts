@@ -13,7 +13,7 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 
 // Internal imports
-import type { AuthRequest } from 'src/auth/jwt/auth-request.type';
+import type { AuthRequest } from 'src/auth/types/auth-request.type';
 import { CreateReviewDto } from './dto/create-review.dto';
 import { Review } from './entities/reviews.entity';
 import { ReviewsService } from './reviews.service';

@@ -5,7 +5,7 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 
 // Internal imports
 import { JWT_CLAVE } from './jwt-constants';
-import { JwtPayload } from './jwt-payload.type';
+import { JwtPayload } from '../types/jwt-payload.type';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {

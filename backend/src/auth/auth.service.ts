@@ -5,7 +5,7 @@ import { JwtService } from '@nestjs/jwt';
 // Internal imports
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
-import { JwtPayload } from './jwt/jwt-payload.type';
+import { JwtPayload } from './types/jwt-payload.type';
 import { User } from '../users/entities/user.entity';
 import { UsersService } from 'src/users/users.service';
 
