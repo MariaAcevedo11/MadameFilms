@@ -1,16 +1,35 @@
 <!--Author: Gabriela Sanabria-->
 <script setup lang="ts">
 // External imports
-import { computed } from 'vue';
+import { onMounted, ref } from 'vue';
 import { RouterLink, RouterView } from 'vue-router';
 
 // Internal imports
 import { AuthService } from '@/services/AuthService';
 import DashboardButtonComponent from './components/DashboardButtonComponent.vue';
+import type { UserInterface } from './interfaces/UserInterface';
 
-// Computed
-const isAdmin = computed(() => AuthService.isAdmin());
-const loggedUser = computed(() => AuthService.getCurrentUser());
+// Variables
+const loggedUser = ref<UserInterface | null>(null);
+const isAdmin = ref(false);
+
+// On mounted
+onMounted(async () => {
+  try {
+    loggedUser.value = await AuthService.getCurrentUser();
+    isAdmin.value = await AuthService.isAdmin();
+  } catch {
+    loggedUser.value = null;
+    isAdmin.value = false;
+  }
+});
+
+// Logout
+function logout(): void {
+  AuthService.logout();
+  loggedUser.value = null;
+  isAdmin.value = false;
+}
 </script>
 
 <template>
@@ -101,6 +120,35 @@ const loggedUser = computed(() => AuthService.getCurrentUser());
           </li>
 
           <li
+            class="group w-14 overflow-hidden rounded-lg border-l border-transparent bg-white transition-all duration-500 hover:w-36 hover:border-gray-200 hover:shadow-[0_4px_20px_rgba(0,0,0,0.35)]"
+          >
+            <DashboardButtonComponent to="/register">
+              <template #icon>
+                <svg
+                  class="size-6"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M15 14c3.314 0 6 2.686 6 6H3c0-3.314 2.686-6 6-6h6z"
+                  />
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M12 12a4 4 0 100-8 4 4 0 000 8z"
+                  />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 8h4m-2-2v4" />
+                </svg>
+              </template>
+              Register
+            </DashboardButtonComponent>
+          </li>
+
+          <li
             v-if="isAdmin"
             class="group w-14 overflow-hidden rounded-lg border-l border-transparent bg-white transition-all duration-500 hover:w-36 hover:border-gray-200 hover:shadow-[0_4px_20px_rgba(0,0,0,0.35)]"
           >
@@ -142,10 +190,7 @@ const loggedUser = computed(() => AuthService.getCurrentUser());
                 >
                   {{ loggedUser.role }}
                 </span>
-                <button
-                  @click="AuthService.logout()"
-                  class="text-red-400 hover:underline text-left mt-0.5"
-                >
+                <button @click="logout()" class="text-red-400 hover:underline text-left mt-0.5">
                   Logout
                 </button>
               </div>

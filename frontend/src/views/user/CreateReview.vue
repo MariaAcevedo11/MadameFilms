@@ -1,16 +1,17 @@
 <!--Author: María Acevedo-->
 <script setup lang="ts">
-// External import
-import { ref } from 'vue';
+// External imports
+import { onMounted, ref } from 'vue';
 
 // Internal imports
 import type { CreateReviewDTO } from '@/dtos/CreateReviewDTO';
+import type { MovieInterface } from '@/interfaces/MovieInterface';
 import { MovieService } from '@/services/MovieService';
 import { ReviewService } from '@/services/ReviewService';
 
-//Selectors
-const selectorMovies = MovieService.getMovies();
+// Selectors
 const selectedMovieId = ref<number | ''>('');
+const selectorMovies = ref<MovieInterface[] | null>(null);
 
 // Reactive variables
 const successMessage = ref('');
@@ -19,33 +20,42 @@ const successMessage = ref('');
 const form = ref<CreateReviewDTO>({
   rating: 1,
   comment: '',
-  userId: 0,
   movieId: 0,
 });
 
 // Functions
-function submitForm() {
+async function submitForm() {
   if (selectedMovieId.value !== '') {
     form.value.movieId = Number(selectedMovieId.value);
   }
 
   form.value.comment = form.value.comment.trim();
-
-  ReviewService.createReview(form.value);
-
-  successMessage.value = 'Review created successfully!';
-  resetForm();
+  try {
+    await ReviewService.createReview(form.value);
+    successMessage.value = 'Review created successfully!';
+    resetForm();
+  } catch (error) {
+    console.error(error);
+  }
 }
 
-function resetForm() {
+async function resetForm() {
   selectedMovieId.value = '';
   form.value = {
     rating: 1,
     comment: '',
-    userId: 0,
     movieId: 0,
   };
 }
+
+//On mounted
+onMounted(async () => {
+  try {
+    selectorMovies.value = await MovieService.getMovies();
+  } catch (error) {
+    console.error(error);
+  }
+});
 </script>
 
 <template>

@@ -1,15 +1,25 @@
 // Author: Gabriela Sanabria
+
+import api from '@/api/interceptors';
+
 // Internal imports
 import type { ActressInterface } from '@/interfaces/ActressInterface';
-import { useActressStore } from '@/stores/actressestore';
 
-// Functions
 export class ActressService {
-  static getActress(): ActressInterface[] {
-    return useActressStore().actresses;
+  private static readonly API_URL = '/actresses';
+
+  public static async getActress(): Promise<ActressInterface[]> {
+    const { data } = await api.get(this.API_URL);
+    return data;
   }
 
-  static getActressById(id: number): ActressInterface | undefined {
-    return useActressStore().actresses.find((actress) => actress.id === id);
+  public static async getActressById(id: number): Promise<ActressInterface> {
+    const { data } = await api.get(`${this.API_URL}/${id}`);
+    return data;
+  }
+
+  public static async getActressName(id: number): Promise<string> {
+    const { data } = await api.get(`${this.API_URL}/${id}`);
+    return data.fullName;
   }
 }

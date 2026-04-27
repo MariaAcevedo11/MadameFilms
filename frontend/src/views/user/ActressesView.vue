@@ -1,34 +1,21 @@
 <!-- Author: Gabriela Martinez -->
 <script setup lang="ts">
 // External imports
-import { Chart, registerables } from 'chart.js';
+import { createBarChart } from '@/utils/chartUtils';
 import { computed, onMounted, ref, watch } from 'vue';
 import { Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/vue';
-
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
 
 // Internal imports
 import type { ActressInterface } from '@/interfaces/ActressInterface';
 import { ActressService } from '@/services/ActressService';
 
-// Forms
-Chart.register(...registerables);
+//Chart imports
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 
 // Variables
-const CHART_COLORS = [
-  'rgba(168, 85, 247, 0.8)',
-  'rgba(236, 72, 153, 0.8)',
-  'rgba(59, 130, 246, 0.8)',
-  'rgba(16, 185, 129, 0.8)',
-  'rgba(245, 158, 11, 0.8)',
-  'rgba(239, 68, 68, 0.8)',
-  'rgba(99, 102, 241, 0.8)',
-  'rgba(20, 184, 166, 0.8)',
-];
-
 const modules = [Navigation, Pagination];
 const ROWS_PER_PAGE = 5;
 
@@ -39,23 +26,19 @@ const currentPage = ref<number>(1);
 const searchQuery = ref<string>('');
 const selectedNationality = ref<string>('All');
 
-// Computed variables
+// Computed
 const filteredActresses = computed<ActressInterface[]>(() => {
   return actresses.value.filter((a) => {
+    const byName = a.fullName.toLowerCase().includes(searchQuery.value.toLowerCase());
     const byNationality =
       selectedNationality.value === 'All' || a.nationality === selectedNationality.value;
-
-    const byName = a.fullName.toLowerCase().includes(searchQuery.value.toLowerCase());
-
     return byNationality && byName;
   });
 });
-
 const nationalities = computed<string[]>(() => {
   const unique = [...new Set(actresses.value.map((a) => a.nationality))];
   return ['All', ...unique.sort()];
 });
-
 const nationalityCounts = computed<Record<string, number>>(() => {
   return actresses.value.reduce(
     (acc, a) => {
@@ -65,76 +48,38 @@ const nationalityCounts = computed<Record<string, number>>(() => {
     {} as Record<string, number>,
   );
 });
-
 const paginatedActresses = computed<ActressInterface[]>(() => {
   const start = (currentPage.value - 1) * ROWS_PER_PAGE;
   return filteredActresses.value.slice(start, start + ROWS_PER_PAGE);
 });
-
 const totalPages = computed<number>(() =>
   Math.ceil(filteredActresses.value.length / ROWS_PER_PAGE),
 );
 
-// Lifecycle hooks
-onMounted(() => {
-  actresses.value = ActressService.getActress();
+// On Mounted
+onMounted(async () => {
+  actresses.value = await ActressService.getActress();
   renderChart();
+});
+
+// Watchers
+watch([searchQuery, selectedNationality], () => {
+  currentPage.value = 1;
 });
 
 // Functions
 function nextPage(): void {
   if (currentPage.value < totalPages.value) currentPage.value++;
 }
-
 function prevPage(): void {
   if (currentPage.value > 1) currentPage.value--;
 }
-
-watch([searchQuery, selectedNationality], () => {
-  currentPage.value = 1;
-});
-
 function renderChart(): void {
   if (!chartCanvas.value) return;
 
   const labels = Object.keys(nationalityCounts.value);
 
-  new Chart(chartCanvas.value, {
-    type: 'bar',
-    data: {
-      labels,
-      datasets: [
-        {
-          label: 'Actresses',
-          data: Object.values(nationalityCounts.value),
-          backgroundColor: labels.map((_, i) => CHART_COLORS[i % CHART_COLORS.length]),
-          borderWidth: 2,
-          borderRadius: 8,
-        },
-      ],
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          callbacks: {
-            label: (ctx) => ` ${ctx.parsed.y} actress${ctx.parsed.y !== 1 ? 'es' : ''}`,
-          },
-        },
-      },
-      scales: {
-        y: {
-          beginAtZero: true,
-          ticks: { stepSize: 1 },
-          grid: { color: 'rgba(0,0,0,0.05)' },
-        },
-        x: {
-          grid: { display: false },
-        },
-      },
-    },
-  });
+  createBarChart(chartCanvas.value, labels, Object.values(nationalityCounts.value));
 }
 </script>
 

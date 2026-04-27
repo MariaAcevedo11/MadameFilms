@@ -1,15 +1,10 @@
-import { actressesSeeder } from '@/seeders/actresseseeder';
 import { createPinia } from 'pinia';
-import { moviesSeeder } from '@/seeders/movieseeder';
-import { reviewSeeder } from '@/seeders/reviewseeder.js';
-import { watch } from 'vue';
-import { userSeeder } from './seeders/userseeder';
 
 export default class PiniaConfig {
   public static init() {
     const pinia = createPinia();
 
-    const savedState = localStorage.getItem('piniaState');
+    /*const savedState = localStorage.getItem('piniaState');
     if (savedState) {
       pinia.state.value = JSON.parse(savedState);
     } else {
@@ -40,7 +35,7 @@ export default class PiniaConfig {
         localStorage.setItem('piniaState', JSON.stringify(state));
       },
       { deep: true },
-    );
+    ); */
 
     return pinia;
   }
