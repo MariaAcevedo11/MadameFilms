@@ -1,3 +1,5 @@
+// Author: María Acevedo
+
 // External imports
 import { AuthGuard } from '@nestjs/passport';
 import {

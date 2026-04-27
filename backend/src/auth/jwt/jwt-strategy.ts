@@ -1,3 +1,5 @@
+// Author: María Acevedo
+
 // External imports
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';

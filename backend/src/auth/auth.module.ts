@@ -1,3 +1,5 @@
+// Author: María Acevedo
+
 // External imports
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Module } from '@nestjs/common';

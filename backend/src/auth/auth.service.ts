@@ -1,3 +1,5 @@
+// Author: María Acevedo
+
 // External imports
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';

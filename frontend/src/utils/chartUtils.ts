@@ -1,3 +1,5 @@
+// Author: Gabriela Martinez
+
 // External imports / Chart Imports
 import { Chart, registerables, type ChartConfiguration } from 'chart.js';
 

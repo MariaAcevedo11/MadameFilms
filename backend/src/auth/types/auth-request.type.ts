@@ -1,3 +1,5 @@
+// Author: Gabriela Martinez
+
 // External imports
 import { Request } from 'express';
 

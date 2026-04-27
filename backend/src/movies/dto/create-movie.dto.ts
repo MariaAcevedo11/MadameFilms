@@ -1,3 +1,4 @@
+// Author: Gabriela Martinez
 export class CreateMovieDto {
   id: number;
   title: string;
