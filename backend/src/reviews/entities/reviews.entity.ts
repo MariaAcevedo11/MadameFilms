@@ -1,3 +1,5 @@
+// Author: Gabriela Martínez
+
 // External imports
 import {
   Column,

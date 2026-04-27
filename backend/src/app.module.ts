@@ -1,3 +1,5 @@
+//Author: María Acevedo
+
 // External imports
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';

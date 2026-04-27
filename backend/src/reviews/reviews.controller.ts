@@ -1,3 +1,5 @@
+// Author: Gabriela Sanabria
+
 // External imports
 import {
   Body,

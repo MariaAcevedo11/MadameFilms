@@ -1,3 +1,4 @@
+// Author: Gabriela Sanabria
 export class CreateActressDto {
   fullName: string;
   nationality: string;

@@ -1,3 +1,5 @@
+// Author: Gabriela Sanabria
+
 // External imports
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Module } from '@nestjs/common';
