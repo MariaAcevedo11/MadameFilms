@@ -22,7 +22,7 @@ async function handleLogin() {
 
   try {
     await AuthService.login(form.value.email, form.value.password);
-    successMessage.value = 'Usuario registrado correctamente';
+    successMessage.value = 'Usuario logueado correctamente';
   } catch (err) {
     errorMessage.value = err instanceof Error ? err.message : 'Login failed';
   }

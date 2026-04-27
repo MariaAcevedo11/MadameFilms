@@ -5,7 +5,6 @@ import { Repository } from 'typeorm';
 
 // Internal imports
 import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 
 @Injectable()
@@ -45,37 +44,6 @@ export class UsersService {
     }
 
     return this.usersRepository.save(dto);
-  }
-
-  async update(id: number, dto: UpdateUserDto): Promise<User> {
-    const user = await this.findOne(id);
-
-    if (dto.username) {
-      const usernameExists = await this.usersRepository.findOneBy({
-        username: dto.username,
-      });
-
-      if (usernameExists && usernameExists.id !== user.id) {
-        throw new ConflictException('Username already exists');
-      }
-    }
-
-    if (dto.email) {
-      const emailExists = await this.usersRepository.findOneBy({
-        email: dto.email,
-      });
-
-      if (emailExists && emailExists.id !== user.id) {
-        throw new ConflictException('Email already exists');
-      }
-    }
-
-    const updatedUser = this.usersRepository.create({
-      ...user,
-      ...dto,
-    });
-
-    return this.usersRepository.save(updatedUser);
   }
 
   async delete(id: number): Promise<void> {

@@ -26,7 +26,7 @@ export const useMoviesStore = defineStore('movies', {
       }
     },
 
-    async addMovie(dto: CreateMovieDTO, token: string): Promise<MovieInterface | null> {
+    async addMovie(dto: CreateMovieDTO): Promise<MovieInterface | null> {
       try {
         const newMovie = await MovieService.createMovie(dto);
         this.movies.push(newMovie);
@@ -36,7 +36,7 @@ export const useMoviesStore = defineStore('movies', {
       }
     },
 
-    async updateMovieById(id: number, dto: UpdateMovieDTO, token: string): Promise<boolean> {
+    async updateMovieById(id: number, dto: UpdateMovieDTO): Promise<boolean> {
       try {
         const updated = await MovieService.updateMovie(id, dto);
 
@@ -51,7 +51,7 @@ export const useMoviesStore = defineStore('movies', {
       }
     },
 
-    async deleteMovieById(id: number, token: string): Promise<boolean> {
+    async deleteMovieById(id: number): Promise<boolean> {
       try {
         await MovieService.deleteMovie(id);
         this.movies = this.movies.filter((m) => m.id !== id);
