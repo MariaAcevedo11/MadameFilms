@@ -1,4 +1,9 @@
+// Author: Gabriela Sanabria
+
+// External imports
 import type { RouteLocationNormalized } from 'vue-router';
+
+// Internal imports
 import { AuthService } from '@/services/AuthService';
 
 export async function guards(to: RouteLocationNormalized) {

@@ -1,3 +1,5 @@
+// Author: Gabriela Sanabria
+
 // External imports
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
