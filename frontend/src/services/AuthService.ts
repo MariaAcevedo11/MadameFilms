@@ -1,7 +1,7 @@
-// External imports
+// Interal imports
+import api from '@/api/interceptors';
 import type { UserInterface } from '@/interfaces/UserInterface';
 import { useAuthStore } from '@/stores/authStore';
-import api from '@/api/interceptors';
 
 export class AuthService {
   private static readonly API_URL = '/auth';
@@ -42,12 +42,7 @@ export class AuthService {
   }
 
   public static async getProfile(): Promise<UserInterface> {
-    const authStore = useAuthStore();
-    const { data } = await api.get(`${this.API_URL}/profile`, {
-      headers: {
-        Authorization: `Bearer ${authStore.accessToken}`,
-      },
-    });
+    const { data } = await api.get(`${this.API_URL}/profile`, {});
     return data;
   }
 
