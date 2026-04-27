@@ -13,11 +13,6 @@ api.interceptors.request.use((config) => {
   if (authStore.accessToken) {
     config.headers.Authorization = `Bearer ${authStore.accessToken}`;
   }
-
-  // Log para verificar
-  console.log('Request URL:', config.url);
-  console.log('Request Headers:', config.headers);
-
   return config;
 });
 
