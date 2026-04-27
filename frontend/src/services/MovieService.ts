@@ -1,5 +1,7 @@
-import api from '@/api/interceptors';
+// Author: Gabriela Sanabria
 
+// Internal imports 
+import api from '@/api/interceptors';
 import type { CreateMovieDTO } from '@/dtos/CreateMovieDTO';
 import type { UpdateMovieDTO } from '@/dtos/UpdateMovieDTO';
 import type { MovieInterface } from '@/interfaces/MovieInterface';

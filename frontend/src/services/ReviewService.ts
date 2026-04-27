@@ -1,5 +1,7 @@
-import api from '@/api/interceptors';
+// Author: Gabriela Sanabria
 
+// Internal imports
+import api from '@/api/interceptors';
 import type { CreateReviewDTO } from '@/dtos/CreateReviewDTO';
 import type { UpdateReviewDTO } from '@/dtos/UpdateReviewDTO';
 import type { ReviewInterface } from '@/interfaces/ReviewInterface';

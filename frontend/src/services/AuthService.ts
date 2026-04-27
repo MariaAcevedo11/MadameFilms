@@ -1,5 +1,9 @@
-// Interal imports
+// Author: Gabriela Sanabria
+
+// External imports
 import api from '@/api/interceptors';
+
+// Internal imports
 import type { UserInterface } from '@/interfaces/UserInterface';
 import { useAuthStore } from '@/stores/authStore';
 

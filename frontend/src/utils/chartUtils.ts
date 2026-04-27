@@ -1,3 +1,4 @@
+// External imports / Chart Imports
 import { Chart, registerables, type ChartConfiguration } from 'chart.js';
 
 Chart.register(...registerables);

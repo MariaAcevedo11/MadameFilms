@@ -1,9 +1,12 @@
 // Author: Gabriela Sanabria
 
+// External imports
 import api from '@/api/interceptors';
 
 // Internal imports
 import type { ActressInterface } from '@/interfaces/ActressInterface';
+
+
 
 export class ActressService {
   private static readonly API_URL = '/actresses';
