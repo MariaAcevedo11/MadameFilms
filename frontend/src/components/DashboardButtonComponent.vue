@@ -1,6 +1,5 @@
 <!-- Author: Maria Acevedo-->
 <script setup lang="ts">
-
 // External imports
 import { RouterLink } from 'vue-router';
 
