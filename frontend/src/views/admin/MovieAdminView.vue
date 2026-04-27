@@ -95,7 +95,6 @@ onMounted(async () => {
     for (const actress of selectorActresses.value) {
       actressNames.value[actress.id] = actress.fullName;
     }
-
   } catch (error) {
     console.error(error);
   }
