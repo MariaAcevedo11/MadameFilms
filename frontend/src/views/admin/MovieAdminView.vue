@@ -92,15 +92,10 @@ onMounted(async () => {
     selectorActresses.value = await ActressService.getActress();
     selectorMovies.value = await MovieService.getMovies();
 
-    if (selectorMovies.value) {
-      for (const movie of selectorMovies.value) {
-        if (movie.actressId) {
-          actressNames.value[movie.actressId] = await ActressService.getActressName(
-            movie.actressId,
-          );
-        }
-      }
+    for (const actress of selectorActresses.value) {
+      actressNames.value[actress.id] = actress.fullName;
     }
+
   } catch (error) {
     console.error(error);
   }
