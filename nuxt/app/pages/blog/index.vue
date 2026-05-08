@@ -1,6 +1,6 @@
 <script setup lang="ts">
+//Internal imports
 import { movies } from '~/data/movies';
-
 </script>
 
 <template>

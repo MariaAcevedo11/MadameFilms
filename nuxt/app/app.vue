@@ -2,9 +2,7 @@
 
 <template>
   <header class="border-bottom bg-body-tertiary shadow-sm">
-    <div
-      class="container d-flex flex-wrap align-items-center justify-content-between gap-3 py-3"
-    >
+    <div class="container d-flex flex-wrap align-items-center justify-content-between gap-3 py-3">
       <NuxtLink class="navbar-brand mb-0 text-decoration-none" to="/">
         Movie Dashboard
       </NuxtLink>
@@ -20,6 +18,11 @@
           <li class="nav-item">
             <NuxtLink class="nav-link py-1 px-2" to="/blog" active-class="active">
               Blog
+            </NuxtLink>
+          </li>
+          <li class="nav-item">
+            <NuxtLink class="nav-link py-1 px-2" to="/movies" active-class="active">
+              Movies
             </NuxtLink>
           </li>
         </ul>

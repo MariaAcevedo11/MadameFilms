@@ -8,6 +8,7 @@ export default defineNuxtConfig({
 
   routeRules: {
     "/blog/**": { prerender: true },
+    '/movies/**': { ssr: true },
   },
 
   nitro: {
