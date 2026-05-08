@@ -10,6 +10,7 @@ export type Movie = {
   country: string;
   language: string;
   image: string;
+  
   actressId: number;
 };
 

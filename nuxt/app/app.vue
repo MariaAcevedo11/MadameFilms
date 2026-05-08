@@ -25,6 +25,11 @@
               Movies
             </NuxtLink>
           </li>
+          <li class="nav-item">
+            <NuxtLink class="nav-link py-1 px-2" to="/tools" active-class="active">
+              Tools
+            </NuxtLink>
+          </li>
         </ul>
       </nav>
     </div>

@@ -10,18 +10,9 @@ import { movies } from '~/data/movies';
     </h1>
 
     <div class="row">
-      <div
-        v-for="movie in movies"
-        :key="movie.id"
-        class="col-md-4 mb-4"
-      >
+      <div v-for="movie in movies" :key="movie.id" class="col-md-4 mb-4">
         <div class="card h-100">
-          <img
-            :src="movie.image"
-            class="card-img-top"
-            :alt="movie.title"
-            style="height: 400px; object-fit: cover;"
-          >
+          <img :src="movie.image" class="card-img-top" :alt="movie.title" style="height: 400px; object-fit: cover;">
 
           <div class="card-body">
             <h5 class="card-title">
@@ -32,10 +23,7 @@ import { movies } from '~/data/movies';
               {{ movie.genre }}
             </p>
 
-            <NuxtLink
-              :to="`/blog/${movie.id}`"
-              class="btn btn-primary"
-            >
+            <NuxtLink :to="`/blog/${movie.id}`" class="btn btn-primary">
               Ver artículo
             </NuxtLink>
           </div>

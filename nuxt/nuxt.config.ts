@@ -1,4 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+
+//Internal imports
 import { movies } from "./app/data/movies";
 
 export default defineNuxtConfig({
@@ -9,6 +11,7 @@ export default defineNuxtConfig({
   routeRules: {
     "/blog/**": { prerender: true },
     '/movies/**': { ssr: true },
+    '/tools/**': { ssr: false },
   },
 
   nitro: {
